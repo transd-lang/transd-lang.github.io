@@ -32,7 +32,26 @@ p{line-height: 1.5em;}
 <div class="wrap" style="margin-top: 25px">
 <h2 style="margin-bottom: 20px">The state of work report</h2>
 <hr width="100%" style="margin:0 0 35px 0;">
-<section>
+<section>    
+<article>
+        <h4>2020-10-30: Ranges are added.</h4><p>
+A general concept of 'iterable object' with a common interface has been introduced 
+and Range class as one of its representatives.
+        </p>
+                                       <pre>#lang transd
+
+
+mainModule: {
+	_start: (λ (for i in Range(0, 10, 1) do (textout i " ")))
+}
+
+OUTPUT:
+
+1 2 3 4 5 6 7 8 9 10
+
+</pre>
+        </p>
+    </article>
     <article>
         <h4>2020-10-28: Hello, Linux World!</h4><p>
 A major event happened.
@@ -45,8 +64,8 @@ D : (+ 1 1)
 D : run /mnt/prog/transd/tst/hello.td
 Hello, World!
 D : 
-</pre>
-        </p>
+</pre><br>
+      <p>Now Transd out of the box compiles and runs on both Linux and Windows.  </p>
     </article>
     <article>
         <h4>2020-10-26: Associative array</h4><p>
