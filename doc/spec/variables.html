@@ -1,0 +1,8 @@
+<!doctype html><html>
+    <head>
+      <meta http-equiv="content-type" content="text/html; charset=utf-8">
+      <title>Variables</title>
+      <meta name="generator" content="CherryTree">
+      <link rel="stylesheet" href="res/styles3.css" type="text/css" />
+    </head>
+    <body><div class='page'>&lt;&lt; <a href="lexical.html">Back</a> | <a href="index.html">Contents</a> | <a href="types.html">Forward</a> &gt;&gt;<br /><br /><h2>Variables</h2><br /><br /><em>Variable</em> here means a name associated with a data object. Variables in the program appear as declarations of either class/module data fields, or local variables in statements:<br /><br /><div class="codebox"><div class="codebox">module1:&nbsp;{<br />	var1:&nbsp;15,&nbsp;//&nbsp;var1&nbsp;-&nbsp;data&nbsp;field<br />	func1:&nbsp;(λ&nbsp;(with&nbsp;var2&nbsp;15	(textout&nbsp;var2)))&nbsp;//&nbsp;var2&nbsp;-&nbsp;local&nbsp;<br />}</div></div><br />	<br />All variable declarations in Transd are simultaneously definitions, possibly with default values. So there cannot be untyped variables as well as uninitialized variables. The required storage for a variable is allocated at the place of its declaration. The deallocation of the storage is done by garbage collector as and when necessary.</div></body></html>
