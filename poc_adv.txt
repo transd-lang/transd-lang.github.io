@@ -1,0 +1,49 @@
+#lang transd
+
+
+public module Export: {
+	height: 150,
+	width: 150,
+	v: Vector(Int())
+}
+
+class Quad: {
+	vertX: Double(), 
+	vertY: Double(), 
+	coA: Double(),
+	init: (lambda x Double() y Double() a Double()
+					(set vertX x) (set vertY y) (set coA a)),
+	shade: (lambda x Double() y Double() hw Int() byten Int() v Vector( Int() )
+		(with t 0.0 f 0.0 shade 0
+			(= t (- (sqrt y) (abs (- hw x))))
+			(set f 
+				(if (and (<= t 1.0)(>= t -1.0))
+					(- 1.0 (abs t))
+					0
+				)
+			)
+			(set shade (* 255.0 (- 1.0 f)))
+			(set v byten shade)
+			(set v (+ byten 1) shade)
+			(set v (+ byten 2) shade)
+	))
+}
+
+private module module1: {
+	import: "Export",
+	import: "Quad",
+	quad: Quad(0.0 0.0 1.0),
+	_start: (lambda	(resize v (* (* height width) 3)) 
+		(with hw (/ width 2) n 0 m 0 t 0.0 f 0.0 shade 0 k 0 byten 0
+			(while (< n width) (+= n 1)
+				(while (< m height) (+= m 1)
+					(set k (- (- height m) 1))
+					(set byten (+ (* 3 (* k width))(* 3 n)))
+					(shade quad (toDouble n) (toDouble m) hw byten v)
+				)
+				(= m 0)
+			)
+			(textout "vector size: " (size v))
+		 )
+	)
+}

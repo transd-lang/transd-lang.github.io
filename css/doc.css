@@ -1,0 +1,10 @@
+
+.doccol { background: #dddddd; font: 1.2em serif; color: #444;}
+		
+
+div.doccol h1{ float:none; margin: 10px 0 10px 20px; font: bold 2.5em "times new roman", serif; 
+				color: #454545;}
+
+div.doccol h2{ float:none; margin: 10px 0 10px 20px; font: bold 1.5em;	color: #454545;}
+
+div.doccol p{ margin: 0 0 1em 25px; line-height: 1.2em;}

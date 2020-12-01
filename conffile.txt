@@ -1,0 +1,13 @@
+{
+objtype: texture,
+name: texture11,
+width: '1920',
+height: '1200',
+pt1: 'DPT3(0.0, 0.0, 0.0)',
+vec: [0.0, 1.0, 15.0],
+fileName: "D:/img/tex/tex11",
+background: 'Color(0.545, 0.3019, 0.0, 1.0)',
+foreground: 'Color(0.9019, 0.6235, 0.2784, 1.0)',
+normfactor: 10000.0,
+sampling: fourStraight
+}

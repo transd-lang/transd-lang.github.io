@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8">
+<title>TransD Programming Language</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta http-equiv="content-language" content="en-US">
+<meta name="language" content="English">
+<meta name="description" content="A fast programming language for building scripts and extensions.">
+<meta name="keywords" content="Transd, programming language, C++">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link href="../css/main.css" rel="stylesheet" type="text/css" />
+<link href="../css/doc.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="header">
+  <h1>TransD</h1>
+  <ul id="menu">
+    <li><a href="../index.html">home</a></li>
+    <li><a href="../download.html">download</a></li>
+    <li class="active"><a href="#">documentation</a></li>    
+    <li><a href="../dev.html">development</a></li>
+    <li><a href="../about.html">about</a></li>
+    <li><a href="../contact.html">contact</a></li>
+  </ul>
+</div>
+
+<div class="wrap">
+<div class="doccol">
+
+<h1 style="margin-top: 20px;">Programming Transd</h1>
+<hr width="90%" style="margin:0 0 35px 20px;">
+
+<ul style="padding: 0 0 40px 40px">
+<li>Summary</li>
+<li>1.Quick Start</li>
+<li>2. Overview of Transd</li>
+</ul>
+
+<p>Comprehensive documentation for Transd is currently work in progress. Here is a preliminary
+glance on general concepts and approaches of programming with Transd.</p>
+<p>The main novelty of Transd is that it does not classify either as a compiled or as an 
+interpreted language. This novelty is a consequence from the main motivation for creation
+of Transd: there was a need in a language for extending and configuring programs, and 
+this language had to be:</p>
+<ul style="padding: 10px 0px 15px 52px; margin-top: -20px">
+<li>faster (though, possibly, somewhat simpler) than existing interpreted 
+solutions (including those which are "compiled" into byte code); </li>
+<li>free from all the dependencies and complications of shipping an extensible program with 
+a compiler and doing just-in-time compilation;</li>
+</ul>
+<p>
+To put it simply, we wanted a language which takes best from two worlds: the speed of
+compiled languages and the simplicity and portability of interpreted ones. 
+</p>
+<h2>Quick Start</h2>
+<p>Transd as an embeddable language has two aspects in its usage and, accordingly, two interfaces: 
+the external syntax (that is properly the language itself) and the internal API through which 
+the host program uses Transd.</p>  
+ 
+<h2>Overview of Transd</h2>
+<p>Transd is a strongly typed statically scoped language. It facilitates best the procedural and
+functional styles of programming, and also offers limited options in the OOP paradigm (currently, 
+it has classes, but does not support inheritance).</p>
+</div>
+</div>
+<div id="footer">
+  <p>&copy; Copyright 2020 <a href='&#109;ail&#116;o&#58;alb%65rger&#64;g%6Dai&#108;&#46;&#37;63o&#109;'>Albert Berger</a> &middot; All Rights Reserved</p>
+</div>
+</body>
+</html>

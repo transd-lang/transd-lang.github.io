@@ -1,0 +1,52 @@
+*{ margin: 0; padding: 0; }*
+body { margin: 50px 0 0; background: #fff url(../img/bg.jpg) repeat-x; font: 1em "Trebuchet MS", Arial, Sans-Serif; color: #444; }
+	h1 { font-size: 3em; font-weight: normal; color: #005b56}
+	h1 a { text-decoration: none; }
+	h2 { font-size: 2em; color: #151515; font-weight: normal; margin: 0 0 5px; }
+	h3 { font-size: 1.5em; border-bottom: 1px solid #eee; margin: 0 0 .5em; }
+	h4 { font-size: 1.2em; color: #191970; font-weight: bold; margin: 0 0 .3em; }
+	p  { margin: 0 0 1em 0; line-height: 1.2em; }
+	em { border-bottom: 1px dotted #fff; cursor: pointer; }
+	a { color: #9D2900; }
+	a:hover { color: #A0000E; text-decoration: none; }
+	img { border: 0; }
+	.red { color: #9D2900; }
+	
+.wrap { width: 900px; margin: 0 auto; }
+ 
+#header { width: 900px; height: 55px; margin: 0 auto; }
+	#menu  { float: right; padding: 20px 0 0 0; list-style: none; }
+		#menu li { display: inline; }
+		#menu a { display: block; float: left; margin-left: 30px; padding: 7px; text-decoration: none; font-size: 1em; color: #000000; }
+		#menu a:hover { color: #000; border-bottom: 2px solid #ccc; }
+		#menu .active a { border-bottom: 2px solid #C70012; color: #9D2900;}
+
+#teaser { clear: both; height: 259px; background: #fff url(../img/teaserbg.jpg) repeat-x; font-size: 1.0em;}
+	.box { float: left; padding: 66px 0 0; width: 480px; color: #C7E3EE; }
+	#image { float: right; width: 388px; position: relative; top: 16px; background: url(../img/logotype.jpg) no-repeat top right; height: 258px; }
+	
+#bar { height: 40px; margin: 0 0 30px; padding: 8px 0 0 0; background: url(../img/bar.jpg) repeat-x; font-size: .74em;}
+	.step { cursor: pointer; color: #FAFDDD; padding: 4px 0 0 11px; margin: 0 35px 0 0; font-size: 1.4em; float: left; text-align: center; background: url(../img/step.jpg) no-repeat; height: 30px; }
+	.step a { color: #fff; margin: 0 10px 0 0; }
+
+#header	h1{ float: left; font-size: 3.2em;}
+#teaser h2{ font-size: 1.8em; color: #FFF2B3; font-weight: normal; margin: 0 0 .5em; }
+	
+.col3 { float: left; width: 276px; margin: 0 30px 16px 0; font-size: 1.0em;}
+	.last { float: right; margin: 0; }
+	.info { border: 1px solid #e0e0e0; background: #f4f4f4; padding: 7px; }
+	
+.col2_l { float: left; width: 550px; margin: 0 30px 16px 0; }
+.col2_sm_r { float: right; width: 230px; margin: 0 30px 16px 0; }
+
+.col1 { width: 900px; }
+
+#code1 { text-align: center; margin: 150px 0 50px 0; }
+
+.codecol {float: none; width: 850px; margin: 0 30px 16px 0; background: #dddddd; 
+	 padding: 15px 15px 15px 15px;}
+code { text-align: left; font: 1.2em Consolata, Monospace, "Courier New"; padding: -5px;  }
+	
+#footer { clear: both; width: 900px; margin: 0 auto; padding: 15px; border-top: 1px solid #e0e0e0; background: #fff url(../img/small_logotype.jpg) no-repeat right 13px; }	
+	#footer .right { float: right; margin: 0 55px 0 0; }
+	#footer a { color: #808080; font-weight: bold; }

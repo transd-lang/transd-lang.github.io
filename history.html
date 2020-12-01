@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8">
+<title>TransD Programming Language</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta http-equiv="content-language" content="en-US">
+<meta name="language" content="English">
+<meta name="description" content="A fast programming language for building scripts and extensions.">
+<meta name="keywords" content="Transd, programming language, C++">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link href="css/main.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="header">
+  <h1>TransD</h1>
+  <ul id="menu">
+    <li><a href="index.html">home</a></li>
+    <li><a href="download.html">download</a></li>
+    <li><a href="doc/pt.html">documentation</a></li>    
+    <li><a href="dev.html">development</a></li>
+    <li><a href="about.html">about</a></li>
+    <li><a href="contact.html">contact</a></li>
+  </ul>
+</div>
+<div class="wrap">
+<h2 style="margin-top: 20px;">History of Transd</h2>
+<hr width="100%" style="margin:0 0 35px 0;">
+
+	<div class="col1">
+	<p>
+In 2018 Albert Berger was doing a research in computer graphics on the emergence of complex 
+visual phenomena in the form of regular intricate patterns out of quite simple principles 
+(known as <a href="img/moire.jpg">Moire effect</a>). The images were generated with a C++ 
+program, in which a parameterized generating algorithm was hardcoded. The program was provided 
+with a set of parameters from a <a href = "conffile.txt">configuration file</a>. For changing the base shading formula of the 
+generating algorithm the program recompilation was needed.
+</p><p>
+Then the idea came to provide the shading formula in the configuration file as well in order to 
+avoid frequent recompilations. The question was: how to do this? Using common extension 
+languages (Python, Lua, Guile...) was not an option because of performance: the shading formula 
+is called for each pixel in the image (1920x1200 image contains 2.3 million of pixels), and apart 
+from individual images animations with hundreds of frames were also generated.
+</p><p>
+LuaJIT, deservedly renowned for its good performance within one API call, has, however,
+rather heavy pre-call and post-call boilerplate code, so that in a scenario when a short function 
+with several parameters, written on Lua, is called many times from the host program (e.g. a pixel 
+shading function for generating images) the performance will drop.
+</p><p>
+Another, more promising, way was to use some existing library for dynamic compilation. But, on 
+the one hand, the code that was originally needed to be compiled was rather simple (just basic 
+math expressions), and, on the other hand, any JIT library requires some not insignificant work 
+for the adaptation for particular needs, and also the library itself is a rather weighty 
+third-party dependency.
+</p><p>
+So the way had been chosen to create a “home-made” language-like mini-framework that only handled 
+(read and executed) the math expressions consisting of basic math operations (four arithmetic 
+operations, power, root, etc.), and had the ability to work with variables (rather than just with 
+numeric literals). This framework was ready at the end of 2018, and records with formulas in 
+config files looked like this:
+</p><p>
+<font face="monospace">comp_x1: “(/ (+ (* b -1) (sqrt (- (pow b 2) (* (* 4 a) c )))) (* a 2))”</font>
+</p><p>
+What has influenced the choice of the syntax for the language? First, the syntax should fit into 
+the existing format of config files (name/value pairs, divided by comma, and grouped in blocks, 
+enclosed in curly braces) for lessening the amount of work for writing the parser. And, second, 
+out of the same considerations the LISP-like style for expressions had been chosen: because it's 
+easier to handle without additional parsing libraries.
+</p><p>
+That framework had been built in such a short time and worked so smoothly that at the time it 
+was believed that with not so big efforts the framework could be promoted into a prototype of a 
+real programming language, which can be built-in into any program (that needs to be easily 
+extensible and configurable) and doesn't require any dependencies.
+</p><p>
+The work on the new language has started (in December, 2018) with the implementation of the 
+classes, and the complexity that this feature has required to deal with was much greater than 
+was anticipated. (The problem was that run-time speed was the main consideration in the case of 
+classes just as most other features of the language: the feature either can be made to run 
+sufficiently fast, or it is not implemented.)
+</p><p>
+The long story short, the first time the classes subsystem was in the working state was in 
+March, 2020. After that in a rapid succession other features were implemented: loops, condition 
+statements, first container (vector), scoping blocks, import and permissions subsystems, etc.
+</p><p>
+To be continued...
+	</p>
+	</div>
+	</div>
+<div id="footer">
+  <p>&copy; Copyright 2020 <a href='&#109;ail&#116;o&#58;alb%65rger&#64;g%6Dai&#108;&#46;&#37;63o&#109;'>Albert Berger</a> &middot; All Rights Reserved</p>
+</div>
+</body>
+</html>
