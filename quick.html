@@ -1,0 +1,241 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8">
+<title>TransD Programming Language</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta http-equiv="content-language" content="en-US">
+<meta name="language" content="English">
+<meta name="description" content="A fast programming language for building scripts and extensions.">
+<meta name="keywords" content="Transd, programming language, C++">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link href="css/main.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="header">
+  <h1>TransD</h1>
+  <ul id="menu">
+    <li><a href="index.html">home</a></li>
+    <li><a href="download.html">download</a></li>
+    <li><a href="doc/index.html">documentation</a></li>    
+    <li><a href="dev.html">development</a></li>
+    <li><a href="about.html">about</a></li>
+    <li><a href="contact.html">contact</a></li>
+  </ul>
+</div>
+<div class="wrap">
+<h2 style="margin-top: 20px;">Code examples</h2>
+<hr width="100%" style="margin:0 0 35px 0;">
+	<div class="col1">
+	<p>For programmers it is often best to take a look into practical examples of language's
+	code to make a quick evaluation of the language. Here you will find two short Transd program
+	examples with detailed comments about every line of code.
+	</p>
+	
+	<h3>Top rank per group</h3>
+	<p>This example is a solution of the 
+	<a href="http://rosettacode.org/wiki/Top_rank_per_group#Transd">"Top rank per group"</a> task
+	on rosettacode.org. Given a bunch of tabular data about employees, their departments and
+	salaries we must select several highest paid employees from each department and print their
+	records. The data consists
+	of list of rows, where each row has the following format:</p>
+	<pre>Employee_name - Employee_ID - Salary - Department</pre>	
+	<p>To solve this task we will use Transd's capabilities for processing structured data in a 
+	database-like fashion: we will create a database-like structure out of this data, index it, 
+	and	make a query to select the needed records.
+	
+	Below is the file content with the data and the code. The code lines are enumerated for 
+	referencing purposes, and line numbers do not belong to the code.</p>
+	<pre>
+1. #lang transd
+ 
+2. MainModule: {
+3.     table : String( 
+`@key_EmployeeName,EmployeeID,Salary,Department
+"Tyler Bennett",  "E10297",32000,"D101"
+"John Rappl",     "E21437",47000,"D050"
+"George Woltman", "E00127",53500,"D101"
+"Adam Smith",     "E63535",18000,"D202"
+"Claire Buckman", "E39876",27800,"D202"
+"David McClellan","E04242",41500,"D101"
+"Rich Holcomb",   "E01234",49500,"D202"
+"Nathan Adams",   "E41298",21900,"D050"
+"Richard Potter", "E43128",15900,"D101"
+"David Motsinger","E27002",19250,"D202"
+"Tim Sampair",    "E03033",27000,"D101"
+"Kim Arlich",     "E10001",57000,"D190"
+"Timothy Grove",  "E16398",29900,"D190"`),
+ 
+4.  N: 2,
+5.  _start: (λ (with base TSDBase()
+6.      (load-table base table)
+7.      (build-index base "Department")
+8.      (with rows (tsd-query base select ["Department"] distinct)
+9.          (for row in rows do
+10.             (with recs (tsd-query base select all 
+11.                 where (lambda Department String() (eq Department (get row 0))) 
+12.                 sortby "Salary" desc limit N)
+13.                 (for rec in recs do 
+14.                     (textout rec "\n"))
+	)))))
+}
+	</pre>
+	<p>Detailed comments about each line.</p><br>
+<pre>1. #lang transd</pre>
+<p>A compiler directive ("shebang") indicating that this file contains Transd source code.
+All Transd source files should have this as the first line.</p><br>
+<pre>2. MainModule: {</pre>
+<p>All code in Transd is grouped into <em>modules</em>. Each module should have its unique name.
+"MainModule" is a standard name indicating that this module contains the <em>start function</em> (that is
+the program's entry point like the 'main' function in C.)</p><br>
+<pre>3. table : String(</pre>
+<p>Variable declaration (and definition). The name 'table' in this module will be a reference
+to a string containing the tabular data. Transd is strongly typed and all variables must be given
+a type at the point of declaration. The variable's type should be declared either explicitly, 
+as is the case here, or it can be assigned implicitly if it can be unambiguously deduced from
+the right part of the assignment expression (as we will see later in this example). Assignment
+expressions for module variables in Transd have the form of name/value pair with colon as the 
+separator.</p><br>
+<pre>4. N: 2,</pre>
+<p>Another variable declaration. The task requires that the number of top-paid employees selected
+for each department should be parameterized. We declare the parameter named "N" with the
+value of 2. Here the variable's type <code>Int</code> is deduced automatically. In case we needed a number 
+variable of a floating point type <code>Double</code>, we would declare it as <code>N: 2.0</code>. The comma at the
+end of this line is the Transd's statement separator.</p><br>
+<pre>5. _start: (λ (with base TSDBase()</pre>
+<p>Here we meet with the most important part of Transd: function (or <code>lambda</code> as it is called in
+Transd because it can represent several kinds of functions and function-like things). In fact, 
+the whole solution of the task will be contained in the function that we begin to define on this 
+line. The name "_start" is the standard Transd name for the entry point function, from which the
+program's execution begins.<br> 
+All function definitions (as well as function calls) are contained 
+between two parentheses. No other separators (commas, etc.) inside definition. The function
+definition should start with the keyword 'lambda' which can for brevity be substituted with the
+greek letter 'λ' (unicode number: 955 (0x3BB)) as is done here. This keyword is an analog of 
+'def', 'defun', 'function', etc. in other languages.<br>
+A function definition in Transd consists of two parts: the parameter list (the <em>function's signature</em>) 
+and the expression list (the <em>function's body</em>). The "_start" function doesn't have parameters 
+(command line arguments, if any, are accessed in other way), so it's definition only consists of 
+the expression list and this list has a single expression: declaration of a local variable 'base' 
+along with its scope block. All our further computation will be taking place inside this block.<br> 
+Transd is a block scoped language; blocks are created with the special 'with' function: it's 
+parameter list is the place where local variables are declared, and its body is, basically, 
+the block within which its local variables only exist and can be used for computations.<br>
+The 'base' variable has <code>TSDBase</code> type which is a built-in database-like structure: TSD stands
+for <em>Transd Structured Data</em>.</p><br>
+<pre>6. (load-table base table)</pre>
+<p>First, we populate our database with data by calling the 'load-table' method on our database 'base'.<br>
+As was already mentioned, function definitions and function calls are enclosed in parentheses. 
+Such parenthesized construction in Transd is called a <em>form</em>. The structure of the definition 
+form was already described (three parts of the definition form are the keyword 'lambda', then 
+parameters and body), the structure of the calling form is no less simple: the first word in the 
+calling form is always the name of the called function. If the 
+function that is being called is an object's method, as in this case, then the second expression in
+the form should specify the object for which this method is called. All other expressions in the form are treated as parameters 
+for the function being called. Here we pass as the parameter to the 'load-table' method the 
+string with our employees data, which string already has the format that is understood by the method.
+<br>The first line in the table contains the <em>field names</em> (that is the names of the columns) for out data. The subsequent
+lines are treated as the individual <em>records</em> for the database. Each TSD database should have a 
+<em>key field</em> (or combination of fields) which uniquely distinguishes each record, that is no two
+records in the database can contain the same value for the key field. In our table such field
+is "EmployeeID".<br>Using these basic format principles, any tabular data can be converted to 
+a TSD database.</p><br>
+<pre>7. (build-index base "Department")</pre>
+<p>Another method call on our database. The task says that the data should be shown for
+each department. So we need to build the <em>index</em> for the "Department" field. The structure of the
+call form is already familiar: the method name first, then the object, and the parameter,
+which in this case is the name of the field that must be indexed.</p><br>
+<pre>8. (with rows (tsd-query base select ["Department"] distinct)</pre>
+<p>Here is another novelty: we make an already familiar local variable (named 'rows') declaration 
+with the 'with' function, but in this time we don't declare the variable's  type, but rather initialize it with
+the whatever type the value returned by the 'tsd-query' function has, so the compiler will automatically assigns the
+same type to the 'rows' variable as the return type of 'tsd-query' function.<br>
+The 'rows' name means that the variable will reference the structure containing the result of a  
+database query, which result is a vector (array) of the rows selected by the query.<br>
+The 'tsd-query' function performs queries on a TSD database: it receives a set of criteria and returns the data from the 
+database corresponding to those criteria. The syntax of TSD query is very much inspired with
+the familiar SQL syntax, but it should be noted, that a TSD database is not a relational
+database per se, but rather belongs to the class of "document-oriented databases", so the syntax 
+resemblance is just formal.
+of .<br>
+The details of TSD query syntax can be found in documentation, and here it's enough to say that
+this 'tsd-query' call will select in 'base' all the distinct values of the "Department" field. In this
+particular case the query will return a vector with the following array of data (sorting is unimportant):<br>
+["D101"]<br>
+["D050"]<br>
+["D202"]<br>
+["D190"]<br>
+</p><br>
+<pre>9. (for row in rows do</pre>
+<p>This line introduces one of the Transd's <em>control flow statements</em>: the 'for' iterating 
+statement. Here we declare a 'row' variable with the type that of the individual elements
+of 'rows' vector. This type - namely <code>String</code> - will be deduced automatically by the compiler
+during the compilation stage, and if there further in the code should be a try to use the
+'row' not as a <code>String</code>, the error will be reported at the compiling stage rather than at
+run-time (Transd is strongly typed).<br>
+The 'for' construction behaves similarly to that in other languages: the 'rows' vector is
+traversed from the first element to the end with executing the form's body for each
+element; the 'row' variable receives on each iteration the value of the current element;
+the 'do' marker signifies the beginning of the form's body that should be executed for each 
+element.<br> 
+The meaning of this line is that we iterate over each distinct department name, and do 
+something using it in the form's body.</p><br>
+<pre>10. (with recs (tsd-query base select all </pre>
+<p>Here we do the second database query, whose result will be assigned to the 'recs' variable.
+This query call is more elaborated than the previous and spans three lines of code. The beginning 
+part of the query on this line says that we are interested in all fields of the selected
+records (in the previous query we selected only one 'Department' field). </p><br>
+<pre>11. where (lambda Department String() (eq Department (get row 0))) </pre>
+<p>Here the clause of the query named 'where' specifies the selection criterion. During
+query every database record will be tested for satisfying this criterion. Selection criteria
+in Transd are defined in the form of <em>predicate functions</em> (a predicate function is simply a
+function that receives a parameter, does something, and returns 'true' or 'false' depending on
+this particular parameter). The predicates for queries are defined using the same lambda
+definition syntax which is used for other functions in the language (module functions, 
+class methods, etc.). The predicate function in this case will receive the 'Department' field 
+of the currently tested record, and will compare it with the department name that is 
+currently being iterated (the 'row' variable on the 9-th line), if it matches, then the
+record will be added to the results.<br>
+The form <code>(get row 0)</code> is a little tricky. The matter is that, as we remember, the rows in
+the query result are themselves vectors, and consequently the 'row' object is a vector.
+So for accessing a particular field in it we call the vector's method 'get'. Since the rows
+in the first query contain only one field ("Department"), we obtain with the 'get' method
+the value of the first element in the vector (which has the index 0).</p><br>
+<pre>12. sortby "Salary" desc limit N)</pre>
+<p>The last clause of the query, specifying, if needed, additional actions on the query result.
+As we need to select the top-paid employees, we sort the result by the "Salary" field in 
+descending order (the highest salaries at the top), and in the end we apply our "N" parameter
+for leaving in the result only N highest-paid employees for the department.</p><br>
+<pre>13. (for rec in recs do </pre>
+<p>Here we do the final iteration through the results of the last query, which will contain 
+N employees with highest salaries. In the current case (with N=2) the 'recs' variable will
+contain two employee records for the currently iterated department. As the 'for' construct 
+on the 9-th line iterates through all departments, all the needed "N times number_of_departments" 
+records will be printed.</p><br>
+<pre>14. (textout rec "\n"))</pre>
+<p>
+The 'textout' function prints text to the screen or to other streams. Here it prints out two 
+things: the vector containing an employee record and then ends the screen line with the 
+newline symbol. <br>'textout' represents another kind of functions in Transd to the addition to 
+already considered module functions ("_start") and object methods ("get"): 'textout' is a 
+<em>built-in function</em>, although the syntax of working with all kinds of functions is unified and 
+virtually doesn't differ. <br>Also, this line illustrates that parameters in Transd are passed 
+to functions with whitespace as the delimeter, which arguably makes the syntax more readable.</p>
+<p>The final result of this program printed on the screen is as follows:</p>
+<pre>
+[D101, E00127, George Woltman, 53500]
+[D101, E04242, David McClellan, 41500]
+[D190, E10001, Kim Arlich, 57000]
+[D190, E16398, Timothy Grove, 29900]
+[D202, E01234, Rich Holcomb, 49500]
+[D202, E39876, Claire Buckman, 27800]
+[D050, E21437, John Rappl, 47000]
+[D050, E41298, Nathan Adams, 21900]
+</pre>
+	</div>
+	</div>
+<div id="footer">
+  <p>&copy; Copyright 2020 <a href='&#109;ail&#116;o&#58;alb%65rger&#64;g%6Dai&#108;&#46;&#37;63o&#109;'>Albert Berger</a> &middot; All Rights Reserved</p>
+</div>
+</body>
+</html>
