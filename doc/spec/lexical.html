@@ -1,0 +1,8 @@
+<!doctype html><html>
+    <head>
+      <meta http-equiv="content-type" content="text/html; charset=utf-8">
+      <title>Lexical conventions</title>
+      <meta name="generator" content="CherryTree">
+      <link rel="stylesheet" href="res/styles3.css" type="text/css" />
+    </head>
+    <body><div class='page'>&lt;&lt; <a href="fundamentals.html">Back</a> | <a href="index.html">Contents</a> | <a href="variables.html">Forward</a> &gt;&gt;<br /><br /><h2>Lexical conventions</h2><br /><br /><br />Transd source files are encoded in UTF-8. Upper and lower character cases are distinguished.<br /><br />Source files can contain comments, which can be marked by one of two ways: <br /><br />1. Character sequence &quot;//” (slash slash) anywhere on a line marks the start of a comment which extends to the end of the line.<br />2. Character sequence “/*” (slash asterisk) marks the start of a comment which extends to the nearest character sequence “*/” (asterisk slash).<br /><br /><em>Identifiers</em> in Transd can be any string of letters, digits, and underscores, not beginning with a digit. Letter is any symbol considered alphabetic under the current locale.<br /><br />The following <em>keywords</em> are reserved for internal use in Transd and cannot be used as identifiers by the user:<br /><br />	and			or          		for         	while       break <br />	throw		continue 		where 		do 			not <br />	if 				else 				elsif 		true 			false<br /><br />There are several predefined built-in variables in Transd. The names of built-in variables begin with ‘@’. Since the names of user defined variables cannot contain this character, there cannot be name clashes with built-in variables. </div></body></html>
