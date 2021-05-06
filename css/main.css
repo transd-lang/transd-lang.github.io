@@ -3,7 +3,7 @@ body { margin: 50px 0 0; background: #fff url(../img/bg.jpg) repeat-x; font: 1em
 	h1 { font-size: 3em; font-weight: normal; color: #005b56}
 	h1 a { text-decoration: none; }
 	h2 { font-size: 2em; color: #151515; font-weight: normal; margin: 0 0 5px; }
-	h3 { font-size: 1.5em; border-bottom: 1px solid #eee; margin: 0 0 .5em; }
+	h3 { font-size: 1.5em; border-bottom: 0px solid #eee; margin: 0 0 .5em; }
 	h4 { font-size: 1.2em; color: #191970; font-weight: bold; margin: 0 0 .3em; }
 	p  { margin: 0 0 1em 0; line-height: 1.5em; }
 	em { border-bottom: 1px dotted #fff; cursor: pointer; }
@@ -46,13 +46,13 @@ body { margin: 50px 0 0; background: #fff url(../img/bg.jpg) repeat-x; font: 1em
 .codecol {float: none; width: 850px; margin: 0 30px 16px 0; background: #dddddd; 
 	 padding: 15px 15px 15px 15px;}
 code { text-align: left; font: 1.0em Consolata, Monospace, "Courier New"; padding: -5px;
-		background-color: #eee;  }
+		background-color: #eee; line-height: 1.5em; }
 	
 #footer { clear: both; width: 900px; margin: 0 auto; padding: 15px; border-top: 1px solid #e0e0e0; background: #fff url(../img/small_logotype.jpg) no-repeat right 13px; }	
 	#footer .right { float: right; margin: 0 55px 0 0; }
 	#footer a { color: #808080; font-weight: bold; }
 	
-pre { font-size: 1.2em; color: #555; margin: -5px 5px 5px 5px;background-color: #eee;}
+pre { font-size: 1.0em; color: #555; margin: -5px 5px 5px 5px;background-color: #eee; line-height: 1.5em;}
 
 
 

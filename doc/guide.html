@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8">
+<title>TransD Programming Language</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta http-equiv="content-language" content="en-US">
+<meta name="language" content="English">
+<meta name="description" content="A fast programming language for building scripts and extensions.">
+<meta name="keywords" content="Transd, programming language, C++">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link href="../css/main.css" rel="stylesheet" type="text/css" />
+<link href="../css/codehighlight.css" rel="stylesheet" type="text/css" />
+<link href="../css/tsd.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="header">
+  <h1>TransD</h1>
+  <ul id="menu">
+    <li><a href="../index.html">home</a></li>
+    <li><a href="../download.html">download</a></li>
+    <li><a href="index.html">documentation</a></li>    
+    <li><a href="../dev.html">development</a></li>
+    <li><a href="../about.html">about</a></li>
+    <li><a href="../contact.html">contact</a></li>
+  </ul>
+</div>
+<div class="wrap">
+<h1 style="margin-top: 20px;">Reference Manual</h1>
+<hr width="100%" style="margin:0 0 35px 0;">
+<p>
+<ul>
+<li><a href="#1-introduction">1. Introduction</a></li>
+<li><a href="#2-getting-started">2. Getting started</a></li>
+<li><a href="#10-glossary">10. Glossary</a></li>
+</ul>
+
+<h2 id="1-introduction">1. Introduction</h2>
+
+<p>Transd has started as a C++ library, that could be included in C++ programs for allowing users to define simple functions which then would be executed by the program. Why there was a need for a new library? Because of two considerations: it had to be compact and portable, and it had to be fast. So it was decided to create a library for this functionality from scratch.</p>
+
+<p>The library was very simple and it's design was based on three basic notions: Expression, Name, and Data. (The first letters of these words form an acronym which was used in the first name of the library: FREND - the library was meant to perform functions of a front end for users' interaction with C++ applications). The library hasn't used just-in-time compilation or any common interpretation technics such as a virtual machine. It employed the idea of a network of finite-automaton-like objects which communicate with each other and perform the needed computation.</p>
+
+<p>The library worked pretty well and showed that the idea of using a computational network for implementation of programming languages could be fruitful. So the library has evolved into a general-purpose multiparadigm programming language, whose name - Transd - again was a reference to the key principles of its implementation's inner workings. (The original "FREND" name hasn't gone though, and has been assigned to the Transd command line interpreter, which can be used for running Transd programs and evaluating Transd expressions on the command line: this interpreter essentially also is a front end.)</p>
+
+<p>Transd is statically typed: the type of each object and expression is known on the stage of compilation. This not only helps in increasing performance, but also in writing correct programs by early detecting many errors.</p>
+
+<p>Transd has usual basic types - Int, Double, String, Bool, etc. It has vectors, associative arrays, tuples, etc. It has classes, first-class functions (lambdas), exceptions, etc.</p>
+
+<p>It has built-in basic support for processing structured textual data (tables, records, etc.) and this support will be expanding in future language development.</p>
+
+<p>One of the main principles in Transd's design is the compactness of implementation and, second, minimization of dependencies. Currently, the full C++ embedding implementation of Transd is distributed as a two-files library (one header, one source file), which doesn't have any additional dependencies.</p>
+
+<p>Another important design consideration is performance. The very first C++ application for which the original FREND library was created was a ray-tracer, which rendered graphics by applying a shading function to each pixel of the image. The user could define their own shading function in FREND language, store it in a configuration file, and the ray-tracer would use it for rendering. And it worked very fast, at about 80% of native speed.</p>
+
+<p>Compactness, minimal dependencies and speed make Transd a good choice for an embedding or extension language for extending or customizing a C++ program's functionality by the user, for parsing and processing structured textual data in custom formats, etc.</p>
+
+<p>For using Transd as an extension language in a C++ program it's enough to add "transd.hpp" and "transd.cpp" files to the project and have your program communicate with Transd environment via Transd embedding API.</p>
+
+<h2 id="2-getting-started">2. Getting started</h2>
+
+<p>This chapter begins the description of the language. One might find it useful to work through this and following chapters with a Transd REPL interpreter running in a shell window. The FREND command line interpreter can be obtained <a href="https://github.com/transd-lang/frend">here</a>.</p>
+
+<h2 id="10-glossary">10. Glossary</h2>
+
+<h4 id="transd">Transd</h4>
+
+<p>The programming language defined in the Transd Reference Manual.</p>
+
+<h4 id="frend">FREND</h4>
+
+<p>A REPL command line interpreter for Transd programming language. FREND uses the Tourbillon  compiler as the Transd implementation.</p>
+
+<h4 id="tourbillon-compiler">Tourbillon compiler</h4>
+
+<p>A compiler and run-time environment of Transd programming language written in C++. Tourbillon compiler compiles and runs Transd programs using the meta-compilation technology.</p>
+
+<h4 id="meta-compilation-or-virtual-compilation">Meta-compilation (or virtual compilation)</h4>
+
+<p>A working name for the technology used in Tourbillon compiler for building and running computer programs. The technology works by representing the program source code as a network of finite automata. The advantages of technology are the higher speed of program execution than that of virtual machines, and the absence of necessity to perform just-in-time compilation to machine code.</p>
+
+</p>
+<hr width="100%" style="margin:300px 0 0 0;">
+</div>
+<div id="footer">
+  <p>&copy; Copyright 2020 <a href='&#109;ail&#116;o&#58;alb%65rger&#64;g%6Dai&#108;&#46;&#37;63o&#109;'>Albert Berger</a> &middot; All Rights Reserved</p>
+</div>
+</body>
+</html>

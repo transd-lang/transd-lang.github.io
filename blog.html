@@ -32,165 +32,33 @@ p{line-height: 1.5em;}
 <div class="wrap" style="margin-top: 25px">
 <h2 style="margin-bottom: 20px">The state of work report</h2>
 <hr width="100%" style="margin:0 0 35px 0;">
-<section>    
-<article>
-        <h4>2020-10-30: Ranges are added.</h4><p>
-A general concept of 'iterable object' with a common interface has been introduced 
-and Range class as one of its representatives.
-        </p>
-                                       <pre>#lang transd
+<h3>2021-03-14 Type aliases</h3>
 
+<p>Another new feature was added: type aliases. Type aliasing creates an additional name for a data type without creating a new type. It is used for simplifying the syntax of declaring complex compound types or for providing descriptive names to types in specific context.</p>
 
-mainModule: {
-	_start: (λ (for i in Range(0, 10, 1) do (textout i " ")))
-}
+<p>Example:</p>
 
-OUTPUT:
+<pre><code>#lang transd
 
-1 2 3 4 5 6 7 8 9 10
-
-</pre>
-        </p>
-    </article>
-    <article>
-        <h4>2020-10-28: Hello, Linux World!</h4><p>
-A major event happened.
-        </p>
-                                       <pre>
-[al src ]$ g++ -g transd.cpp main.cpp -D__LINUX__ -o frend
-[al src ]$ ./frend
-D : (+ 1 1)
-2
-D : run /mnt/prog/transd/tst/hello.td
-Hello, World!
-D : 
-</pre><br>
-      <p>Now Transd out of the box compiles and runs on both Linux and Windows.  </p>
-    </article>
-    <article>
-        <h4>2020-10-26: Associative array</h4><p>
-            Associative arrays and the iterator protocol in a very preliminary implementation 
-            are added.
-        </p>
-                                       <pre>#lang transd
-                                       
-                                       
-mainModule : {
-  Index str : { "a" : "String A", "b" : "String B", "c" : "String C" },
-  _start: (λ (through str with el (textout el "\n")))
-}
-
-
----------------
-OUTPUT:
-
-String A
-String B
-String C
-</pre>
-        </p>
-    </article>
-    <article>
-        <h4>2020-10-18:</h4><p>
-        What name to choose for associative arrays? 'Map' is good, but semantically confusable
-        with the verb 'map', which is planned to be the name of a function. 'Mapping' is slightly
-        awkward and overly mathematical. 'Dictionary' is 
-        about strings as keys and too metaphorical. 'Hashtable' doesn't include binary trees.
-        'Index'!
-        </p>
-    </article>
-    <article>
-        <h4>2020-10-17: Exceptions</h4><p>
-            Exceptions are added.
-        </p>
-                                       <pre>#lang transd
-
-mainModule : {
-  func2: (lambda i Int() 
-    (if (!= i 13) 
-      (textout "OK " i "\n") 
-      (throw "fail\n"))),
-
-  func1: (lambda 
-    (textout "before try\n")
-    (try 
-      (textout "before while\n")
-      (with n 10
-        (while (< n 15) (+= n 1)
-          (func2 n)
-        )
-      )
-      (textout "after while\n")
-      (catch (report e))
+MainModule: {
+    Tuis : typealias( Tuple( Int() String() ) ),
+    v1: Vector( Tuis() ),
+    uv1: [[6, "a"]],
+    uv2: [[1, "c"]],
+    uv3: [[3, "h"]],
+    uv4: [[2, "e"]],
+    _start: (λ (with abc 1)
+        (add v uv1) (add v uv2)(add v uv3)(add v uv4)
+        (set v1 0 uv1) (set v1 1 uv2)(set v1 2 uv3)(set v1 3 uv4)
+        (textout "v: " v "\n")
+        (textout "v1: " v1 "\n")
+        (textout (sort v :asc 
+            (lambda l Tuis() r Tuis() -&gt; Bool()
+                (ret (less&lt;Int&gt; (get l 0) (get r 0))))) "\n")
     )
-    (textout "after try\n")
-  ),
-  _start: (lambda (func1))
 }
+</code></pre>
 
----------------
-OUTPUT:
-
-before try
-before while
-OK 10
-OK 11
-OK 12
-fail
-after try
-</pre>
-        </p>
-    </article>
-    <article>
-        <h4>2020-10-14: While loop</h4><p>
-            Keywords <b><font color="#1E90FF" face="monospace">break</font></b> and
-            <b><font color="#1E90FF" face="monospace">continue</font></b> are added.
-        </p>
-<pre>#lang transd
-
-mainModule: {
-	a: [1, 2, 3, 4, 5, 6, 7, 8],
-	_start: (λ 
-(with n 0 
-	(while (< n (size a)) (+= n 1)
-		(if (== (mod n 2) 0) continue)
-		(if (== n 5) break)
-		(textout (get a n) " ")
-	)
-	(textout "\nwhile() exited")
-))
-}
-
-OUTPUT:
-2 4
-while() exited
-</pre>
-        </p>
-    </article>
-    <article>
-        <h4>2020-10-12: Program loading</h4><p>
-            Improve the mechanics of loading the Transd assemblies. Now for loading/running a Transd
-            program is enough to specify the directory where it resides (if the assembly description file has
-            the standard name - 'asm.td'). Also in the assembly description now source files can listed with
-            their relative paths, rather than absolute.
-        </p>
-    </article>
-    <article>
-        <h4>2020-10-10: Shell</h4><p>
-            The basic functionality of the shell - evaluation of Transd expressions and
-            execution of files with Transd programs - is achieved. In the next days the first release of
-            Transd shell will be made. The shell is needed as a companion tool for learning Transd with the
-            future "Programming Transd" book.
-        </p>
-    </article>
-    <article>
-        <h4>2020-10-08: Loading and importing</h4><p>
-            Shape the loading and import subsystems from a preliminary state to
-            the normal more finely granulated form. This is needed for the possibility to load individual
-            source files to the current context from the shell's command line.
-        </p>
-    </article>
-</section>
 </div>
 <div id="footer">
   <p>&copy; Copyright 2020 <a href='&#109;ail&#116;o&#58;alb%65rger&#64;g%6Dai&#108;&#46;&#37;63o&#109;'>Albert Berger</a> &middot; All Rights Reserved</p>

@@ -1,0 +1,123 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8">
+<title>TransD Programming Language</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta http-equiv="content-language" content="en-US">
+<meta name="language" content="English">
+<meta name="description" content="A fast programming language for building scripts and extensions.">
+<meta name="keywords" content="Transd, programming language, C++">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link href="../css/main.css" rel="stylesheet" type="text/css" />
+<link href="../css/codehighlight.css" rel="stylesheet" type="text/css" />
+<link href="../css/tsd.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="header">
+  <h1>TransD</h1>
+  <ul id="menu">
+    <li><a href="../index.html">home</a></li>
+    <li><a href="../download.html">download</a></li>
+    <li><a href="index.html">documentation</a></li>    
+    <li><a href="../dev.html">development</a></li>
+    <li><a href="../about.html">about</a></li>
+    <li><a href="../contact.html">contact</a></li>
+  </ul>
+</div>
+<div class="wrap">
+<h2 style="margin-top: 20px;">Reference Manual</h2>
+<hr width="100%" style="margin:0 0 35px 0;">
+<p>
+<p>Transd is a general purpose programming language, statically typed, multi-paradigm, with meta-compilation execution model. Its defining features are its novel execution model, which doesn't require the compilation to machine code, but at the same time is considerably faster than traditional interpretation technics, and, secondly, the ultimate compactness of implementation, which makes it an ideal choice for embeddable or extension language.</p>
+
+<h3>Lexical conventions</h3>
+
+<p>Transd source files are encoded in UTF-8. Upper and lower character cases are distinguished.</p>
+
+<p>Source files can contain comments, which can be marked by one of two ways: </p>
+
+<ol>
+<li>Character sequence "//" (slash slash) anywhere on a line marks the start of a comment which extends to the end of the line.</li>
+<li>Character sequence "/<em>" (slash asterisk) marks the start of a comment which extends to the nearest character sequence “</em>/” (asterisk slash). All characters between two slashes included are replaced with one whitespace character. (For example, a sequence "A/<em>B, B</em>/A" will be treated as "A A".</li>
+</ol>
+
+<p>Identifiers in Transd can be any string of letters, digits, and underscores, not beginning with a digit. Letter is any symbol considered alphabetic under the current locale.</p>
+
+<h3>Source files</h3>
+
+<p>Transd program are defined in one or more source files. Source files should be in UTF-8 encoding. The program code in a source file should be placed after the Transd code marker:</p>
+
+<p><code>#lang transd</code></p>
+
+<h3>Modules</h3>
+
+<p>The top syntax unit in Transd is a module. A Transd program consists of one or more modules. Module is a code block within which all functions and data variables are visible and accessible to each other. A source file can contain several modules, and, conversely, a definition of a large module can be contained in several source files. Each module in the program should be defined under a unique name.</p>
+
+<p>The grammar of general syntax of a module is the following:</p>
+
+<pre><code>module_definition := MODULE_NAME ": {" [member] ("," member)* "}"
+</code></pre>
+
+<p>(Terms in square brackets are optional; parentheses group terms into one item; asterisk means that an item can occur zero or more times; capitalized words denote terminal symbols (that is simple symbols, not parsable into smaller parts.)</p>
+
+<pre><code>member := NAME ":" declarator
+</code></pre>
+
+<p>Example:</p>
+
+<div class="codehilite"><pre><span></span><code><span class="nv">MainModule</span> <span class="o">:</span> <span class="p">{</span>
+  <span class="nv">s</span> <span class="o">:</span> <span class="s">&quot;Hello, world!&quot;</span><span class="o">,</span>
+  <span class="nv">_start</span> <span class="o">:</span> <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">textout</span> <span class="nv">s</span><span class="p">))</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3>Variables</h3>
+
+<p>Data variables in Transd are introduced as module data members (<em>fields</em>) or as function local variables.</p>
+
+<p>The syntax for a field definition is as follows:</p>
+
+<pre><code>field := NAME ":" (value_initializer | type_declarator | constructor)
+</code></pre>
+
+<p>(The vertical bar in the grammar separates different variants of the item.)</p>
+
+<p>Example:</p>
+
+<div class="codehilite"><pre><span></span><code><span class="nv">MainModule</span> <span class="o">:</span> <span class="p">{</span>
+<span class="nv">vec1</span> <span class="o">:</span> <span class="p">[</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="p">]</span><span class="o">,</span> <span class="c1">// creates a vector with three integers: 1, 2, 3</span>
+<span class="nv">vec2</span> <span class="o">:</span> <span class="nb">Vector</span><span class="o">&lt;</span><span class="nb">Int</span><span class="o">&gt;</span><span class="p">()</span><span class="o">,</span> <span class="c1">// creates an empty vector for storing integers</span>
+<span class="nv">vec3</span> <span class="o">:</span> <span class="nb">Vector</span><span class="o">&lt;</span><span class="nb">Int</span><span class="o">&gt;</span><span class="p">(</span> <span class="mi">3</span> <span class="p">)</span> <span class="c1">// creates a vector with three uninitialized integers</span>
+<span class="o">...</span>
+</code></pre></div>
+
+<p>Local variables in functions are introduced with the <code>(with ...)</code> construction, and
+are only visible inside that construction.</p>
+
+<p>Example:</p>
+
+<div class="codehilite"><pre><span></span><code><span class="nv">someFunc</span> <span class="o">:</span> <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">with</span> <span class="nv">a</span> <span class="mi">1</span> <span class="nv">b</span> <span class="mi">2</span> <span class="p">(</span><span class="nf">textout</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">a</span> <span class="nv">b</span><span class="p">))))</span> <span class="c1">// outputs &quot;3&quot;</span>
+</code></pre></div>
+
+<h3>Forms</h3>
+
+<p>An expression is a piece of code which can be evaluated and whose data value can be obtained. Expressions consist of expression members called <em>constituents</em>. All expressions in Transd are enclosed in parentheses and have a similar structure resembling a function call: the first constituent always names the operation performed by the expression, and the remaining constituents are parameters to that operation. Such parenthesized  construction in Transd is called <em>form</em>. The first constituent of a form is called the form's <em>subject</em>. Forms can contain other forms as constituents.</p>
+
+<p>Examples of forms:</p>
+
+<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="nb">+ </span><span class="mi">1</span> <span class="mi">1</span><span class="p">)</span>
+<span class="p">(</span><span class="o">==</span> <span class="p">(</span><span class="nb">+ </span><span class="mi">3</span> <span class="mi">5</span><span class="p">)</span> <span class="p">(</span><span class="nb">* </span><span class="mi">2</span> <span class="mi">4</span><span class="p">))</span>
+<span class="p">(</span><span class="nf">computeDistance</span> <span class="nv">Point</span><span class="p">(</span><span class="mi">2</span> <span class="mi">3</span><span class="p">)</span> <span class="nv">Point</span><span class="p">(</span><span class="mi">4</span> <span class="mi">5</span><span class="p">))</span>
+<span class="p">(</span><span class="nf">textout</span> <span class="s">&quot;five plus three equals&quot;</span> <span class="p">(</span><span class="nb">+ </span><span class="mi">5</span> <span class="mi">3</span><span class="p">))</span>
+<span class="p">(</span><span class="nb">sqrt </span><span class="p">(</span><span class="nb">+ </span><span class="p">(</span><span class="nf">pow</span> <span class="p">(</span><span class="nb">- </span><span class="nv">x1</span> <span class="nv">x2</span><span class="p">)</span> <span class="mi">2</span> <span class="p">)</span> <span class="p">(</span><span class="nf">pow</span> <span class="p">(</span><span class="nb">- </span><span class="nv">y1</span> <span class="nv">y2</span><span class="p">)</span> <span class="mi">2</span> <span class="p">)</span> <span class="p">)</span>
+</code></pre></div>
+
+</p>
+<hr width="100%" style="margin:300px 0 0 0;">
+</div>
+<div id="footer">
+  <p>&copy; Copyright 2020 <a href='&#109;ail&#116;o&#58;alb%65rger&#64;g%6Dai&#108;&#46;&#37;63o&#109;'>Albert Berger</a> &middot; All Rights Reserved</p>
+</div>
+</body>
+</html>
