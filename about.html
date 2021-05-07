@@ -10,6 +10,7 @@
 <meta name="keywords" content="Transd, programming language, C++">
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link href="css/main.css" rel="stylesheet" type="text/css" />
+<link href="css/tsd.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
 <div id="header">
@@ -25,100 +26,40 @@
 </div>
 
 <div class="wrap">
-<h2 style="margin-top: 20px;">About Transd</h2>
-<hr width="100%" style="margin:0 0 35px 0;">
-<p><a href="history.html">Click here to read the brief history of Transd</a></p>
-	<div class="col1"><h3>What does it do</h3>
-	<p>Suppose we have a math application which is meant to draw graphs of mathematical functions. Not 
-	a big math system, but a tiny program which nonetheless should allow the user to plot a graph of any
-	arbitrary math function. This means that <strong>our program must know how to</strong>:
-	<ol style="padding-left: 52px; margin-top: -10px" >
-	<li style="margin-bottom: 10px">take from the user a description of a function in some <b>notation</b> system;</li>
-	<li style="margin-bottom: 10px"><b>convert</b> it into an executable form;</li>
-	<li style="margin-bottom: 10px"><b>execute</b> it repeatedly it to obtain the values for the whole graph.</li>
-	</ol></p><p>
-	What are the ways to add this functionality to our tiny program? This was the question for which
-	we have chosen to come up with our own <strong>solution which must satisfy the following</strong>:
-	<ol style="padding-left: 52px; margin-top: -10px" >
-	<li style="margin-bottom: 10px">the notation should be both <b>powerful and simple</b>. It should allow
-	to express complex things, and in the same time expressing simple things should be simple for the user 
-	(much simpler than learning a whole programming language).</li>
-	<li style="margin-bottom: 10px">the solution must require <b>minimal</b> compile-time and run-time
-	<strong>dependencies</strong> or prerequisits, and be <strong>platform-independent</strong>; </li>
-	<li style="margin-bottom: 10px">it should be <b>fast</b>.</li></ol>
-	</p><p>
-	What has come as the result of our efforts is a <strong>programming language</strong> which:
-	<ol style="padding-left: 52px; margin-top: -10px" >
-	<li style="margin-bottom: 10px">for simple things uses very <strong>simple syntax</strong> resembling the
-	common <strong>config files notation</strong>;</li>
-	<li style="margin-bottom: 10px">is wholly contained in one C++ header file and one 
-	C++ source file <strong>without any additional dependencies</strong>;</li>
-	<li style="margin-bottom: 10px">is <strong>considerably faster</strong> than traditional extension languages
-	which use interpreters or virtual machines.</ol>
-	</p>
-	<h3>Proof of concept</h3>
-	<p>(The C++ project with this example can be found on <a href="https://github.com/transd-lang/Demo_tiny">Github</a>.)</p>
-	<p>Let's see on a concrete example with our hypothetical tiny graphing application. This
-	application receives from the user a description of some math function and then produces a
-	1000x1000 graphic PPM file containing the graph of this function on the interval from
-	-500 to 500.</p>
-	<p>The code below is what this is all about: a configuration file where the user
-	can tweak and extend functionality of a compiled binary application.</p>
-	<div class="codecol">
-<pre><code><font color="#008000">Export</font>: {
-    x: <font color="#1E90FF">Double()</font>,
-    y: <font color="#1E90FF">Double()</font>
-}
+<h3 id="about-transd">About Transd</h3>
 
-<font color="#008000">tst</font>: {
-    <font color="#A52A2A">getShade</font>: (λ (with t (- (pow x 2) y) 
-        (if (and (<= t 1.0)(> t -1.0))
-            1 0)))
-}</code></pre></div> 
-	<p>Here we specify
-	that the host application (our binary math program) must provide us with two values:
-	<strong>x</strong> and <strong>y</strong> coordinates of a graph and we return 1 or 0
-	depending on whether our function passes through this point or not.
-	The whole host program in this case is less than 40 lines of code, and here is the essential
-	part:</p>
-	<div class="codecol">
-<pre><code>transd::HPROG prog = transd::createAssembly();
-transd::Func* func = transd::loadProgram( prog, testFilePath, L"tst::getShade" );
-double* x = (double*)transd::getExportVariable( prog, L"x" );
-double* y = (double*)transd::getExportVariable( prog, L"y" );
+<h4 id="what-is-transd">What is Transd?</h4>
 
-for( int i = 0; i < width; ++i ) {
-    for( int k = 0; k < height; ++k ) {
-        *x = (double)i - width / 2;
-        *y = (double)k;
+<p>Transd is a programming language implemented with the meta-compilation technology which allows the programs written on Transd to run faster than on other non-compiled languages and in the same time not to employ the real compilation to machine code.</p>
 
-        int res = *(int*)transd::execute( func );
-        uint8_t	shade = 255 * res;
-        //...
-    }
-}
-</code></pre></div><p>
-Note, that the transd function "func" (the one that has been defined in the config file) is 
-called <strong>one million times</strong>. This is the number of times the boundary between C++ and TransD
-is crossed within that double "for" loop. And it runs in just a fraction of time than
-would be needed for calling 1,000,000 times a function in some other extension language.</p>
-<p>This is part of the 1000x1000 image with the function graph produced by our tiny math application in
-cooperation with TransD:</p>
+<h4 id="what-was-the-motivation-for-its-creation">What was the motivation for its creation?</h4>
 
-<p align=center>
-<img src="img/graph.jpg" width="516" height="447" alt="" />
-</p>
-<p>Note, that for this particular image where the graph is represented by dots it would be
-enough to call the function 1,000 times - one call for each x coordinate. But this is just
-an oversimplified illustrative example. If we have several functions and we want nice continuous
-antialiased lines instead of dots - we need to call the shading function for each of one
-million pixels in a 1000x1000 image.</p>
+<p>We needed an extension language which was 1.fast; 2.compactly implemented; 3.not compiled.</p>
 
-<p>The C++ project with this example can be found <a href="https://github.com/transd-lang/Demo_tiny">here</a>.</p>
+<h4 id="how-fast-is-transd">How fast is Transd?</h4>
 
-<p>And yet another example which actually does render continuous antialiased lines can be found <a href="https://github.com/transd-lang/Demo_graph">here</a></p>
-	
-	</div>
+<p>Depending on the computational patterns of the code, the programs written on it run on the average from 50% to 80% of native speed.</p>
+
+<h4 id="what-are-the-costs-of-this-efficiency">What are the costs of this efficiency?</h4>
+
+<p>Increased usage of memory. Transd programs need considerably more memory for running than their native analogs.</p>
+
+<h4 id="how-compact-is-transd">How compact is Transd?</h4>
+
+<p>Currently it can be added as a library to a C++ program in the form of two files: "transd.hpp" and "transd.cpp". At the time of this writing (May, 2021) these two files have in sum about 12 000 lines of code. It is a design goal that this number remained well under 30 000.</p>
+
+<h4 id="is-it-ready-for-using">Is it ready for using?</h4>
+
+<p>Not for production. Presently (May, 2021), it's in alpha stage and being readied for the beta version. Early adopters are welcome to try it.</p>
+
+<h4 id="what-is-the-transds-license">What is the Transd's license?</h4>
+
+<p>Its source code C++ library (files 'transd.hpp' and 'transd.cpp') can be used freely for any purposes with the sole condition that the source code remain unchanged. On the early stage of language usage we want to prevent the proliferation of incompatible dialects of Transd.</p>
+
+<h3 id="about-author">About author</h3>
+
+<p>Transd language and its meta-compiler (Tourbillon) were created by Albert Berger (Saint-Petersburg, Russia) in 2020, after his idea that computation can be efficiently implemented with a finite-automata network has been successfully tested ĭn the end of 2018.</p>
+
 </div>	
 <div id="footer">
   <p>&copy; Copyright 2020 <a href='&#109;ail&#116;o&#58;alb%65rger&#64;g%6Dai&#108;&#46;&#37;63o&#109;'>Albert Berger</a> &middot; All Rights Reserved</p>
