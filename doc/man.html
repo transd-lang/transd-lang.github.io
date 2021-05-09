@@ -26,12 +26,13 @@
   </ul>
 </div>
 <div class="wrap">
-<h2 style="margin-top: 20px;">Reference Manual</h2>
-<hr width="100%" style="margin:0 0 35px 0;">
+<hr width="100%" style="margin:5px 0 35px 0;">
 <p>
+<h2 id="reference-manual">Reference manual</h2>
+
 <p>Transd is a general purpose programming language, statically typed, multi-paradigm, with meta-compilation execution model. Its defining features are its novel execution model, which doesn't require the compilation to machine code, but at the same time is considerably faster than traditional interpretation technics, and, secondly, the ultimate compactness of implementation, which makes it an ideal choice for embeddable or extension language.</p>
 
-<h3>Lexical conventions</h3>
+<h3 id="lexical-conventions">Lexical conventions</h3>
 
 <p>Transd source files are encoded in UTF-8. Upper and lower character cases are distinguished.</p>
 
@@ -44,13 +45,13 @@
 
 <p>Identifiers in Transd can be any string of letters, digits, and underscores, not beginning with a digit. Letter is any symbol considered alphabetic under the current locale.</p>
 
-<h3>Source files</h3>
+<h3 id="source-files">Source files</h3>
 
 <p>Transd program are defined in one or more source files. Source files should be in UTF-8 encoding. The program code in a source file should be placed after the Transd code marker:</p>
 
 <p><code>#lang transd</code></p>
 
-<h3>Modules</h3>
+<h3 id="modules">Modules</h3>
 
 <p>The top syntax unit in Transd is a module. A Transd program consists of one or more modules. Module is a code block within which all functions and data variables are visible and accessible to each other. A source file can contain several modules, and, conversely, a definition of a large module can be contained in several source files. Each module in the program should be defined under a unique name.</p>
 
@@ -72,7 +73,19 @@
 <span class="p">}</span>
 </code></pre></div>
 
-<h3>Variables</h3>
+<h3 id="general-syntax">General syntax</h3>
+
+<p>All the code in a Transd program is packed into modules. Modules have very simple structure: they are defined as a list of <em>module members</em>. The syntax of definition module members is also simple and regular: every member is defined as a name/value pair:</p>
+
+<div class="codehilite"><pre><span></span><code><span class="nv">Module1</span><span class="o">:</span> <span class="p">{</span>
+  <span class="nv">var1</span><span class="o">:</span> <span class="mi">5</span><span class="o">,</span>
+  <span class="nv">func1</span><span class="o">:</span> <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">textout</span> <span class="nv">var1</span><span class="p">))</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Module members are of two kinds: <em>data members</em> and <em>function members</em>, which are often called <em>fields</em> and <em>methods</em> respectively. </p>
+
+<h3 id="variables">Variables</h3>
 
 <p>Data variables in Transd are introduced as module data members (<em>fields</em>) or as function local variables.</p>
 
@@ -100,7 +113,7 @@ are only visible inside that construction.</p>
 <div class="codehilite"><pre><span></span><code><span class="nv">someFunc</span> <span class="o">:</span> <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">with</span> <span class="nv">a</span> <span class="mi">1</span> <span class="nv">b</span> <span class="mi">2</span> <span class="p">(</span><span class="nf">textout</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">a</span> <span class="nv">b</span><span class="p">))))</span> <span class="c1">// outputs &quot;3&quot;</span>
 </code></pre></div>
 
-<h3>Forms</h3>
+<h3 id="forms">Forms</h3>
 
 <p>An expression is a piece of code which can be evaluated and whose data value can be obtained. Expressions consist of expression members called <em>constituents</em>. All expressions in Transd are enclosed in parentheses and have a similar structure resembling a function call: the first constituent always names the operation performed by the expression, and the remaining constituents are parameters to that operation. Such parenthesized  construction in Transd is called <em>form</em>. The first constituent of a form is called the form's <em>subject</em>. Forms can contain other forms as constituents.</p>
 
@@ -113,8 +126,50 @@ are only visible inside that construction.</p>
 <span class="p">(</span><span class="nb">sqrt </span><span class="p">(</span><span class="nb">+ </span><span class="p">(</span><span class="nf">pow</span> <span class="p">(</span><span class="nb">- </span><span class="nv">x1</span> <span class="nv">x2</span><span class="p">)</span> <span class="mi">2</span> <span class="p">)</span> <span class="p">(</span><span class="nf">pow</span> <span class="p">(</span><span class="nb">- </span><span class="nv">y1</span> <span class="nv">y2</span><span class="p">)</span> <span class="mi">2</span> <span class="p">)</span> <span class="p">)</span>
 </code></pre></div>
 
+<h3 id="functions">Functions</h3>
+
+<p>Forms are syntactical constructs that denote function objects. For simplicity, we will refer as function to any object that can be invoked (called) with or without arguments in order to receive some value from it or to have it to perform some action. </p>
+
+<p>In Transd there are two kinds of function objects: a function definition and a function call. In source code the syntax for these objects looks similar, and for the purpose of distinguishing between the two, the function definition objects have as their first constituent the <code>lambda</code> keyword (for brevity, instead of this keyword, one can use the symbol 'λ' (Greek letter "lambda", Unicode symbol 955 (0x3BB)).</p>
+
+<p>These two function definitions are equivalent:</p>
+
+<div class="codehilite"><pre><span></span><code><span class="nv">func1</span><span class="o">:</span> <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">textout</span> <span class="s">&quot;Hello, world!&quot;</span><span class="p">))</span><span class="o">,</span>
+
+<span class="nv">func2</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> <span class="p">(</span><span class="nf">textout</span> <span class="s">&quot;Hello, world!&quot;</span><span class="p">))</span>
+</code></pre></div>
+
+<p>The second type of function object - a function call - is any form that doesn't contain the <code>lambda</code> keyword as the first participant. In the examples above, <code>(textout "abc")</code> is a function call. That is, the definition of the <code>func1</code> function, consists of a single call to a built-in <code>textout</code> function with the string "Hello, world!" as a parameter. This function definition is equivalent to, for example, Python's:</p>
+
+<div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">func1</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Hello, world!&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<p>There are two kinds of function calls in Transd: method calls and routine calls. </p>
+
+<p>A method call is an invocation of a member function of some object:</p>
+
+<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="nb">append </span><span class="nv">vec1</span> <span class="mi">25</span><span class="p">)</span> <span class="c1">// append an integer &#39;25&#39; to the end of &#39;vec1&#39; vector object</span>
+<span class="p">(</span><span class="nb">+ </span><span class="mi">5</span> <span class="mi">7</span><span class="p">)</span> <span class="c1">// add 7 to 5</span>
+</code></pre></div>
+
+<p>The first method call above invokes the <code>append</code> method of a built-in <em>Vector</em> type on the <code>vec1</code> object of that type with passing <code>25</code> as an argument. The second one, invokes the <code>+</code> method of a built-in <em>Int</em> type on the <code>5</code> object of that type with passing <code>7</code> as an argument. This illustrates the syntactic rule: all method calls must have the object whose method is invoked as their first argument. This first argument in the context of the call is refered to as <em>subject</em> in Transd documentation.</p>
+
+<p>A subject can be passed as an expression that returns an object whose method is invoked:</p>
+
+<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="nb">+ </span><span class="p">(</span><span class="nb">+ </span><span class="mi">2</span> <span class="mi">3</span><span class="p">)</span> <span class="mi">7</span><span class="p">)</span> <span class="c1">// add 7 to the result of (+ 2 3)</span>
+</code></pre></div>
+
+<p>A routine call is an invokation of a function that is not a member of some class:</p>
+
+<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="nf">textout</span> <span class="s">&quot;five plus seven equals &quot;</span> <span class="mi">12</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">textout</span> <span class="mi">5</span> <span class="s">&quot; plus &quot;</span> <span class="mi">7</span> <span class="s">&quot; equals &quot;</span> <span class="p">(</span><span class="nb">sqrt </span><span class="mi">144</span><span class="p">))</span>
+</code></pre></div>
+
+<p>Routines are not associated to some object and don't have a subject in their call syntax.</p>
+
 </p>
-<hr width="100%" style="margin:300px 0 0 0;">
+<hr width="100%" style="margin:30px 0 0 0;">
 </div>
 <div id="footer">
   <p>&copy; Copyright 2020 <a href='&#109;ail&#116;o&#58;alb%65rger&#64;g%6Dai&#108;&#46;&#37;63o&#109;'>Albert Berger</a> &middot; All Rights Reserved</p>
