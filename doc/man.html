@@ -105,7 +105,7 @@
 <span class="o">...</span>
 </code></pre></div>
 
-<p>Local variables in functions are introduced with the <code>(with ...)</code> construction, and
+<p>Local variables in functions are introduced with the <code>(with ...)</code> construction. They
 are only visible inside that construction.</p>
 
 <p>Example:</p>
@@ -121,14 +121,14 @@ are only visible inside that construction.</p>
 
 <div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="nb">+ </span><span class="mi">1</span> <span class="mi">1</span><span class="p">)</span>
 <span class="p">(</span><span class="o">==</span> <span class="p">(</span><span class="nb">+ </span><span class="mi">3</span> <span class="mi">5</span><span class="p">)</span> <span class="p">(</span><span class="nb">* </span><span class="mi">2</span> <span class="mi">4</span><span class="p">))</span>
-<span class="p">(</span><span class="nf">computeDistance</span> <span class="nv">Point</span><span class="p">(</span><span class="mi">2</span> <span class="mi">3</span><span class="p">)</span> <span class="nv">Point</span><span class="p">(</span><span class="mi">4</span> <span class="mi">5</span><span class="p">))</span>
+<span class="p">(</span><span class="nf">computeDistance</span> <span class="nb">Point</span><span class="p">(</span><span class="mi">2</span> <span class="mi">3</span><span class="p">)</span> <span class="nb">Point</span><span class="p">(</span><span class="mi">4</span> <span class="mi">5</span><span class="p">))</span>
 <span class="p">(</span><span class="nf">textout</span> <span class="s">&quot;five plus three equals&quot;</span> <span class="p">(</span><span class="nb">+ </span><span class="mi">5</span> <span class="mi">3</span><span class="p">))</span>
 <span class="p">(</span><span class="nb">sqrt </span><span class="p">(</span><span class="nb">+ </span><span class="p">(</span><span class="nf">pow</span> <span class="p">(</span><span class="nb">- </span><span class="nv">x1</span> <span class="nv">x2</span><span class="p">)</span> <span class="mi">2</span> <span class="p">)</span> <span class="p">(</span><span class="nf">pow</span> <span class="p">(</span><span class="nb">- </span><span class="nv">y1</span> <span class="nv">y2</span><span class="p">)</span> <span class="mi">2</span> <span class="p">)</span> <span class="p">)</span>
 </code></pre></div>
 
 <h3 id="functions">Functions</h3>
 
-<p>Forms are syntactical constructs that denote function objects. For simplicity, we will refer as function to any object that can be invoked (called) with or without arguments in order to receive some value from it or to have it to perform some action. </p>
+<p>Forms are syntactical constructs for function objects. For simplicity, we will refer as function to any object that can be invoked (called) with or without arguments, in order to obtain some value from that object or to have it to perform some action. </p>
 
 <p>In Transd there are two kinds of function objects: a function definition and a function call. In source code the syntax for these objects looks similar, and for the purpose of distinguishing between the two, the function definition objects have as their first constituent the <code>lambda</code> keyword (for brevity, instead of this keyword, one can use the symbol 'λ' (Greek letter "lambda", Unicode symbol 955 (0x3BB)).</p>
 
@@ -162,17 +162,52 @@ are only visible inside that construction.</p>
 
 <p>A routine call is an invokation of a function that is not a member of some class:</p>
 
-<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="nf">textout</span> <span class="s">&quot;five plus seven equals &quot;</span> <span class="mi">12</span><span class="p">)</span>
-<span class="p">(</span><span class="nf">textout</span> <span class="mi">5</span> <span class="s">&quot; plus &quot;</span> <span class="mi">7</span> <span class="s">&quot; equals &quot;</span> <span class="p">(</span><span class="nb">sqrt </span><span class="mi">144</span><span class="p">))</span>
+<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="nf">textout</span> <span class="s">&quot;5 + 7 = &quot;</span> <span class="p">(</span><span class="nb">+ </span><span class="mi">5</span> <span class="mi">7</span><span class="p">))</span> <span class="c1">// outputs: &quot;5 + 7 = 12&quot;</span>
+<span class="p">(</span><span class="nf">textout</span> <span class="mi">5</span> <span class="s">&quot; plus &quot;</span> <span class="mi">7</span> <span class="s">&quot; equals &quot;</span> <span class="p">(</span><span class="nb">sqrt </span><span class="mi">144</span><span class="p">))</span> 
+<span class="c1">// outputs: &quot;5 plus 7 equals 12&quot;</span>
 </code></pre></div>
 
 <p>Routines are not associated to some object and don't have a subject in their call syntax.</p>
+
+<h3 id="classes">Classes</h3>
+
+<p><em>Classes</em> are templates for creating objects. A template is a list of data variables, which represent some kind of things, for example a database record storing information about an employee:</p>
+
+<div class="codehilite"><pre><span></span><code><span class="nv">class</span> <span class="nb">Employee</span> <span class="o">:</span> <span class="p">{</span>
+  <span class="nv">id</span><span class="o">:</span> <span class="nb">Int</span><span class="p">()</span><span class="o">,</span>
+  <span class="nv">name</span><span class="o">:</span> <span class="nb">String</span><span class="p">()</span><span class="o">,</span>
+  <span class="nv">department</span><span class="o">:</span> <span class="nb">String</span><span class="p">()</span><span class="o">,</span>
+  <span class="nv">salary</span><span class="o">:</span> <span class="nb">Int</span><span class="p">()</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Along with the list of data variables classes usually contain a list of functions which know how to operate on that data. For example, a class representing a point on a geometrical plane might have a function for computing the distance to some other point:</p>
+
+<div class="codehilite"><pre><span></span><code><span class="nv">class</span> <span class="nb">Point</span> <span class="o">:</span> <span class="p">{</span>
+  <span class="nv">x</span><span class="o">:</span> <span class="nb">Double</span><span class="p">()</span><span class="o">,</span>
+  <span class="nv">y</span><span class="o">:</span> <span class="nb">Double</span><span class="p">()</span><span class="o">,</span>
+  <span class="nv">distance</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> <span class="nv">pt</span> <span class="nb">Point</span><span class="p">()</span>
+               <span class="p">(</span><span class="nb">sqrt </span><span class="p">(</span><span class="nb">+ </span><span class="p">(</span><span class="nf">pow</span> <span class="p">(</span><span class="nb">- </span><span class="nv">x</span> <span class="nv">pt</span><span class="o">.</span><span class="nv">x</span><span class="p">)</span> <span class="mi">2</span><span class="p">)</span> <span class="p">(</span><span class="nf">pow</span> <span class="p">(</span><span class="nb">- </span><span class="nv">y</span> <span class="nv">pt</span><span class="o">.</span><span class="nv">y</span><span class="p">)</span> <span class="mi">2</span><span class="p">))))</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>As one can see, classes have the same syntax as modules: they both are lists of functions and variables. The difference between modules and classes is that modules exist strictly in single number: you cannot have a copy of a module. Whereas you can have as many different copies of an object of some class as you want. This is why classes are called templates. When you create a copy of a template, it is said that you <em>instantiate</em> the class, that is create an instance object of that class. </p>
+
+<p>All instance objects of a class are independent from each other: when you change the values of data variables of some objects, this doesn't affect variables of other objects.</p>
+
+<p>Classes, in fact, are types of objects, and are similar to built-in types such as <code>String</code> or <code>Vector</code>. You instantiate a class by declaring a variable of that class in the same way as you declare variables of built-in types:</p>
+
+<div class="codehilite"><pre><span></span><code><span class="nv">i</span><span class="o">:</span> <span class="nb">Int</span><span class="p">()</span><span class="o">,</span>
+<span class="nv">str</span><span class="o">:</span> <span class="nb">String</span><span class="p">()</span><span class="o">,</span>
+<span class="nv">pt</span><span class="o">:</span> <span class="nb">Point</span><span class="p">()</span><span class="o">,</span>
+<span class="nv">record</span><span class="o">:</span> <span class="nb">Employee</span><span class="p">()</span>
+</code></pre></div>
 
 </p>
 <hr width="100%" style="margin:30px 0 0 0;">
 </div>
 <div id="footer">
-  <p>&copy; Copyright 2020 <a href='&#109;ail&#116;o&#58;alb%65rger&#64;g%6Dai&#108;&#46;&#37;63o&#109;'>Albert Berger</a> &middot; All Rights Reserved</p>
+  <p>&copy; Copyright 2021 <a href='&#109;ail&#116;o&#58;alb%65rger&#64;g%6Dai&#108;&#46;&#37;63o&#109;'>Albert Berger</a> &middot; All Rights Reserved</p>
 </div>
 </body>
 </html>
