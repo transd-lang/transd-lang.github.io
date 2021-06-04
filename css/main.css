@@ -1,6 +1,6 @@
 *{ margin: 0; padding: 0; }*
 body { margin: 50px 0 0; background: #fff url(../img/bg.jpg) repeat-x; font: 1em "Trebuchet MS", Arial, Sans-Serif; color: #444; }
-	h1 { font-size: 3em; font-weight: normal; color: #005b56}
+	h1 { font-size: 3em; font-weight: normal; color: #005b56; font-family: serif;}
 	h1 a { text-decoration: none; }
 	h2 { font-size: 2em; color: #151515; font-weight: normal; margin: 0 0 5px; }
 	h3 { font-size: 1.5em; border-bottom: 0px solid #eee; margin: 0 0 .5em; }
