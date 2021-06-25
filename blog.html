@@ -10,6 +10,8 @@
 <meta name="keywords" content="Transd, programming language, C++">
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link href="css/main.css" rel="stylesheet" type="text/css" />
+<link href="css/codehighlight.css" rel="stylesheet" type="text/css" />
+<link href="css/tsd.css" rel="stylesheet" type="text/css" />
 <style type="text/css">
 article{ padding-top: 10px;}
 pre{ background-color: #efefef; font: 1em "Courier New", monospace; }
@@ -30,34 +32,88 @@ p{line-height: 1.5em;}
 </div>
 <hr style="margin-top: 10px; border: 1px solid #55c; height: 0px;">
 <div class="wrap" style="margin-top: 25px">
-<h2 style="margin-bottom: 20px">The state of work report</h2>
-<hr width="100%" style="margin:0 0 35px 0;">
-<h3>2021-03-14 Type aliases</h3>
+<h2 style="margin-bottom: 20px">The ongoing progress report</h2>
+<h3 id="2021-jun-23-data-processing">2021-Jun-23 | Data processing</h3>
+
+<p>Containers received another upgrade: now Transd supports the pipeline semantics for staged data processing.</p>
+
+<p>An example of pipelined data processing is an implementation of <a href="http://rosettacode.org/wiki/Anagrams">"Anagrams"</a> Rosetta task. The contents of an English dictionary is read to the 'words' string, then this data is passed through several stages of processing, and as a result the list of words with the maximum number of anagrams is outputted:</p>
+
+<div class="codehilite"><pre><span></span><code><span class="o">#</span><span class="nv">lang</span> <span class="nv">transd</span>
+
+<span class="nv">MainModule</span><span class="o">:</span> <span class="p">{</span>
+    <span class="nv">_start</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> 
+        <span class="p">(</span><span class="nf">with</span> <span class="nv">fs</span> <span class="nb">FileStream</span><span class="p">()</span> <span class="nv">words</span> <span class="nb">String</span><span class="p">()</span>
+            <span class="p">(</span><span class="nf">open</span> <span class="nv">fs</span> <span class="s">&quot;/mnt/proj/tmp/unixdict.txt&quot;</span><span class="p">)</span>
+            <span class="p">(</span><span class="nf">textin</span> <span class="nv">words</span> <span class="nv">fs</span><span class="p">)</span>
+            <span class="p">(</span><span class="nf">textout</span> 
+                <span class="p">(</span><span class="nf">snd</span> <span class="p">(</span><span class="nf">max-element</span>
+                <span class="p">(</span><span class="nf">regroup-by</span> 
+                <span class="p">(</span><span class="nf">group-by</span> 
+                <span class="p">(</span><span class="nf">split</span> <span class="nv">words</span><span class="p">)</span>
+                    <span class="p">(</span><span class="nf">λ</span> <span class="nv">s</span> <span class="nb">String</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">String</span><span class="p">()</span> <span class="p">(</span><span class="nf">sort</span> <span class="nv">s</span><span class="p">)))</span>
+                    <span class="p">(</span><span class="nf">λ</span> <span class="nv">v</span> <span class="nb">Vector</span><span class="o">&lt;</span><span class="nb">String</span><span class="o">&gt;</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">Int</span><span class="p">()</span> <span class="p">(</span><span class="nf">size</span> <span class="nv">v</span><span class="p">))))))))</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Output:</p>
+
+<pre><code>[[abel, able, bale, bela, elba], 
+[caret, carte, cater, crate, trace], 
+[angel, angle, galen, glean, lange], 
+[alger, glare, lager, large, regal], 
+[elan, lane, lean, lena, neal], 
+[evil, levi, live, veil, vile]]
+
+</code></pre>
+
+<hr />
+
+<h3 id="2021-jun-10-streams">2021-Jun-10 | Streams</h3>
+
+<p>Transd now supports three types of streams: </p>
+
+<p><strong>StringStream</strong> - for Unicode text data;</p>
+
+<p><strong>ByteStream</strong> - for raw bytes;</p>
+
+<p><strong>FileStream</strong> - file I/O.</p>
+
+<p>All stream types work in a uniform way, support automatic conversion between strings and bytes, and can serve as source or destination for data. For example, the following call:</p>
+
+<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="nf">textout</span> <span class="nv">to</span><span class="o">:</span> <span class="nv">MyStream</span> <span class="s">&quot;Some text&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<p>can output text to any of three stream types as well as to StdOut. For additional examples see the "Type system/Streams" folder in the test suit.</p>
+
+<hr />
+
+<h3 id="2021-mar-14-type-aliases">2021-Mar-14 | Type aliases</h3>
 
 <p>Another new feature was added: type aliases. Type aliasing creates an additional name for a data type without creating a new type. It is used for simplifying the syntax of declaring complex compound types or for providing descriptive names to types in specific context.</p>
 
 <p>Example:</p>
 
-<pre><code>#lang transd
+<div class="codehilite"><pre><span></span><code><span class="o">#</span><span class="nv">lang</span> <span class="nv">transd</span>
 
-MainModule: {
-    Tuis : typealias( Tuple( Int() String() ) ),
-    v1: Vector( Tuis() ),
-    uv1: [[6, "a"]],
-    uv2: [[1, "c"]],
-    uv3: [[3, "h"]],
-    uv4: [[2, "e"]],
-    _start: (λ (with abc 1)
-        (add v uv1) (add v uv2)(add v uv3)(add v uv4)
-        (set v1 0 uv1) (set v1 1 uv2)(set v1 2 uv3)(set v1 3 uv4)
-        (textout "v: " v "\n")
-        (textout "v1: " v1 "\n")
-        (textout (sort v :asc 
-            (lambda l Tuis() r Tuis() -&gt; Bool()
-                (ret (less&lt;Int&gt; (get l 0) (get r 0))))) "\n")
-    )
-}
-</code></pre>
+<span class="nv">MainModule</span><span class="o">:</span> <span class="p">{</span>
+    <span class="nv">Tuis</span> <span class="o">:</span> <span class="nv">typealias</span><span class="p">(</span> <span class="nv">Tuple</span><span class="p">(</span> <span class="nb">Int</span><span class="p">()</span> <span class="nb">String</span><span class="p">()</span> <span class="p">)</span> <span class="p">)</span><span class="o">,</span>
+    <span class="nv">v1</span><span class="o">:</span> <span class="nb">Vector</span><span class="p">(</span> <span class="nv">Tuis</span><span class="p">()</span> <span class="p">)</span><span class="o">,</span>
+    <span class="nv">uv1</span><span class="o">:</span> <span class="p">[[</span><span class="mi">6</span><span class="o">,</span> <span class="s">&quot;a&quot;</span><span class="p">]]</span><span class="o">,</span>
+    <span class="nv">uv2</span><span class="o">:</span> <span class="p">[[</span><span class="mi">1</span><span class="o">,</span> <span class="s">&quot;c&quot;</span><span class="p">]]</span><span class="o">,</span>
+    <span class="nv">uv3</span><span class="o">:</span> <span class="p">[[</span><span class="mi">3</span><span class="o">,</span> <span class="s">&quot;h&quot;</span><span class="p">]]</span><span class="o">,</span>
+    <span class="nv">uv4</span><span class="o">:</span> <span class="p">[[</span><span class="mi">2</span><span class="o">,</span> <span class="s">&quot;e&quot;</span><span class="p">]]</span><span class="o">,</span>
+    <span class="nv">_start</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> <span class="p">(</span><span class="nf">with</span> <span class="nv">abc</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="p">(</span><span class="nf">add</span> <span class="nv">v</span> <span class="nv">uv1</span><span class="p">)</span> <span class="p">(</span><span class="nf">add</span> <span class="nv">v</span> <span class="nv">uv2</span><span class="p">)(</span><span class="nf">add</span> <span class="nv">v</span> <span class="nv">uv3</span><span class="p">)(</span><span class="nf">add</span> <span class="nv">v</span> <span class="nv">uv4</span><span class="p">)</span>
+        <span class="p">(</span><span class="nf">set</span> <span class="nv">v1</span> <span class="mi">0</span> <span class="nv">uv1</span><span class="p">)</span> <span class="p">(</span><span class="nf">set</span> <span class="nv">v1</span> <span class="mi">1</span> <span class="nv">uv2</span><span class="p">)(</span><span class="nf">set</span> <span class="nv">v1</span> <span class="mi">2</span> <span class="nv">uv3</span><span class="p">)(</span><span class="nf">set</span> <span class="nv">v1</span> <span class="mi">3</span> <span class="nv">uv4</span><span class="p">)</span>
+        <span class="p">(</span><span class="nf">textout</span> <span class="s">&quot;v: &quot;</span> <span class="nv">v</span> <span class="s">&quot;\n&quot;</span><span class="p">)</span>
+        <span class="p">(</span><span class="nf">textout</span> <span class="s">&quot;v1: &quot;</span> <span class="nv">v1</span> <span class="s">&quot;\n&quot;</span><span class="p">)</span>
+        <span class="p">(</span><span class="nf">textout</span> <span class="p">(</span><span class="nf">sort</span> <span class="nv">v</span> <span class="o">:</span><span class="nv">asc</span> 
+            <span class="p">(</span><span class="k">lambda </span><span class="nv">l</span> <span class="nv">Tuis</span><span class="p">()</span> <span class="nv">r</span> <span class="nv">Tuis</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nv">Bool</span><span class="p">()</span>
+                <span class="p">(</span><span class="nf">ret</span> <span class="p">(</span><span class="nf">less</span><span class="o">&lt;</span><span class="nb">Int</span><span class="o">&gt;</span> <span class="p">(</span><span class="nf">get</span> <span class="nv">l</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nf">get</span> <span class="nv">r</span> <span class="mi">0</span><span class="p">)))))</span> <span class="s">&quot;\n&quot;</span><span class="p">)</span>
+    <span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
 
 </div>
 <div id="footer">
