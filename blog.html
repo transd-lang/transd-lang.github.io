@@ -33,6 +33,27 @@ p{line-height: 1.5em;}
 <hr style="margin-top: 10px; border: 1px solid #55c; height: 0px;">
 <div class="wrap" style="margin-top: 25px">
 <h2 style="margin-bottom: 20px">The ongoing progress report</h2>
+<h3 id="2021-jun-30-formatted-output">2021-Jun-30 | Formatted output</h3>
+
+<p>As release is nearing, the design decisions that were postponed to later stages are being made. The conception of how to do the formatted output in Transd has been detalized.</p>
+
+<p>I decided to go with the C++ model, which uses stream manipulators for output formatting, since the concept of manipulators ideally aligns with already existing Transd's markers. Manipulators define how the nearest item after them should be outputted. So, the Transd code for formatted output of, e.g., a double will look like this:</p>
+
+<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="nf">textout</span> <span class="nv">width</span><span class="o">:</span> <span class="mi">6</span> <span class="s">&quot;Pi:&quot;</span> <span class="o">:</span><span class="nv">sign</span> <span class="nv">prec</span><span class="o">:</span> <span class="mi">4</span> <span class="nv">PI</span><span class="p">)</span>
+</code></pre></div>
+
+<p>Which will produce the output:</p>
+
+<pre><code>"Pi:   +3.1416"
+</code></pre>
+
+<p>This illustrates how important it is to make design decisions in their proper time. Markers appeared relatively late in the language, and if on early stages some other model were chosen for formatted output (e.g. Python's), then it certainly would not look and act so uniform with the rest of the syntax. Compare the above example with a call of 'substr' function:</p>
+
+<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="nf">substr</span> <span class="nv">s</span> <span class="nv">from</span><span class="o">:</span> <span class="nv">after</span><span class="o">:</span> <span class="nv">last</span><span class="o">:</span> <span class="s">&quot;/&quot;</span> <span class="nv">to</span><span class="o">:</span> <span class="nv">last</span><span class="o">:</span> <span class="s">&quot;.&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<h2 id="br"><br>    </h2>
+
 <h3 id="2021-jun-23-data-processing">2021-Jun-23 | Data processing</h3>
 
 <p>Containers received another upgrade: now Transd supports the pipeline semantics for staged data processing.</p>
@@ -67,7 +88,7 @@ p{line-height: 1.5em;}
 
 </code></pre>
 
-<hr />
+<h2 id="br-2"><br></h2>
 
 <h3 id="2021-jun-10-streams">2021-Jun-10 | Streams</h3>
 
@@ -86,7 +107,7 @@ p{line-height: 1.5em;}
 
 <p>can output text to any of three stream types as well as to StdOut. For additional examples see the "Type system/Streams" folder in the test suit.</p>
 
-<hr />
+<h2 id="br-3"><br></h2>
 
 <h3 id="2021-mar-14-type-aliases">2021-Mar-14 | Type aliases</h3>
 
