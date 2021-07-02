@@ -6,7 +6,7 @@
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <meta http-equiv="content-language" content="en-US">
 <meta name="language" content="English">
-<meta name="description" content="A fast programming language for building scripts and extensions.">
+<meta name="description" content="Programming language for scripts and extensions.">
 <meta name="keywords" content="Transd, programming language, C++">
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link href="css/main.css" rel="stylesheet" type="text/css" />
@@ -34,7 +34,7 @@
 
 <h4 id="what-was-the-motivation-for-its-creation">What was the motivation for its creation?</h4>
 
-<p>We needed an extension language which was 1.fast; 2.compactly implemented; 3.not compiled.</p>
+<p>We needed an extension language which was 1.fast; 2.compactly implemented; 3.not compiled to machine code.</p>
 
 <h4 id="how-fast-is-transd">How fast is Transd?</h4>
 
@@ -42,7 +42,7 @@
 
 <h4 id="what-are-the-costs-of-this-efficiency">What are the costs of this efficiency?</h4>
 
-<p>Increased usage of memory. Transd programs need considerably more memory for running than their native analogs.</p>
+<p>Increased usage of memory. Transd programs need considerably more memory for running than their native analogs. </p>
 
 <h4 id="how-compact-is-transd">How compact is Transd?</h4>
 
@@ -56,13 +56,21 @@
 
 <p>Its source code C++ library (files 'transd.hpp' and 'transd.cpp') can be used freely for any purposes with the sole condition that the source code remain unchanged. On the early stage of language usage we want to prevent the proliferation of incompatible dialects of Transd.</p>
 
+<h4 id="the-coding-and-naming-styles-in-transdcpp-and-transdhpp-files-look-unusual-is-the-code-obfuscated">The coding and naming styles in 'transd.cpp' and 'transd.hpp' files look unusual. Is the code obfuscated?</h4>
+
+<p>No, the code is not obfuscated. It's minimized. It's a design goal to keep the embeddable Transd library compact and contained just in two files. Because compilers have limitations on the maximal size of a source file, it's necessary to minimize the length of identifiers and strip out the empty lines.</p>
+
+<h4 id="will-the-source-code-be-published">Will the source code be published?</h4>
+
+<p>Yes, if the language gains a sufficient number of users and there will be sense to put an amount of work into reorganizing the source code into a public code base.</p>
+
 <h3 id="about-author">About author</h3>
 
-<p>Transd language and its meta-compiler (Tourbillon) were created by Albert Berger (Saint-Petersburg, Russia) in 2020, after his idea that computation can be efficiently implemented with a finite-automata network has been successfully tested ĭn the end of 2018.</p>
+<p>Transd language and its meta-compiler (Tourbillon) were created by Albert Berger in 2020, after his idea that computation can be efficiently implemented with a finite-automata network has been successfully tested ĭn the end of 2018.</p>
 
 </div>	
 <div id="footer">
-  <p>&copy; Copyright 2020 <a href='&#109;ail&#116;o&#58;alb%65rger&#64;g%6Dai&#108;&#46;&#37;63o&#109;'>Albert Berger</a> &middot; All Rights Reserved</p>
+  <p>&copy; Copyright 2020-2021 <a href='&#109;ail&#116;o&#58;alb%65rger&#64;g%6Dai&#108;&#46;&#37;63o&#109;'>Albert Berger</a> &middot; All Rights Reserved</p>
 </div>
 </body>
 </html>
