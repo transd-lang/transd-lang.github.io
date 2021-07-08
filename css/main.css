@@ -52,7 +52,7 @@ code { text-align: left; font: 1.0em Consolata, Monospace, "Courier New"; paddin
 	#footer .right { float: right; margin: 0 55px 0 0; }
 	#footer a { color: #808080; font-weight: bold; }
 	
-pre { font-size: 1.0em; color: #555; margin: -5px 5px 5px 5px;background-color: #eee; line-height: 1.5em;}
+pre { font-size: 1.0em; color: #555; margin: -5px 5px 15px 5px;background-color: #eee; line-height: 1.5em;}
 
 
 

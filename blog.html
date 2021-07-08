@@ -16,6 +16,12 @@
 article{ padding-top: 10px;}
 pre{ background-color: #efefef; font: 1em "Courier New", monospace; }
 p{line-height: 1.5em;}
+hr {
+  border-top: 1px solid #eee;
+  width: 75%;
+  margin: 40px auto 20px auto;
+  color: #bbb;
+}
 </style>
 </head>
 <body>
@@ -33,6 +39,29 @@ p{line-height: 1.5em;}
 <hr style="margin-top: 10px; border: 1px solid #55c; height: 0px;">
 <div class="wrap" style="margin-top: 25px">
 <h2 style="margin-bottom: 50px">The ongoing progress report</h2>
+<h3 id="2021-jul-08-type-system">2021-Jul-08 | Type system</h3>
+
+<p>Type system has become much closer to the production shape. All fundamental types are of fixed size now, instead of platform-dependent sizes, when <code>long int</code> on Windows was 4 bytes and on Linux - 8 bytes. Strings remain platform dependent, since <code>wchar_t</code> is irreplaceable for Unicode handling, and its size is different on Windows and Linux.</p>
+
+<p>The built-in types are:</p>
+
+<pre><code>Byte        - unsigned, 1 byte
+Int         - signed, 4 bytes
+Long        - signed, 8 bytes
+ULong       - unsigned, 8 bytes
+String      - UTF-16 on Windows, UTF-32 on Linux
+ByteArray   - container for native (unboxed) unsigned bytes
+Vector&lt;&gt;    - generic sequence container
+Index&lt;&gt;     - generic associative array
+HashIndex&lt;&gt; - generic hash table
+</code></pre>
+
+<p>In other news - a new Rosetta task has been implemented, where the first usage of formatted output, mentioned in the previous blog entry, can be seen (as well as the new type system features): <a href="http://rosettacode.org/wiki/AKS_test_for_primes#Transd">AKS test for primes</a></p>
+
+<hr />
+
+<p><br></p>
+
 <h3 id="2021-jun-30-formatted-output">2021-Jun-30 | Formatted output</h3>
 
 <p>As release is nearing, the design decisions that were postponed until later stages are being made. The conception of how to do the formatted output in Transd has been detalized.</p>
@@ -52,7 +81,9 @@ p{line-height: 1.5em;}
 <div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="nf">substr</span> <span class="nv">s</span> <span class="nv">from</span><span class="o">:</span> <span class="nv">after</span><span class="o">:</span> <span class="nv">last</span><span class="o">:</span> <span class="s">&quot;/&quot;</span> <span class="nv">to</span><span class="o">:</span> <span class="nv">last</span><span class="o">:</span> <span class="s">&quot;.&quot;</span><span class="p">)</span>
 </code></pre></div>
 
-<h2 id="br"><br>    </h2>
+<hr />
+
+<p><br></p>
 
 <h3 id="2021-jun-23-data-processing">2021-Jun-23 | Data processing</h3>
 
@@ -88,7 +119,9 @@ p{line-height: 1.5em;}
 
 </code></pre>
 
-<h2 id="br-2"><br></h2>
+<hr />
+
+<p><br></p>
 
 <h3 id="2021-jun-10-streams">2021-Jun-10 | Streams</h3>
 
@@ -107,7 +140,9 @@ p{line-height: 1.5em;}
 
 <p>can output text to any of three stream types as well as to StdOut. For additional examples see the "Type system/Streams" folder in the test suit.</p>
 
-<h2 id="br-3"><br></h2>
+<hr />
+
+<p><br></p>
 
 <h3 id="2021-mar-14-type-aliases">2021-Mar-14 | Type aliases</h3>
 
