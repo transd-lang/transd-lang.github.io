@@ -1,0 +1,450 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8">
+<title>TransD Programming Language Reference Manual</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta http-equiv="content-language" content="en-US">
+<meta name="language" content="English">
+<meta name="description" content="A fast programming language for building scripts and extensions.">
+<meta name="keywords" content="Transd, programming language, C++">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<link href="../css/codehighlight.css" rel="stylesheet" type="text/css" />
+<link href="../css/tsd.css" rel="stylesheet" type="text/css" />
+<style>
+hr.solid {
+  border-top: 1px solid #eee;
+  width: 50%;
+  margin: 40px auto 20px auto;
+  color: #bbb;
+}
+body { font: 1em "Trebuchet MS", Arial, Sans-Serif; color: #444; }
+	h1 { font-size: 3em; font-weight: normal; color: #005b56; font-family: serif;}
+	h1 a { text-decoration: none; }
+	h2 { font-size: 2em; color: #151515; font-weight: normal; margin: 1.5em 1em 1em auto; }
+	h3 { font-size: 1.5em; font-weight: normal; margin: 1.5em 0 .5em; }
+	h4 { font-size: 1.2em; color: #191970; font-weight: normal; margin: 1.2em 0.5em 1.3em; }
+	p  { margin: 0 0 1em 0; line-height: 1.5em; }
+code { text-align: left; font: 1.0em Consolata, Monospace, "Courier New"; padding: 0px;
+		background-color: #fff; line-height: 1.5em; }
+pre { font-size: 1.0em; color: #555; padding: 10px; margin: -5px auto 5px auto;background-color: #fff; line-height: 1.5em;}
+
+</style>
+</head>
+<body>
+<div class="wrap">
+<hr width="100%" style="margin:5px 0 35px 0;">
+<h1 id="transd-reference-manual">Transd Reference Manual</h1>
+<hr width="100%" height="0px" style="border-top: 1px solid #bbb;margin:-35px 0 35px 0;" color="#aaa">
+
+<a id="intro"> </a>
+<p>Transd is a general purpose programming language, statically typed, multi-paradigm, with meta-compilation execution model. Its defining features are its novel execution model, which doesn't require the compilation to machine code, but at the same time is considerably faster than traditional interpretation technics, and, secondly, the ultimate compactness of implementation, which makes it an ideal choice for embeddable or extension language.</p>
+
+<hr class="solid">
+<a id="lexical-conventions"> </a>
+<h2 id="lexical-conventions">Lexical conventions</h2>
+
+<p>Transd source files are encoded in UTF-8. Upper and lower character cases are distinguished.</p>
+
+<p>Source files can contain comments, which can be marked by one of two ways: </p>
+
+<ol>
+<li>Character sequence <code>//</code> (slash slash) anywhere on a line marks the start of a comment which extends to the end of the line.</li>
+<li>Character sequence <code>/*</code> (slash asterisk) marks the start of a comment which extends to the nearest character sequence “*/” (asterisk slash). All characters between two slashes included are replaced with one whitespace character. (For example, a sequence <code>A/*B, B*/A</code> will be treated as <code>A A</code>.</li>
+</ol>
+
+<p>Identifiers in Transd can be any string of letters, digits, and underscores, not beginning with a digit. Letter is any symbol considered alphabetic under the current locale.</p>
+
+<p>The formal syntax of language parts in this manual is described using a variant of Backus-Naur Form (BNF) specification.</p>
+
+<p>A BNF specification is a set of derivation rules, written as</p>
+
+<pre><code> symbol := __expression__
+</code></pre>
+
+<p>where <code>symbol</code> is a non-terminal, and the <code>__expression__</code> consists of one or more sequences of symbols. The ":=" means that the symbol on the left must be replaced with the expression on the right. The vertical bar <code>"|"</code> separates different variants of the item. Terms in square brackets are optional; parentheses group terms into one item; asterisk means that an item can occur zero or more times; capitalized words denote terminal symbols (that is basic symbols, not parsable into smaller parts.)</p>
+
+<p>Example:</p>
+
+<pre><code>    module := MODULE_NAME ": {" [member] ("," member)* "}"
+    member := (field | method)
+    field := NAME ":" (type_constructor | value_initializer)
+</code></pre>
+
+<hr class="solid">
+<a id="source-files"> </a>
+<h2 id="source-files">Source files</h2>
+
+<p>Transd program are defined in one or more source files. Source files should be in UTF-8 encoding. The program code in a source file should be placed after the Transd code marker:</p>
+
+<p><code>#lang transd</code></p>
+
+<hr class="solid">
+<a id="modules"> </a>
+<h2 id="modules">Modules</h2>
+
+<p>The top syntax unit in Transd is a module. A Transd program consists of one or more modules. Module is an arbitrary block of grouped together functions and data variables, which are called <em>module members</em>. All module members within one module are visible and accessible to each other. </p>
+
+<p>A source file can contain several modules. Conversely, a definition of a large module can be contained in several source files. Each module in the program should have a unique name.</p>
+
+<p>The grammar of a module:</p>
+
+<pre><code>    module := MODULE_NAME ": {" [member] ("," member)* "}"
+    member := NAME ":" declarator
+</code></pre>
+
+<p>Example:</p>
+
+<div class="codehilite"><pre><span></span><code><span class="nv">MainModule</span> <span class="o">:</span> <span class="p">{</span>
+  <span class="nv">s</span> <span class="o">:</span> <span class="s">&quot;Hello, world!&quot;</span><span class="o">,</span>
+  <span class="nv">_start</span> <span class="o">:</span> <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">textout</span> <span class="nv">s</span><span class="p">))</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<hr class="solid">
+<a id="general-syntax"> </a>
+<h2 id="general-syntax">General syntax</h2>
+
+<p>All the code in a Transd program is organized into modules. Modules have a very simple structure: a module is, basically, a comma separated list of module members. The syntax of module members definition is simple as well: every member is defined in the form of a name/value pair:</p>
+
+<div class="codehilite"><pre><span></span><code><span class="nv">Module1</span><span class="o">:</span> <span class="p">{</span>
+  <span class="nv">var1</span><span class="o">:</span> <span class="mi">5</span><span class="o">,</span>
+  <span class="nv">func1</span><span class="o">:</span> <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">textout</span> <span class="nv">var1</span><span class="p">))</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Module members are of two kinds: <em>data members</em> and <em>function members</em>, which are often called <em>fields</em> and <em>methods</em> respectively. </p>
+
+<hr class="solid">
+<a id="variables"> </a>
+<h2 id="variables">Variables</h2>
+
+<p>A variable in Transd is a named reference to an object in memory. When a variable is declared, it receives a type, and it can only refer to objects of that type.</p>
+
+<p>By their lifetime variables in Transd are divided into two kinds:</p>
+
+<ol>
+<li>Module members (<em>fields</em>). </li>
+<li>Function local (<em>scoped</em>) variables.</li>
+</ol>
+
+<h3 id="module-fields">Module fields</h3>
+
+<h4 id="declaration">Declaration</h4>
+
+<p>Module fields are declared as a part of module definition:</p>
+
+<p>The declaration of a field can in certain cases be used as a place for the field's initialization (that is for assigning a value to the field). These cases are limited to the following:</p>
+
+<ol>
+<li>Initializing the field with a literal value.</li>
+<li>Initializing the field with a special type constructor, which performs initialization without using references to other functions or variables outside of it.</li>
+</ol>
+
+<p>The syntax for a module field declaration is as follows:</p>
+
+<pre><code>    field := NAME ":" (type_constructor | value_initializer)
+</code></pre>
+
+<p>Example:</p>
+
+<div class="codehilite"><pre><span></span><code><span class="nv">Module1</span><span class="o">:</span> <span class="p">{</span>
+  <span class="nv">s</span><span class="o">:</span>  <span class="nb">String</span><span class="p">()</span><span class="o">,</span>
+  <span class="nv">s1</span><span class="o">:</span> <span class="nb">String</span><span class="p">(</span><span class="s">&quot;some string&quot;</span><span class="p">)</span><span class="o">,</span>
+  <span class="nv">v</span><span class="o">:</span>  <span class="nb">Vector</span><span class="o">&lt;</span><span class="nb">Int</span><span class="o">&gt;</span><span class="p">(</span> <span class="mi">10</span> <span class="p">)</span><span class="o">,</span>
+  <span class="nv">v1</span><span class="o">:</span> <span class="nb">Vector</span><span class="o">&lt;</span><span class="nb">Int</span><span class="o">&gt;</span><span class="p">(</span> <span class="p">[</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="p">]</span> <span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>In the example above, the <code>s</code> and <code>s1</code> fields are declared as Strings and <code>s1</code> is initialized with "some string" value. The <code>v</code> and <code>v1</code> fields are declared as Vectors of integers. <code>v</code> is initialized with a special type constructor which fills it with 10 integers having the default (zero) value. <code>v1</code> vector is filled with 3 integers, which have values <code>1</code>, <code>2</code> and <code>3</code>.</p>
+
+<p>This example uses explicit type constructors for all four fields. When a type allows initializing with a literal value, and the field type can be inferred from the literal, then a short form of initialization can be used (called <em>value initialization</em>):</p>
+
+<p>Example:</p>
+
+<div class="codehilite"><pre><span></span><code><span class="nv">Module1</span><span class="o">:</span> <span class="p">{</span>
+  <span class="nv">s1</span><span class="o">:</span> <span class="s">&quot;some string&quot;</span><span class="o">,</span> <span class="c1">// &#39;s1&#39; becomes a String with &quot;some string&quot; value</span>
+  <span class="nv">v1</span><span class="o">:</span> <span class="p">[</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="p">]</span>  <span class="c1">// &#39;v&#39; becomes a Vector&lt;Int&gt; filled with &#39;1&#39;, &#39;2&#39;, &#39;3&#39; integers.</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h4 id="visibility-and-access">Visibility and access</h4>
+
+<p>Module fields by default are only visible within the module in which the field is defined. For allowing access to a field from other modules, that field must be declared as public.</p>
+
+<h4 id="life-time">Life time</h4>
+
+<h3 id="local-variables">Local variables</h3>
+
+<p>Local variables in functions are introduced with the <code>(with ...)</code> construction. They
+are only visible inside that construction.</p>
+
+<p>Example:</p>
+
+<div class="codehilite"><pre><span></span><code><span class="nv">someFunc</span> <span class="o">:</span> <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">with</span> <span class="nv">a</span> <span class="mi">1</span> <span class="nv">b</span> <span class="mi">2</span> <span class="p">(</span><span class="nf">textout</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">a</span> <span class="nv">b</span><span class="p">))))</span> <span class="c1">// outputs &quot;3&quot;</span>
+</code></pre></div>
+
+<hr class="solid">
+<a id="forms"> </a>
+<h2 id="forms">Forms</h2>
+
+<p>An expression is a piece of code which can be evaluated as a single whole and whose data value can be obtained. Expressions consist of expression members called <em>constituents</em>. All expressions in Transd are enclosed in parentheses and have a similar structure resembling a function call: the first constituent always names the operation performed by the expression, and the remaining constituents are parameters to that operation. Such parenthesized  construction in Transd is called <em>form</em>. The first constituent of a form is called the form's <em>subject</em>. Forms can contain other forms as constituents.</p>
+
+<p>Examples of forms:</p>
+
+<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="nb">+ </span><span class="mi">1</span> <span class="mi">1</span><span class="p">)</span>
+<span class="p">(</span><span class="o">==</span> <span class="p">(</span><span class="nb">+ </span><span class="mi">3</span> <span class="mi">5</span><span class="p">)</span> <span class="p">(</span><span class="nb">* </span><span class="mi">2</span> <span class="mi">4</span><span class="p">))</span>
+<span class="p">(</span><span class="nf">computeDistance</span> <span class="nv">Point</span><span class="p">(</span><span class="mi">2</span> <span class="mi">3</span><span class="p">)</span> <span class="nv">Point</span><span class="p">(</span><span class="mi">4</span> <span class="mi">5</span><span class="p">))</span>
+<span class="p">(</span><span class="nf">textout</span> <span class="s">&quot;five plus three equals&quot;</span> <span class="p">(</span><span class="nb">+ </span><span class="mi">5</span> <span class="mi">3</span><span class="p">))</span>
+<span class="p">(</span><span class="nb">sqrt </span><span class="p">(</span><span class="nb">+ </span><span class="p">(</span><span class="nf">pow</span> <span class="p">(</span><span class="nb">- </span><span class="nv">x1</span> <span class="nv">x2</span><span class="p">)</span> <span class="mi">2</span> <span class="p">)</span> <span class="p">(</span><span class="nf">pow</span> <span class="p">(</span><span class="nb">- </span><span class="nv">y1</span> <span class="nv">y2</span><span class="p">)</span> <span class="mi">2</span> <span class="p">)</span> <span class="p">)</span>
+</code></pre></div>
+
+<hr class="solid">
+<a id="functions"> </a>
+<h2 id="functions">Functions</h2>
+
+<p>Forms are syntactical constructs for function objects. For simplicity, we will refer as function to any object that can be invoked (called) with or without arguments, in order to obtain some value from that object or to have it to perform some action. </p>
+
+<p>In Transd there are two kinds of function objects: a function definition and a function call. In source code the syntax for these objects looks similar, and for the purpose of distinguishing between the two, the function definition objects have as their first constituent the <code>lambda</code> keyword (for brevity, instead of this keyword, one can use the symbol 'λ' (Greek letter "lambda", Unicode symbol 955 (0x3BB)).</p>
+
+<p>These two function definitions are equivalent:</p>
+
+<div class="codehilite"><pre><span></span><code><span class="nv">func1</span><span class="o">:</span> <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">textout</span> <span class="s">&quot;Hello, world!&quot;</span><span class="p">))</span><span class="o">,</span>
+
+<span class="nv">func2</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> <span class="p">(</span><span class="nf">textout</span> <span class="s">&quot;Hello, world!&quot;</span><span class="p">))</span>
+</code></pre></div>
+
+<p>The second type of function object - a function call - is any form that doesn't contain the <code>lambda</code> keyword as the first participant. In the examples above, <code>(textout "abc")</code> is a function call. That is, the definition of the <code>func1</code> function, consists of a single call to a built-in <code>textout</code> function with the string "Hello, world!" as a parameter. This function definition is equivalent to, for example, Python's:</p>
+
+<div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">func1</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Hello, world!&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<p>There are two kinds of function calls in Transd: method calls and routine calls. </p>
+
+<p>A method call is an invocation of a member function of some object:</p>
+
+<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="nb">append </span><span class="nv">vec1</span> <span class="mi">25</span><span class="p">)</span> <span class="c1">// append an integer &#39;25&#39; to the end of &#39;vec1&#39; vector object</span>
+<span class="p">(</span><span class="nb">+ </span><span class="mi">5</span> <span class="mi">7</span><span class="p">)</span> <span class="c1">// add 7 to 5</span>
+</code></pre></div>
+
+<p>The first method call above invokes the <code>append</code> method of a built-in <em>Vector</em> type on the <code>vec1</code> object of that type with passing <code>25</code> as an argument. The second one, invokes the <code>+</code> method of a built-in <em>Int</em> type on the <code>5</code> object of that type with passing <code>7</code> as an argument. This illustrates the syntactic rule: all method calls must have the object whose method is invoked as their first argument. This first argument in the context of the call is refered to as <em>subject</em> in Transd documentation.</p>
+
+<p>A subject can be passed as an expression that returns an object whose method is invoked:</p>
+
+<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="nb">+ </span><span class="p">(</span><span class="nb">+ </span><span class="mi">2</span> <span class="mi">3</span><span class="p">)</span> <span class="mi">7</span><span class="p">)</span> <span class="c1">// add 7 to the result of (+ 2 3)</span>
+</code></pre></div>
+
+<p>A routine call is an invocation of a function that is not a member of some class:</p>
+
+<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="nf">textout</span> <span class="s">&quot;5 + 7 = &quot;</span> <span class="p">(</span><span class="nb">+ </span><span class="mi">5</span> <span class="mi">7</span><span class="p">))</span> <span class="c1">// outputs: &quot;5 + 7 = 12&quot;</span>
+<span class="p">(</span><span class="nf">textout</span> <span class="mi">5</span> <span class="s">&quot; plus &quot;</span> <span class="mi">7</span> <span class="s">&quot; equals &quot;</span> <span class="p">(</span><span class="nb">sqrt </span><span class="mi">144</span><span class="p">))</span> 
+<span class="c1">// outputs: &quot;5 plus 7 equals 12&quot;</span>
+</code></pre></div>
+
+<p>Routines are not associated to some object and don't have a subject in their call syntax.</p>
+
+<hr class="solid">
+<a id="classes"> </a>
+<h2 id="classes">Classes</h2>
+
+<p><em>Classes</em> are templates for creating objects. A template is a list of data variables, which represent some kind of things, for example a database record storing information about an employee:</p>
+
+<div class="codehilite"><pre><span></span><code><span class="nv">class</span> <span class="nv">Employee</span> <span class="o">:</span> <span class="p">{</span>
+  <span class="nv">id</span><span class="o">:</span> <span class="nb">Int</span><span class="p">()</span><span class="o">,</span>
+  <span class="nv">name</span><span class="o">:</span> <span class="nb">String</span><span class="p">()</span><span class="o">,</span>
+  <span class="nv">department</span><span class="o">:</span> <span class="nb">String</span><span class="p">()</span><span class="o">,</span>
+  <span class="nv">salary</span><span class="o">:</span> <span class="nb">Int</span><span class="p">()</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Along with the list of data variables classes usually contain a list of functions which know how to operate on that data. For example, a class representing a point on a geometrical plane might have a function for computing the distance to some other point:</p>
+
+<div class="codehilite"><pre><span></span><code><span class="nv">class</span> <span class="nv">Point</span> <span class="o">:</span> <span class="p">{</span>
+  <span class="nv">x</span><span class="o">:</span> <span class="nv">Double</span><span class="p">()</span><span class="o">,</span>
+  <span class="nv">y</span><span class="o">:</span> <span class="nv">Double</span><span class="p">()</span><span class="o">,</span>
+  <span class="nv">distance</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> <span class="nv">pt</span> <span class="nv">Point</span><span class="p">()</span>
+               <span class="p">(</span><span class="nb">sqrt </span><span class="p">(</span><span class="nb">+ </span><span class="p">(</span><span class="nf">pow</span> <span class="p">(</span><span class="nb">- </span><span class="nv">x</span> <span class="nv">pt</span><span class="o">.</span><span class="nv">x</span><span class="p">)</span> <span class="mi">2</span><span class="p">)</span> <span class="p">(</span><span class="nf">pow</span> <span class="p">(</span><span class="nb">- </span><span class="nv">y</span> <span class="nv">pt</span><span class="o">.</span><span class="nv">y</span><span class="p">)</span> <span class="mi">2</span><span class="p">))))</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>As one can see, classes have the same syntax as modules: they both are lists of functions and variables. The difference between modules and classes is that modules exist strictly in single number: you cannot have a copy of a module. Whereas you can have as many different copies of an object of some class as you want. This is why classes are called templates. When you create a copy of a template, it is said that you <em>instantiate</em> the class, that is create an instance object of that class. </p>
+
+<p>All instance objects of a class are independent from each other: when you change the values of data variables of some objects, this doesn't affect variables of other objects.</p>
+
+<p>Classes, in fact, are types of objects, and are similar to built-in types such as <code>String</code> or <code>Vector</code>. You instantiate a class by declaring a variable of that class in the same way as you declare variables of built-in types:</p>
+
+<div class="codehilite"><pre><span></span><code><span class="nv">i</span><span class="o">:</span> <span class="nb">Int</span><span class="p">()</span><span class="o">,</span>
+<span class="nv">str</span><span class="o">:</span> <span class="nb">String</span><span class="p">()</span><span class="o">,</span>
+<span class="nv">pt</span><span class="o">:</span> <span class="nv">Point</span><span class="p">()</span><span class="o">,</span>
+<span class="nv">record</span><span class="o">:</span> <span class="nv">Employee</span><span class="p">()</span>
+</code></pre></div>
+
+<h3 id="initialization-of-class-objects">Initialization of class objects</h3>
+
+<p>Classes can have an <code>init</code> method, which is automatically called when a class instance object is created. This method can receive arguments that can be used for setting the values of the object's fields.</p>
+
+<div class="codehilite"><pre><span></span><code><span class="nv">class</span> <span class="nv">Point</span> <span class="o">:</span> <span class="p">{</span>
+  <span class="nv">x</span><span class="o">:</span> <span class="nv">Double</span><span class="p">()</span><span class="o">,</span>
+  <span class="nv">y</span><span class="o">:</span> <span class="nv">Double</span><span class="p">()</span><span class="o">,</span>
+  <span class="nv">init</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> <span class="nv">x_</span> <span class="nv">Double</span><span class="p">()</span> <span class="nv">y_</span> <span class="nv">Double</span><span class="p">()</span> <span class="p">(</span><span class="nb">= </span><span class="nv">x</span> <span class="nv">x_</span><span class="p">)</span> <span class="p">(</span><span class="nb">= </span><span class="nv">y</span> <span class="nv">y_</span><span class="p">))</span>
+<span class="p">}</span>
+
+<span class="nv">pt</span><span class="o">:</span> <span class="nv">Point</span><span class="p">(</span> <span class="mf">2.71</span> <span class="mf">3.14</span> <span class="p">)</span>
+</code></pre></div>
+
+<hr class="solid">
+<a id="built-in-types"> </a>
+<h2 id="built-in-types">Built-in types</h2>
+
+<h3 id="null">Null</h3>
+
+<p><code>Null</code> - is a special kind of type, which no object can have except of the special “null object”. This object may be used as a placeholder indicating absence of useful value, as the return type of functions that don't return any objects, for error signalling, etc.</p>
+
+<h3 id="bool">Bool</h3>
+
+<p><code>Bool</code> - the Bool type is used for storing logical truth values. The objects of this type can only have two values that are represented by keywords true and false. </p>
+
+<p>Values of type Int can be casted to Bool type, in which case 0 (zero) is casted to false, and any non-zero value is casted to true.</p>
+
+<h3 id="int">Int</h3>
+
+<p><code>Int</code> - this type represents signed integer numbers. It corresponds to <code>long int</code>in C++. </p>
+
+<p>The size of Int is platform-dependent. On some systems (e.g. x64 Linux) Int is 8-byte long, on others (e.g. Windows, x86 Linux) Int is 4-bytes. It is guaranteed to be at least 32-bit. In cases when a Transd program is only intended to run on x64 Linux, then one can use Int for storing 64-bit values.</p>
+
+<p>4-byte Int has the range of values:</p>
+
+<pre><code>-2,147,483,648 ... 2,147,483,647
+</code></pre>
+
+<p>8-byte Int has the range of values:</p>
+
+<pre><code>-9,223,372,036,854,775,808 ... 9,223,372,036,854,775,807
+</code></pre>
+
+<h3 id="double">Double</h3>
+
+<p><code>Double</code> - is double precision floating point type. This type has 8-bytes length and corresponds to the type double in C++.</p>
+
+<h3 id="string">String</h3>
+
+<p><code>String</code> - is a sequence of Unicode characters (code points), optimized for manipulating text-like data. In source code strings are written as sequences of characters enclosed with quotation marks.</p>
+
+<p>Below is the list of the String class methods. ‘subj’ in the parameter list is the String object on which the method is called.</p>
+
+<h4 id="constructors">Constructors</h4>
+
+<p>String() 
+Creates an empty string.</p>
+
+<p>String( (str : String())+ )
+  str - any object evaluating to String.
+<code>str</code> can be a string variable, string literal or an expression returning a String. Any number of space separated objects can be passed to the constructor. The created string is the concatenation of all arguments.</p>
+
+<p>Examples:</p>
+
+<div class="codehilite"><pre><span></span><code><span class="nv">str1</span> <span class="o">:</span> <span class="nb">String</span><span class="p">()</span><span class="o">,</span>
+<span class="nv">str2</span> <span class="o">:</span> <span class="nb">String</span><span class="p">(</span><span class="s">&quot;Hello!&quot;</span><span class="p">)</span><span class="o">,</span>
+</code></pre></div>
+
+<h4 id="value-initializers">Value initializers</h4>
+
+<p>string-literal : </p>
+
+<p>Equivalent to String(str).</p>
+
+<p>Example:</p>
+
+<hr />
+
+<p>str3 : “Hello!”</p>
+
+<hr />
+
+<p>set
+(set subj str String())
+(= subj str String())</p>
+
+<p>Assigns the value str to subj.</p>
+
+<p>read
+(read subj)</p>
+
+<p>Reads a string from stdin to subj.</p>
+
+<p>eq
+(eq subj str String())
+(== subj str String())</p>
+
+<p>Compares two strings: subj and str. Returns true if code point sequences in both strings are identical. Otherwise, returns false.</p>
+
+<hr />
+
+<p>Examples</p>
+
+<p>read</p>
+
+<hr />
+
+<p>mainModule: {
+  s : String(),
+  _start : (λ (read s)
+    (textout "The input was:" s))
+}</p>
+
+<hr />
+
+<p>set</p>
+
+<hr />
+
+<p>mainModule: {
+  s : String(),
+  s1 : “Hello, Transd!”,
+  _start : (λ (set s “Hello, world!”)
+    (= s s1))
+}</p>
+
+<hr />
+
+<p>eq</p>
+
+<hr />
+
+<p>mainModule: {
+  s : "Hi!",
+  s1 : “Hello”,
+  _start : (λ (
+  (textout (eq s s1) "\n" 
+    (== s "Hi!")
+   )))
+}</p>
+
+<p>OUTPUT:
+false
+true</p>
+
+<hr />
+
+<h3 id="vector">Vector</h3>
+
+<h3 id="stringstream">StringStream</h3>
+
+<h2 id="built-in-classes">Built-in classes</h2>
+
+<h3 id="directory">Directory</h3>
+
+<h3 id="tsdbase">TSDBase</h3>
+
+<h3 id="filter">Filter</h3>
+
+
+<hr width="100%" style="margin:30px 0 0 0;">
+</div>
+<div id="footer">
+  <p>&copy; Copyright 2021 <a href='&#109;ail&#116;o&#58;alb%65rger&#64;g%6Dai&#108;&#46;&#37;63o&#109;'>Albert Berger</a> &middot; All Rights Reserved</p>
+</div>
+</body>
+</html>
