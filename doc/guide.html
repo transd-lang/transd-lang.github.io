@@ -2,46 +2,51 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta charset="utf-8">
-<title>TransD Programming Language</title>
+<title>TransD Programming Language Reference Manual</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <meta http-equiv="content-language" content="en-US">
 <meta name="language" content="English">
 <meta name="description" content="A fast programming language for building scripts and extensions.">
 <meta name="keywords" content="Transd, programming language, C++">
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<link href="../css/main.css" rel="stylesheet" type="text/css" />
+
 <link href="../css/codehighlight.css" rel="stylesheet" type="text/css" />
 <link href="../css/tsd.css" rel="stylesheet" type="text/css" />
+<style>
+hr.solid {
+  border-top: 1px solid #eee;
+  width: 50%;
+  margin: 40px auto 20px auto;
+  color: #bbb;
+}
+body { font: 1em "Trebuchet MS", Arial, Sans-Serif; color: #444; }
+	h1 { font-size: 3em; font-weight: normal; color: #005b56; font-family: serif;}
+	h1 a { text-decoration: none; }
+	h2 { font-size: 2em; color: #151515; font-weight: normal; margin: 1.5em 1em 1em auto; }
+	h3 { font-size: 1.5em; font-weight: normal; margin: 1.5em 0 .5em; }
+	h4 { font-size: 1.2em; color: #191970; font-weight: normal; margin: 1.2em 0.5em 1.3em; }
+	p  { margin: 0 0 1em 0; line-height: 1.5em; }
+code { text-align: left; font: 1.0em Consolata, Monospace, "Courier New"; padding: 0px;
+		background-color: #fff; line-height: 1.5em; }
+pre { font-size: 1.0em; color: #555; padding: 10px; margin: -5px auto 5px auto;background-color: #fff; line-height: 1.5em;}
+
+</style>
 </head>
 <body>
-<div id="header">
-  <h1>TransD</h1>
-  <ul id="menu">
-    <li><a href="../index.html">home</a></li>
-    <li><a href="../download.html">download</a></li>
-    <li><a href="index.html">documentation</a></li>    
-    <li><a href="../dev.html">development</a></li>
-    <li><a href="../about.html">about</a></li>
-    <li><a href="../contact.html">contact</a></li>
-  </ul>
-</div>
 <div class="wrap">
-<h1 style="margin-top: 20px;">Reference Manual</h1>
-<hr width="100%" style="margin:0 0 35px 0;">
-<p>
-<ul>
-<li><a href="#1-introduction">1. Introduction</a></li>
-<li><a href="#2-getting-started">2. Getting started</a></li>
-<li><a href="#10-glossary">10. Glossary</a></li>
-</ul>
+<hr width="100%" style="margin:5px 0 35px 0;">
+<h1 id="transd-programming-guide" style="margin-bottom: 0;">Transd Programming Guide</h1>
+<p>(Work in progress)</p>
+<hr width="100%" height="1px" style="border-top: 1px solid #bbb;margin:0 0 100px 0;" color="#aaa">
 
-<h2 id="1-introduction">1. Introduction</h2>
+<a id="intro"> </a>
+<h2 id="introduction">Introduction</h2>
 
 <p>Transd has started as a C++ library, that could be included in C++ programs for allowing users to define simple functions which then would be executed by the program. Why there was a need for a new library? Because of two considerations: it had to be compact and portable, and it had to be fast. So it was decided to create a library for this functionality from scratch.</p>
 
-<p>The library was very simple and it's design was based on three basic notions: Expression, Name, and Data. (The first letters of these words form an acronym which was used in the first name of the library: FREND - the library was meant to perform functions of a front end for users' interaction with C++ applications). The library hasn't used just-in-time compilation or any common interpretation technics such as a virtual machine. It employed the idea of a network of finite-automaton-like objects which communicate with each other and perform the needed computation.</p>
+<p>The library was very simple and it's internal design was based on three basic notions: Expression, Name, and Data. (The first letters of these words form an acronym which was used in the first name of the library: FREND - the library was meant to perform functions of a FRont END for users' interaction with C++ applications). The internal workings of the library were based on the idea of a network of finite-automaton-like objects which communicate with each other and perform the needed computation.</p>
 
-<p>The library worked pretty well and showed that the idea of using a computational network for implementation of programming languages could be fruitful. So the library has evolved into a general-purpose multiparadigm programming language, whose name - Transd - again was a reference to the key principles of its implementation's inner workings. (The original "FREND" name hasn't gone though, and has been assigned to the Transd command line interpreter, which can be used for running Transd programs and evaluating Transd expressions on the command line: this interpreter essentially also is a front end.)</p>
+<p>The library worked pretty well and proved that the idea of using a computational network for implementation of programming languages could be fruitful. So the library has evolved into a general-purpose multiparadigm programming language, whose name - Transd - again was a reference to the key principles of its internal design. (The original "FREND" name hasn't gone though, and has been assigned to the Transd command line interpreter, which can be used for running Transd programs and evaluating Transd expressions on the command line: this interpreter essentially also is a front end.)</p>
 
 <p>Transd is statically typed: the type of each object and expression is known on the stage of compilation. This not only helps in increasing performance, but also in writing correct programs by early detecting many errors.</p>
 
@@ -57,11 +62,95 @@
 
 <p>For using Transd as an extension language in a C++ program it's enough to add "transd.hpp" and "transd.cpp" files to the project and have your program communicate with Transd environment via Transd embedding API.</p>
 
-<h2 id="2-getting-started">2. Getting started</h2>
+<hr class="solid">
+<a id="getstarted"> </a>
+<h2 id="getting-started">Getting started</h2>
 
 <p>This chapter begins the description of the language. One might find it useful to work through this and following chapters with a Transd REPL interpreter running in a shell window. The FREND command line interpreter can be obtained <a href="https://github.com/transd-lang/frend">here</a>.</p>
 
-<h2 id="10-glossary">10. Glossary</h2>
+<p>The code examples that consist of a single expression can be run in the interpreter by typing them on the command line and pressing 'Return'. The text in the examples can contain comments, which start with two slashes <code>//</code> and continue until the end of line. The symbol <code>=&gt;</code> within comments precedes the text of the output that the expression in the example produces:</p>
+
+<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="nb">sqrt </span><span class="mi">64</span><span class="p">)</span> <span class="c1">// =&gt; 8</span>
+</code></pre></div>
+
+<p>This means that after executing (evaluating) the <code>(sqrt 64)</code> expression, the intepreter produces <code>8</code> as the value (or result) of this expression.</p>
+
+<p>Another kind of code examples is the text of source files that can be run in the interpreter. These examples begin with the <code>#lang</code> directive line:</p>
+
+<div class="codehilite"><pre><span></span><code><span class="o">#</span><span class="nv">lang</span> <span class="nv">transd</span>
+<span class="nv">MainModule</span> <span class="o">:</span> <span class="p">{</span>
+  <span class="nv">_start</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> <span class="p">(</span><span class="nf">textout</span> <span class="s">&quot;Hello, Transd!&quot;</span><span class="p">))</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>You can run such code examples by first copying the code to a text file and then running it in the interpreter as follows:</p>
+
+<pre><code>/usr/bin/frend /tmp/example.td
+</code></pre>
+
+<p>You need to replace the example file paths above with the actual paths on your machine to the <code>frend</code> interpreter and the source code file.</p>
+
+<h3 id="the-lambda-keyword-and-symbol">The 'lambda' keyword and 'λ' symbol</h3>
+
+<p>Transd has a keyword - <code>lambda</code>, - which has a one-letter alias - the Greek letter <code>λ</code> (called "lambda", Unicode symbol 955 (0x3BB)). The keyword and the alias can be used interchangeably, and for the sake of brevity in this manual the one-letter alias is used. The <code>λ</code> symbol in code examples can be replaced with <code>lambda</code> keyword if the reader prefers so. That is, the line:</p>
+
+<div class="codehilite"><pre><span></span><code>  <span class="nv">_start</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> <span class="p">(</span><span class="nf">textout</span> <span class="s">&quot;Hello, Transd!&quot;</span><span class="p">))</span>
+</code></pre></div>
+
+<p>can be spelled in the source code file as</p>
+
+<div class="codehilite"><pre><span></span><code>  <span class="nv">_start</span><span class="o">:</span> <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">textout</span> <span class="s">&quot;Hello, Transd!&quot;</span><span class="p">))</span>
+</code></pre></div>
+
+<p>For the interpreter these two lines have no difference.</p>
+
+<hr class="solid">
+<a id="forms"> </a>
+<h2 id="forms">Forms</h2>
+
+<p>All computation in Transd is done, just like in other languages, by combining values and producing new values. Such combination of values (or variables) are called expressions. Transd has a universal syntactic construct for all kinds of expressions. This construct is called <em>form</em>. Form is, basically, a list of items, which is enclosed by parentheses for separating it from other forms.</p>
+
+<p>An example of a form, which represent a call of <code>pow</code> function, raising 2 into 4 power:</p>
+
+<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="nf">pow</span> <span class="mi">2</span> <span class="mi">4</span><span class="p">)</span> <span class="c1">// =&gt; 16</span>
+</code></pre></div>
+
+<p>Forms is the general Transd's syntax for expressions. The first item within the form is always the name of the operation or function which is performed or called by this form, and all subsequent items are the arguments to the operation:</p>
+
+<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="nb">+ </span><span class="mi">1</span> <span class="mi">1</span><span class="p">)</span>     <span class="c1">// =&gt; 2</span>
+
+<span class="p">(</span><span class="nb">sqrt </span><span class="mi">16</span><span class="p">)</span>   <span class="c1">// =&gt; 4</span>
+</code></pre></div>
+
+<p>Forms in Transd are evaluated by the language implementation by calling the internal function object, which implements the operation refered in the form, and passing to it the form's arguments. </p>
+
+<p>Form's arguments can themselves be forms, thus making up a <em>nested form</em>:</p>
+
+<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="nb">sqrt </span><span class="p">(</span><span class="nb">* </span><span class="mi">8</span> <span class="mi">2</span><span class="p">))</span>  <span class="c1">// =&gt; 4</span>
+
+<span class="p">(</span><span class="nb">+ </span><span class="p">(</span><span class="nf">pow</span> <span class="mi">3</span> <span class="mi">2</span><span class="p">)</span> <span class="p">(</span><span class="nf">pow</span> <span class="mi">2</span> <span class="mi">4</span><span class="p">))</span> <span class="c1">// =&gt; 25</span>
+</code></pre></div>
+
+<p>Nested forms are evaluated by first evaluating from left to right all the nested arguments, and then passing the results of their evaluation as arguments to the form's operation.</p>
+
+<p>In Transd all arguments to functions are passed by reference. That is, all modifications of function's parameters inside a function will modify the actual arguments that were passed to the function by the caller:</p>
+
+<div class="codehilite"><pre><span></span><code><span class="o">#</span><span class="nv">lang</span> <span class="nv">transd</span>
+
+<span class="nv">MainModule</span><span class="o">:</span> <span class="p">{</span>
+  <span class="nv">func</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> <span class="nv">var</span> <span class="nb">Int</span><span class="p">()</span> <span class="p">(</span><span class="nf">set</span> <span class="nv">var</span> <span class="mi">25</span><span class="p">))</span><span class="o">,</span>
+
+  <span class="nv">_start</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> <span class="p">(</span><span class="nf">with</span> <span class="nv">i</span> <span class="nb">Int</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span> 
+               <span class="p">(</span><span class="nf">textout</span> <span class="nv">i</span><span class="p">)</span>   <span class="c1">// =&gt; 5</span>
+               <span class="p">(</span><span class="nf">func</span> <span class="nv">i</span><span class="p">)</span>
+               <span class="p">(</span><span class="nf">textout</span> <span class="nv">i</span><span class="p">)</span>   <span class="c1">// =&gt; 25</span>
+               <span class="p">))</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<hr class="solid">
+<a id="glossary"> </a>
+<h2 id="glossary">Glossary</h2>
 
 <h4 id="transd">Transd</h4>
 
@@ -79,11 +168,11 @@
 
 <p>A working name for the technology used in Tourbillon compiler for building and running computer programs. The technology works by representing the program source code as a network of finite automata. The advantages of technology are the higher speed of program execution than that of virtual machines, and the absence of necessity to perform just-in-time compilation to machine code.</p>
 
-</p>
-<hr width="100%" style="margin:300px 0 0 0;">
+
+<hr width="100%" style="margin:30px 0 0 0;">
 </div>
 <div id="footer">
-  <p>&copy; Copyright 2020 <a href='&#109;ail&#116;o&#58;alb%65rger&#64;g%6Dai&#108;&#46;&#37;63o&#109;'>Albert Berger</a> &middot; All Rights Reserved</p>
+  <p>&copy; Copyright 2021 <a href='&#109;ail&#116;o&#58;alb%65rger&#64;g%6Dai&#108;&#46;&#37;63o&#109;'>Albert Berger</a> &middot; All Rights Reserved</p>
 </div>
 </body>
 </html>
