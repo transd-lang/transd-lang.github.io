@@ -62,7 +62,7 @@ pre { font-size: 1.0em; color: #555; padding: 10px; margin: -5px auto 15px auto;
 <p>Transd code is organized in modules, containing <code>name: value</code> pairs. One line comments
 start with <code>//</code>.</p>
 
-<div class="codehilite"><pre><span></span><code><span class="o">#</span><span class="nv">lang</span> <span class="nv">transd</span>
+<div class="codehilite"><pre><span></span><code><span class="o">#</span><span class="nv">lang</span> <span class="k">transd</span>
 
 <span class="nv">MainModule</span><span class="o">:</span> <span class="p">{</span>
   <span class="nv">var1</span><span class="o">:</span> <span class="s">&quot;Hello, &quot;</span><span class="o">,</span>
@@ -75,7 +75,7 @@ start with <code>//</code>.</p>
 
 <h3 id="declaring-variables">Declaring variables</h3>
 
-<div class="codehilite"><pre><span></span><code><span class="o">#</span><span class="nv">lang</span> <span class="nv">transd</span>
+<div class="codehilite"><pre><span></span><code><span class="o">#</span><span class="nv">lang</span> <span class="k">transd</span>
 
 <span class="nv">MainModule</span><span class="o">:</span> <span class="p">{</span>
   <span class="nv">a</span><span class="o">:</span> <span class="nb">Int</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">,</span>  <span class="c1">// Module data member</span>
@@ -83,7 +83,7 @@ start with <code>//</code>.</p>
   <span class="nv">_start</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> 
     <span class="nv">b</span> <span class="nb">Int</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>  <span class="c1">// Function local variable</span>
 
-    <span class="p">(</span><span class="k">with </span><span class="nv">b</span> <span class="nb">Int</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="nv">c</span> <span class="nb">Int</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="c1">// Scoped variables</span>
+    <span class="p">(</span><span class="k">with</span> <span class="nv">b</span> <span class="nb">Int</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="nv">c</span> <span class="nb">Int</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="c1">// Scoped variables</span>
       <span class="p">(</span><span class="nf">lout</span> <span class="nv">a</span> <span class="nv">b</span> <span class="nv">c</span><span class="p">))</span> <span class="c1">// =&gt; 134</span>
     <span class="p">)</span>
     <span class="p">(</span><span class="nf">lout</span> <span class="nv">b</span><span class="p">)</span> <span class="c1">// =&gt; 2</span>
@@ -97,22 +97,22 @@ start with <code>//</code>.</p>
 sequence generator, constructed by specifying the start, end and the increment of the
 sequence. <code>Range</code> is used for defining subsequences in containers.</p>
 
-<div class="codehilite"><pre><span></span><code><span class="o">#</span><span class="nv">lang</span> <span class="nv">transd</span>
+<div class="codehilite"><pre><span></span><code><span class="o">#</span><span class="nv">lang</span> <span class="k">transd</span>
 
 <span class="nv">MainModule</span><span class="o">:</span> <span class="p">{</span>
   <span class="nv">vec</span><span class="o">:</span> <span class="p">[</span><span class="mi">0</span><span class="o">,</span><span class="mi">1</span><span class="o">,</span><span class="mi">2</span><span class="o">,</span><span class="mi">3</span><span class="p">]</span><span class="o">,</span>
   <span class="nv">bigVec</span><span class="o">:</span> <span class="p">[</span><span class="mi">10</span><span class="o">,</span><span class="mi">20</span><span class="o">,</span><span class="mi">30</span><span class="o">,</span><span class="mi">40</span><span class="o">,</span><span class="mi">50</span><span class="o">,</span><span class="mi">60</span><span class="o">,</span><span class="mi">70</span><span class="o">,</span><span class="mi">80</span><span class="o">,</span><span class="mi">90</span><span class="o">,</span><span class="mi">100</span><span class="p">]</span><span class="o">,</span>
   <span class="nv">_start</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> 
-    <span class="p">(</span><span class="k">for </span><span class="nv">i</span> <span class="nv">in</span> <span class="nv">vec</span> <span class="nv">do</span>
+    <span class="p">(</span><span class="k">for</span> <span class="nv">i</span> <span class="k">in</span> <span class="nv">vec</span> <span class="k">do</span>
        <span class="p">(</span><span class="nf">textout</span> <span class="nv">i</span> <span class="s">&quot; &quot;</span><span class="p">))</span>
     <span class="p">(</span><span class="nf">textout</span> <span class="o">:</span><span class="nv">nl</span><span class="p">)</span>
-    <span class="p">(</span><span class="k">for </span><span class="nv">i</span> <span class="nv">in</span> <span class="nb">Seq</span><span class="p">(</span><span class="mi">-10</span> <span class="mi">10</span> <span class="mi">2</span><span class="p">)</span> <span class="nv">do</span>
+    <span class="p">(</span><span class="k">for</span> <span class="nv">i</span> <span class="k">in</span> <span class="nb">Seq</span><span class="p">(</span><span class="mi">-10</span> <span class="mi">10</span> <span class="mi">2</span><span class="p">)</span> <span class="k">do</span>
        <span class="p">(</span><span class="nf">textout</span> <span class="nv">i</span> <span class="s">&quot; &quot;</span><span class="p">))</span>
     <span class="p">(</span><span class="nf">textout</span> <span class="o">:</span><span class="nv">nl</span><span class="p">)</span>
-    <span class="p">(</span><span class="k">for </span><span class="nv">i</span> <span class="nv">in</span> <span class="nb">Range</span><span class="p">(</span><span class="nf">in</span><span class="o">:</span> <span class="nv">bigVec</span> <span class="mi">2</span> <span class="mi">-2</span><span class="p">)</span> <span class="nv">do</span>
+    <span class="p">(</span><span class="k">for</span> <span class="nv">i</span> <span class="k">in</span> <span class="nb">Range</span><span class="p">(</span><span class="k">in</span><span class="o">:</span> <span class="nv">bigVec</span> <span class="mi">2</span> <span class="mi">-2</span><span class="p">)</span> <span class="k">do</span>
        <span class="p">(</span><span class="nf">textout</span> <span class="nv">i</span> <span class="s">&quot; &quot;</span> <span class="p">))</span>
     <span class="p">(</span><span class="nf">textout</span> <span class="o">:</span><span class="nv">nl</span><span class="p">)</span>
-    <span class="p">(</span><span class="k">with </span><span class="nv">idx</span> <span class="mi">0</span> <span class="p">(</span><span class="k">while </span><span class="p">(</span><span class="o">&lt;</span> <span class="nv">idx</span> <span class="mi">9</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">with</span> <span class="nv">idx</span> <span class="mi">0</span> <span class="p">(</span><span class="k">while</span> <span class="p">(</span><span class="o">&lt;</span> <span class="nv">idx</span> <span class="mi">9</span><span class="p">)</span>
         <span class="p">(</span><span class="nf">textout</span> <span class="p">(</span><span class="nf">get</span> <span class="nv">bigVec</span> <span class="nv">idx</span><span class="p">)</span> <span class="s">&quot; &quot;</span><span class="p">)</span>
         <span class="p">(</span><span class="nb">+= </span><span class="nv">idx</span> <span class="mi">2</span><span class="p">)</span>
     <span class="p">)))</span>
@@ -133,7 +133,7 @@ sequence. <code>Range</code> is used for defining subsequences in containers.</p
 
 <p>Strings in Transd is a built-in type.</p>
 
-<div class="codehilite"><pre><span></span><code><span class="o">#</span><span class="nv">lang</span> <span class="nv">transd</span>
+<div class="codehilite"><pre><span></span><code><span class="o">#</span><span class="nv">lang</span> <span class="k">transd</span>
 
 <span class="nv">MainModule</span><span class="o">:</span> <span class="p">{</span>
   <span class="nv">str1</span><span class="o">:</span> <span class="nb">String</span><span class="p">(</span><span class="s">&quot;Hello, world!&quot;</span><span class="p">)</span><span class="o">,</span>
@@ -145,7 +145,7 @@ sequence. <code>Range</code> is used for defining subsequences in containers.</p
 <p>Strings in Transd use real Unicode (not UTF-8). You have access to individual characters
 and can use regular expressions on non-English text.</p>
 
-<div class="codehilite"><pre><span></span><code><span class="o">#</span><span class="nv">lang</span> <span class="nv">transd</span>
+<div class="codehilite"><pre><span></span><code><span class="o">#</span><span class="nv">lang</span> <span class="k">transd</span>
 
 <span class="nv">MainModule</span><span class="o">:</span> <span class="p">{</span>
   <span class="nv">s</span><span class="o">:</span> <span class="s">&quot;Миру мир! 和平&quot;</span><span class="o">,</span>
@@ -171,14 +171,14 @@ The task is to read an English dictionary file and find words with the maximum n
 
 <p>Program code:</p>
 
-<div class="codehilite"><pre><span></span><code><span class="o">#</span><span class="nv">lang</span> <span class="nv">transd</span>
+<div class="codehilite"><pre><span></span><code><span class="o">#</span><span class="nv">lang</span> <span class="k">transd</span>
 
 <span class="nv">MainModule</span><span class="o">:</span> <span class="p">{</span>
     <span class="nv">_start</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> 
-        <span class="p">(</span><span class="k">with </span><span class="nv">fs</span> <span class="nb">FileStream</span><span class="p">()</span> <span class="nv">words</span> <span class="nb">String</span><span class="p">()</span>
-            <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nf">eq</span> <span class="nv">@OS_Type</span> <span class="s">&quot;Windows&quot;</span><span class="p">)</span>
+        <span class="p">(</span><span class="k">with</span> <span class="nv">fs</span> <span class="nb">FileStream</span><span class="p">()</span> <span class="nv">words</span> <span class="nb">String</span><span class="p">()</span>
+            <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nf">eq</span> <span class="nv">@OS_Type</span> <span class="s">&quot;Windows&quot;</span><span class="p">)</span>
                 <span class="p">(</span><span class="nf">open</span> <span class="nv">fs</span> <span class="s">&quot;C:\\Users\\al\\Temp\\unixdict.txt&quot;</span><span class="p">)</span>
-            <span class="k">else </span><span class="p">(</span><span class="nf">open</span> <span class="nv">fs</span> <span class="s">&quot;/mnt/vault/tmp/unixdict.txt&quot;</span><span class="p">)</span> <span class="p">)</span>
+            <span class="k">else</span> <span class="p">(</span><span class="nf">open</span> <span class="nv">fs</span> <span class="s">&quot;/mnt/vault/tmp/unixdict.txt&quot;</span><span class="p">)</span> <span class="p">)</span>
             <span class="p">(</span><span class="nf">textin</span> <span class="nv">words</span> <span class="nv">fs</span><span class="p">)</span>
         <span class="p">(</span><span class="nf">textout</span> 
             <span class="p">(</span><span class="nf">snd</span> <span class="p">(</span><span class="nf">max-element</span>
@@ -237,7 +237,7 @@ ULong  Unsigned    8 bytes
 
 <p>The task is to select from a table with employees' data the two persons with the highest salary for each department.</p>
 
-<div class="codehilite"><pre><span></span><code><span class="o">#</span><span class="nv">lang</span> <span class="nv">transd</span>
+<div class="codehilite"><pre><span></span><code><span class="o">#</span><span class="nv">lang</span> <span class="k">transd</span>
 
 
 <span class="nv">MainModule</span><span class="o">:</span> <span class="p">{</span>
@@ -258,17 +258,17 @@ ULong  Unsigned    8 bytes
 <span class="s">&quot;Timothy Grove&quot;</span><span class="o">,</span>    <span class="s">&quot;E16398&quot;</span><span class="o">,</span><span class="mi">29900</span><span class="o">,</span><span class="s">&quot;D190&quot;</span><span class="o">`</span><span class="p">)</span><span class="o">,</span>
 
     <span class="nv">N</span><span class="o">:</span> <span class="mi">2</span><span class="o">,</span>
-    <span class="nv">_start</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> <span class="p">(</span><span class="k">with </span><span class="nv">base</span> <span class="nv">TSDBase</span><span class="p">()</span>
+    <span class="nv">_start</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> <span class="p">(</span><span class="k">with</span> <span class="nv">base</span> <span class="nv">TSDBase</span><span class="p">()</span>
         <span class="p">(</span><span class="nf">load-table</span> <span class="nv">base</span> <span class="nv">tbl</span><span class="p">)</span>
         <span class="p">(</span><span class="nf">build-index</span> <span class="nv">base</span> <span class="s">&quot;Department&quot;</span><span class="p">)</span>
-        <span class="p">(</span><span class="k">with </span><span class="nv">rows</span> <span class="p">(</span><span class="nf">tsd-query</span> <span class="nv">base</span> <span class="nv">select</span><span class="o">:</span> <span class="p">[</span><span class="s">&quot;Department&quot;</span><span class="p">]</span> 
+        <span class="p">(</span><span class="k">with</span> <span class="nv">rows</span> <span class="p">(</span><span class="nf">tsd-query</span> <span class="nv">base</span> <span class="nv">select</span><span class="o">:</span> <span class="p">[</span><span class="s">&quot;Department&quot;</span><span class="p">]</span> 
             <span class="nv">as</span><span class="o">:</span> <span class="p">[[</span><span class="nb">String</span><span class="p">()]]</span> <span class="o">:</span><span class="nv">distinct</span> <span class="nv">sortby</span><span class="o">:</span> <span class="s">&quot;Department&quot;</span> <span class="p">)</span>
-            <span class="p">(</span><span class="k">for </span><span class="nv">row</span> <span class="nv">in</span> <span class="nv">rows</span> <span class="nv">do</span>
-                <span class="p">(</span><span class="k">with </span><span class="nv">recs</span> <span class="p">(</span><span class="nf">tsd-query</span> <span class="nv">base</span> <span class="nv">select</span><span class="o">:</span> <span class="nv">all</span> 
+            <span class="p">(</span><span class="k">for</span> <span class="nv">row</span> <span class="k">in</span> <span class="nv">rows</span> <span class="k">do</span>
+                <span class="p">(</span><span class="k">with</span> <span class="nv">recs</span> <span class="p">(</span><span class="nf">tsd-query</span> <span class="nv">base</span> <span class="nv">select</span><span class="o">:</span> <span class="nv">all</span> 
             <span class="nv">as</span><span class="o">:</span> <span class="p">[[</span><span class="nb">String</span><span class="p">()</span><span class="o">,</span> <span class="nb">String</span><span class="p">()</span><span class="o">,</span> <span class="nb">Int</span><span class="p">()</span><span class="o">,</span> <span class="nb">String</span><span class="p">()]]</span>
-    <span class="nv">where</span><span class="o">:</span> <span class="p">(</span><span class="k">lambda </span><span class="nv">Department</span> <span class="nb">String</span><span class="p">()</span> <span class="p">(</span><span class="nf">eq</span> <span class="nv">Department</span> <span class="p">(</span><span class="nf">get</span> <span class="nv">row</span> <span class="mi">0</span><span class="p">)))</span> 
+    <span class="nv">where</span><span class="o">:</span> <span class="p">(</span><span class="k">lambda</span> <span class="nv">Department</span> <span class="nb">String</span><span class="p">()</span> <span class="p">(</span><span class="nf">eq</span> <span class="nv">Department</span> <span class="p">(</span><span class="nf">get</span> <span class="nv">row</span> <span class="mi">0</span><span class="p">)))</span> 
                     <span class="nv">sortby</span><span class="o">:</span> <span class="s">&quot;Salary&quot;</span> <span class="o">:</span><span class="nv">desc</span> <span class="nv">limit</span><span class="o">:</span> <span class="nv">N</span><span class="p">)</span>
-                <span class="p">(</span><span class="k">for </span><span class="nv">rec</span> <span class="nv">in</span> <span class="nv">recs</span> <span class="k">do </span><span class="p">(</span><span class="nf">textout</span> <span class="nv">rec</span> <span class="s">&quot;\n&quot;</span><span class="p">))</span>
+                <span class="p">(</span><span class="k">for</span> <span class="nv">rec</span> <span class="k">in</span> <span class="nv">recs</span> <span class="k">do</span> <span class="p">(</span><span class="nf">textout</span> <span class="nv">rec</span> <span class="s">&quot;\n&quot;</span><span class="p">))</span>
         <span class="p">)))</span>
     <span class="p">))</span>
 <span class="p">}</span>
