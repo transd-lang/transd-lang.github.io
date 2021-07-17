@@ -231,6 +231,79 @@ ULong  Unsigned    8 bytes
 <a id="data"> </a>
 <h2 id="data">Data</h2>
 
+<h3 id="top-rank-per-group">Top rank per group</h3>
+
+<p>An implementation of Rosettacode's task <a href="http://rosettacode.org/wiki/Top_rank_per_group">"Top rank per group"</a>.</p>
+
+<p>The task is to select from a table with employees' data the two persons with the highest salary for each department.</p>
+
+<div class="codehilite"><pre><span></span><code><span class="o">#</span><span class="nv">lang</span> <span class="nv">transd</span>
+
+
+<span class="nv">MainModule</span><span class="o">:</span> <span class="p">{</span>
+    <span class="nv">tbl</span> <span class="o">:</span> <span class="nb">String</span><span class="p">(</span> 
+<span class="o">`</span><span class="nv">EmployeeName</span><span class="o">,@</span><span class="nv">key_EmployeeID</span><span class="o">,</span><span class="nv">Salary</span><span class="o">,</span><span class="nv">Department</span>
+<span class="s">&quot;Tyler Bennett&quot;</span><span class="o">,</span>    <span class="s">&quot;E10297&quot;</span><span class="o">,</span><span class="mi">32000</span><span class="o">,</span><span class="s">&quot;D101&quot;</span>
+<span class="s">&quot;John Rappl&quot;</span><span class="o">,</span>           <span class="s">&quot;E21437&quot;</span><span class="o">,</span><span class="mi">47000</span><span class="o">,</span><span class="s">&quot;D050&quot;</span>
+<span class="s">&quot;George Woltman&quot;</span><span class="o">,</span>   <span class="s">&quot;E00127&quot;</span><span class="o">,</span><span class="mi">53500</span><span class="o">,</span><span class="s">&quot;D101&quot;</span>
+<span class="s">&quot;Adam Smith&quot;</span><span class="o">,</span>           <span class="s">&quot;E63535&quot;</span><span class="o">,</span><span class="mi">18000</span><span class="o">,</span><span class="s">&quot;D202&quot;</span>
+<span class="s">&quot;Claire Buckman&quot;</span><span class="o">,</span>   <span class="s">&quot;E39876&quot;</span><span class="o">,</span><span class="mi">27800</span><span class="o">,</span><span class="s">&quot;D202&quot;</span>
+<span class="s">&quot;David McClellan&quot;</span><span class="o">,</span><span class="s">&quot;E04242&quot;</span><span class="o">,</span><span class="mi">41500</span><span class="o">,</span><span class="s">&quot;D101&quot;</span>
+<span class="s">&quot;Rich Holcomb&quot;</span><span class="o">,</span>     <span class="s">&quot;E01234&quot;</span><span class="o">,</span><span class="mi">49500</span><span class="o">,</span><span class="s">&quot;D202&quot;</span>
+<span class="s">&quot;Nathan Adams&quot;</span><span class="o">,</span>     <span class="s">&quot;E41298&quot;</span><span class="o">,</span><span class="mi">21900</span><span class="o">,</span><span class="s">&quot;D050&quot;</span>
+<span class="s">&quot;Richard Potter&quot;</span><span class="o">,</span>   <span class="s">&quot;E43128&quot;</span><span class="o">,</span><span class="mi">15900</span><span class="o">,</span><span class="s">&quot;D101&quot;</span>
+<span class="s">&quot;David Motsinger&quot;</span><span class="o">,</span><span class="s">&quot;E27002&quot;</span><span class="o">,</span><span class="mi">19250</span><span class="o">,</span><span class="s">&quot;D202&quot;</span>
+<span class="s">&quot;Tim Sampair&quot;</span><span class="o">,</span>      <span class="s">&quot;E03033&quot;</span><span class="o">,</span><span class="mi">27000</span><span class="o">,</span><span class="s">&quot;D101&quot;</span>
+<span class="s">&quot;Kim Arlich&quot;</span><span class="o">,</span>           <span class="s">&quot;E10001&quot;</span><span class="o">,</span><span class="mi">57000</span><span class="o">,</span><span class="s">&quot;D190&quot;</span>
+<span class="s">&quot;Timothy Grove&quot;</span><span class="o">,</span>    <span class="s">&quot;E16398&quot;</span><span class="o">,</span><span class="mi">29900</span><span class="o">,</span><span class="s">&quot;D190&quot;</span><span class="o">`</span><span class="p">)</span><span class="o">,</span>
+
+    <span class="nv">N</span><span class="o">:</span> <span class="mi">2</span><span class="o">,</span>
+    <span class="nv">_start</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> <span class="p">(</span><span class="k">with </span><span class="nv">base</span> <span class="nv">TSDBase</span><span class="p">()</span>
+        <span class="p">(</span><span class="nf">load-table</span> <span class="nv">base</span> <span class="nv">tbl</span><span class="p">)</span>
+        <span class="p">(</span><span class="nf">build-index</span> <span class="nv">base</span> <span class="s">&quot;Department&quot;</span><span class="p">)</span>
+        <span class="p">(</span><span class="k">with </span><span class="nv">rows</span> <span class="p">(</span><span class="nf">tsd-query</span> <span class="nv">base</span> <span class="nv">select</span><span class="o">:</span> <span class="p">[</span><span class="s">&quot;Department&quot;</span><span class="p">]</span> 
+            <span class="nv">as</span><span class="o">:</span> <span class="p">[[</span><span class="nb">String</span><span class="p">()]]</span> <span class="o">:</span><span class="nv">distinct</span> <span class="nv">sortby</span><span class="o">:</span> <span class="s">&quot;Department&quot;</span> <span class="p">)</span>
+            <span class="p">(</span><span class="k">for </span><span class="nv">row</span> <span class="nv">in</span> <span class="nv">rows</span> <span class="nv">do</span>
+                <span class="p">(</span><span class="k">with </span><span class="nv">recs</span> <span class="p">(</span><span class="nf">tsd-query</span> <span class="nv">base</span> <span class="nv">select</span><span class="o">:</span> <span class="nv">all</span> 
+            <span class="nv">as</span><span class="o">:</span> <span class="p">[[</span><span class="nb">String</span><span class="p">()</span><span class="o">,</span> <span class="nb">String</span><span class="p">()</span><span class="o">,</span> <span class="nb">Int</span><span class="p">()</span><span class="o">,</span> <span class="nb">String</span><span class="p">()]]</span>
+    <span class="nv">where</span><span class="o">:</span> <span class="p">(</span><span class="k">lambda </span><span class="nv">Department</span> <span class="nb">String</span><span class="p">()</span> <span class="p">(</span><span class="nf">eq</span> <span class="nv">Department</span> <span class="p">(</span><span class="nf">get</span> <span class="nv">row</span> <span class="mi">0</span><span class="p">)))</span> 
+                    <span class="nv">sortby</span><span class="o">:</span> <span class="s">&quot;Salary&quot;</span> <span class="o">:</span><span class="nv">desc</span> <span class="nv">limit</span><span class="o">:</span> <span class="nv">N</span><span class="p">)</span>
+                <span class="p">(</span><span class="k">for </span><span class="nv">rec</span> <span class="nv">in</span> <span class="nv">recs</span> <span class="k">do </span><span class="p">(</span><span class="nf">textout</span> <span class="nv">rec</span> <span class="s">&quot;\n&quot;</span><span class="p">))</span>
+        <span class="p">)))</span>
+    <span class="p">))</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Output:</p>
+
+<pre><code>UT[D050, E21437, John Rappl, 47000]
+UT[D050, E41298, Nathan Adams, 21900]
+UT[D101, E00127, George Woltman, 53500]
+UT[D101, E04242, David McClellan, 41500]
+UT[D190, E10001, Kim Arlich, 57000]
+UT[D190, E16398, Timothy Grove, 29900]
+UT[D202, E01234, Rich Holcomb, 49500]
+UT[D202, E39876, Claire Buckman, 27800]
+</code></pre>
+
+<p>Code description:</p>
+
+<ol>
+<li>Define a string - <code>tbl</code>, - containing the whole data table. In the beginning of the table we add a row, containing the field names.</li>
+<li>Declare a variable 'base' of a built-in <code>TSDBase</code> type. An object of this type works like a simple database and allows to process tables with data in a database fashion.</li>
+<li><p>Load the employee table into the 'base' object.</p>
+
+<p>First, we make the sorted list of all distinct departments in the table.</p></li>
+<li><p>Build the index for "Department" field.</p></li>
+<li><p>Make a query to database to select all distinct departments and store the result into the 'rows' object.</p>
+
+<p>Next, we iterate the list of departemnts and make a query for each department which returns a vector with two records for two employees with top salaries for this department.</p></li>
+<li><p>For each item in the department list make a query and store the results in the 'recs' object.</p></li>
+<li>Print out the items from the 'recs' object. These items are vectors containing the fields from the employee record.</li>
+</ol>
+
+<p>In the output, the <code>UT</code> mark before each vector means that this vector is untyped, that is its elements are not neccessarily of the same type (the employees' records contain two different types of data: strings and numbers).</p>
+
 
 <hr width="100%" style="margin:30px 0 0 0;">
 </div>
