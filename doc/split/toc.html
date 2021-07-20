@@ -8,8 +8,10 @@
 	#header .right { float: right; margin: 0 55px 0 0; }
 	#header a { color: #808080; font-weight: bold; }
 </style>
+<link href="res/stylestoc.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
+
 <div id="header">
 <h1 style="margin-top: 0px;"><a href="../index.html" 
 style="text-decoration: none; color: #3dd" target=_top
@@ -19,7 +21,7 @@ style="text-decoration: none; color: #3dd" target=_top
 
 <h3>Contents</h3>
 <ul style="padding-left: 20px; margin-top: 0px; line-height: 1.5em">
-<li><a href="../refman.html#intro" target="contwnd">1. Introduction</a></li>
+<li><a href="../refman.html#transd-programming-language" target="contwnd">1. Introduction</a></li>
 <li><a href="../refman.html#lexical-conventions" target="contwnd">2. Lexical conventions</a></li>
 <li><a href="../refman.html#source-files" target="contwnd">3. Source files</a></li>
 <li><a href="../refman.html#modules" target="contwnd">4. Modules</a></li>
@@ -28,8 +30,23 @@ style="text-decoration: none; color: #3dd" target=_top
 <li><a href="../refman.html#forms" target="contwnd">7. Forms</a></li>
 <li><a href="../refman.html#functions" target="contwnd">8. Functions</a></li>
 <li><a href="../refman.html#classes" target="contwnd">9. Classes</a></li>
-<li><a href="../refman.html#built-in-types" target="contwnd">10. Built-in types</a></li>
+<li><button onclick='toggleSubTree(this)'>-</button><a href="../refman.html#type-system" target="contwnd">10. Types</a></li>
+<ul class='subtree'>
+<li class='leaf'><a href="../refman.html#bool" target="contwnd">Bool</a></li>
+<li class='leaf'><a href="../refman.html#byte" target="contwnd">Byte</a></li>
+<li class='leaf'><a href="../refman.html#char" target="contwnd">Char</a></li>
+<li class='leaf'><a href="../refman.html#integral-numeric-types" target="contwnd">Integral numeric</a></li>
+<li class='leaf'><a href="../refman.html#double" target="contwnd">Double</a></li>
+<li><button onclick='toggleSubTree(this)'>-</button><a href="../refman.html#string" target="contwnd">String</a></li>
+<ul class='subtree'>
+<li class='leaf'><a href="../refman.html#string-constructors" target="contwnd">Constructors</a></li>
+<li class='leaf'><a href="../refman.html#string-methods" target="contwnd">Methods</a></li>
+<li class='leaf'><a href="../refman.html#string-examples" target="contwnd">Examples</a></li>
+</ul>
+</ul>
 </ul>
 <hr width="100%" style="margin:300px 0 0 0;">
+
+<script src='res/scripttoc.js'></script>
 </body>
 </html>

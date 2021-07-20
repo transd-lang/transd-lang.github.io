@@ -13,46 +13,48 @@
 <link href="../css/codehighlight.css" rel="stylesheet" type="text/css" />
 <link href="../css/tsd.css" rel="stylesheet" type="text/css" />
 <style>
-hr.solid {
+hr {
   border-top: 1px solid #eee;
   width: 50%;
   margin: 40px auto 20px auto;
   color: #bbb;
 }
 body { font: 1em "Trebuchet MS", Arial, Sans-Serif; color: #444; }
-	h1 { font-size: 3em; font-weight: normal; color: #005b56; font-family: serif;}
+	h1 { font-size: 2.5em; font-weight: normal; color: #151515;}
 	h1 a { text-decoration: none; }
 	h2 { font-size: 2em; color: #151515; font-weight: normal; margin: 1.5em 1em 1em auto; }
 	h3 { font-size: 1.5em; font-weight: normal; margin: 1.5em 0 .5em; }
 	h4 { font-size: 1.2em; color: #191970; font-weight: normal; margin: 1.2em 0.5em 1.3em; }
 	p  { margin: 0 0 1em 0; line-height: 1.5em; }
 code { text-align: left; font: 1.0em Consolata, Monospace, "Courier New"; padding: 0px;
-		background-color: #fff; line-height: 1.5em; }
-pre { font-size: 1.0em; color: #555; padding: 10px; margin: -5px auto 5px auto;background-color: #fff; line-height: 1.5em;}
+		background-color: #e8e8e8; line-height: 1.5em; }
+pre { font-size: 1.0em; color: #555; padding: 10px; margin: -5px auto 15px auto;background-color: #e8e8e8; line-height: 1.5em;}
 
 </style>
 </head>
 <body>
 <div class="wrap">
 <hr width="100%" style="margin:5px 0 35px 0;">
-<h1 id="transd-reference-manual" style="margin-bottom: 0;">Transd Reference Manual</h1>
+<h1 id="transd-reference-manual" style="margin-bottom: 0;
+font-size: 3em; font-weight: normal; color: #005b56; font-family: serif;">Transd Reference Manual</h1>
 <p>(Work in progress)</p>
 <hr width="100%" height="1px" style="border-top: 1px solid #bbb;margin:0 0 100px 0;" color="#aaa">
 
-<a id="intro"> </a>
+<h1 id="transd-programming-language">Transd programming language</h1>
+
 <p>Transd is a general purpose programming language, statically typed, multi-paradigm, with meta-compilation execution model. Its defining features are its novel execution model, which doesn't require the compilation to machine code, but at the same time is considerably faster than traditional interpretation technics, and, secondly, the ultimate compactness of implementation, which makes it an ideal choice for embeddable or extension language.</p>
 
-<hr class="solid">
-<a id="lexical-conventions"> </a>
-<h2 id="lexical-conventions">Lexical conventions</h2>
+<p><br><br></p>
+
+<h1 id="lexical-conventions">Lexical conventions</h1>
 
 <p>Transd source files are encoded in UTF-8. Upper and lower character cases are distinguished.</p>
 
 <p>Source files can contain comments, which can be marked by one of two ways: </p>
 
 <ol>
-<li>Character sequence <code>//</code> (slash slash) anywhere on a line marks the start of a comment which extends to the end of the line.</li>
-<li>Character sequence <code>/*</code> (slash asterisk) marks the start of a comment which extends to the nearest character sequence “*/” (asterisk slash). All characters between two slashes included are replaced with one whitespace character. (For example, a sequence <code>A/*B, B*/A</code> will be treated as <code>A A</code>.</li>
+<li>Character sequence <code>//</code> (slash, slash) anywhere on a line marks the start of a comment which extends to the end of the line.</li>
+<li>Character sequence <code>/*</code> (slash, asterisk) marks the start of a comment which extends to the nearest character sequence <code>*/</code> (asterisk, slash). All characters between two slashes included are replaced with one whitespace character. (For example, a sequence <code>A/*B, B*/A</code> will be treated as <code>A A</code>.</li>
 </ol>
 
 <p>Identifiers in Transd can be any string of letters, digits, and underscores, not beginning with a digit. Letter is any symbol considered alphabetic under the current locale.</p>
@@ -73,17 +75,19 @@ pre { font-size: 1.0em; color: #555; padding: 10px; margin: -5px auto 5px auto;b
     field := NAME ":" (type_constructor | value_initializer)
 </code></pre>
 
-<hr class="solid">
-<a id="source-files"> </a>
 <h2 id="source-files">Source files</h2>
 
 <p>Transd program are defined in one or more source files. Source files should be in UTF-8 encoding. The program code in a source file should be placed after the Transd code marker:</p>
 
 <p><code>#lang transd</code></p>
 
-<hr class="solid">
-<a id="modules"> </a>
-<h2 id="modules">Modules</h2>
+<p><br></p>
+
+<hr />
+
+<p><br></p>
+
+<h1 id="modules">Modules</h1>
 
 <p>The top syntax unit in Transd is a module. A Transd program consists of one or more modules. Module is an arbitrary block of grouped together functions and data variables, which are called <em>module members</em>. All module members within one module are visible and accessible to each other. </p>
 
@@ -99,27 +103,29 @@ pre { font-size: 1.0em; color: #555; padding: 10px; margin: -5px auto 5px auto;b
 
 <div class="codehilite"><pre><span></span><code><span class="nv">MainModule</span> <span class="o">:</span> <span class="p">{</span>
   <span class="nv">s</span> <span class="o">:</span> <span class="s">&quot;Hello, world!&quot;</span><span class="o">,</span>
-  <span class="nv">_start</span> <span class="o">:</span> <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">textout</span> <span class="nv">s</span><span class="p">))</span>
+  <span class="nv">_start</span> <span class="o">:</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">textout</span> <span class="nv">s</span><span class="p">))</span>
 <span class="p">}</span>
 </code></pre></div>
 
-<hr class="solid">
-<a id="general-syntax"> </a>
 <h2 id="general-syntax">General syntax</h2>
 
 <p>All the code in a Transd program is organized into modules. Modules have a very simple structure: a module is, basically, a comma separated list of module members. The syntax of module members definition is simple as well: every member is defined in the form of a name/value pair:</p>
 
 <div class="codehilite"><pre><span></span><code><span class="nv">Module1</span><span class="o">:</span> <span class="p">{</span>
   <span class="nv">var1</span><span class="o">:</span> <span class="mi">5</span><span class="o">,</span>
-  <span class="nv">func1</span><span class="o">:</span> <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">textout</span> <span class="nv">var1</span><span class="p">))</span>
+  <span class="nv">func1</span><span class="o">:</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">textout</span> <span class="nv">var1</span><span class="p">))</span>
 <span class="p">}</span>
 </code></pre></div>
 
 <p>Module members are of two kinds: <em>data members</em> and <em>function members</em>, which are often called <em>fields</em> and <em>methods</em> respectively. </p>
 
-<hr class="solid">
-<a id="variables"> </a>
-<h2 id="variables">Variables</h2>
+<p><br></p>
+
+<hr />
+
+<p><br></p>
+
+<h1 id="variables">Variables</h1>
 
 <p>A variable in Transd is a named reference to an object in memory. When a variable is declared, it receives a type, and it can only refer to objects of that type.</p>
 
@@ -130,9 +136,9 @@ pre { font-size: 1.0em; color: #555; padding: 10px; margin: -5px auto 5px auto;b
 <li>Function local (<em>scoped</em>) variables.</li>
 </ol>
 
-<h3 id="module-fields">Module fields</h3>
+<h2 id="module-fields">Module fields</h2>
 
-<h4 id="declaration">Declaration</h4>
+<h3 id="declaration">Declaration</h3>
 
 <p>Module fields are declared as a part of module definition:</p>
 
@@ -170,40 +176,48 @@ pre { font-size: 1.0em; color: #555; padding: 10px; margin: -5px auto 5px auto;b
 <span class="p">}</span>
 </code></pre></div>
 
-<h4 id="visibility-and-access">Visibility and access</h4>
+<h3 id="visibility-and-access">Visibility and access</h3>
 
 <p>Module fields by default are only visible within the module in which the field is defined. For allowing access to a field from other modules, that field must be declared as public.</p>
 
-<h4 id="life-time">Life time</h4>
+<h3 id="life-time">Life time</h3>
 
-<h3 id="local-variables">Local variables</h3>
+<h2 id="local-variables">Local variables</h2>
 
 <p>Local variables in functions are introduced with the <code>(with ...)</code> construction. They
 are only visible inside that construction.</p>
 
 <p>Example:</p>
 
-<div class="codehilite"><pre><span></span><code><span class="nv">someFunc</span> <span class="o">:</span> <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">with</span> <span class="nv">a</span> <span class="mi">1</span> <span class="nv">b</span> <span class="mi">2</span> <span class="p">(</span><span class="nf">textout</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">a</span> <span class="nv">b</span><span class="p">))))</span> <span class="c1">// outputs &quot;3&quot;</span>
+<div class="codehilite"><pre><span></span><code><span class="nv">someFunc</span> <span class="o">:</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="k">with</span> <span class="nv">a</span> <span class="mi">1</span> <span class="nv">b</span> <span class="mi">2</span> <span class="p">(</span><span class="nf">textout</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">a</span> <span class="nv">b</span><span class="p">))))</span> <span class="c1">// outputs &quot;3&quot;</span>
 </code></pre></div>
 
-<hr class="solid">
-<a id="forms"> </a>
-<h2 id="forms">Forms</h2>
+<p><br></p>
+
+<hr />
+
+<p><br></p>
+
+<h1 id="forms">Forms</h1>
 
 <p>An expression is a piece of code which can be evaluated as a single whole and whose data value can be obtained. Expressions consist of expression members called <em>constituents</em>. All expressions in Transd are enclosed in parentheses and have a similar structure resembling a function call: the first constituent always names the operation performed by the expression, and the remaining constituents are parameters to that operation. Such parenthesized  construction in Transd is called <em>form</em>. The first constituent of a form is called the form's <em>subject</em>. Forms can contain other forms as constituents.</p>
 
 <p>Examples of forms:</p>
 
 <div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="nb">+ </span><span class="mi">1</span> <span class="mi">1</span><span class="p">)</span>
-<span class="p">(</span><span class="o">==</span> <span class="p">(</span><span class="nb">+ </span><span class="mi">3</span> <span class="mi">5</span><span class="p">)</span> <span class="p">(</span><span class="nb">* </span><span class="mi">2</span> <span class="mi">4</span><span class="p">))</span>
+<span class="p">(</span><span class="nb">== </span><span class="p">(</span><span class="nb">+ </span><span class="mi">3</span> <span class="mi">5</span><span class="p">)</span> <span class="p">(</span><span class="nb">* </span><span class="mi">2</span> <span class="mi">4</span><span class="p">))</span>
 <span class="p">(</span><span class="nf">computeDistance</span> <span class="nv">Point</span><span class="p">(</span><span class="mi">2</span> <span class="mi">3</span><span class="p">)</span> <span class="nv">Point</span><span class="p">(</span><span class="mi">4</span> <span class="mi">5</span><span class="p">))</span>
 <span class="p">(</span><span class="nf">textout</span> <span class="s">&quot;five plus three equals&quot;</span> <span class="p">(</span><span class="nb">+ </span><span class="mi">5</span> <span class="mi">3</span><span class="p">))</span>
-<span class="p">(</span><span class="nb">sqrt </span><span class="p">(</span><span class="nb">+ </span><span class="p">(</span><span class="nf">pow</span> <span class="p">(</span><span class="nb">- </span><span class="nv">x1</span> <span class="nv">x2</span><span class="p">)</span> <span class="mi">2</span> <span class="p">)</span> <span class="p">(</span><span class="nf">pow</span> <span class="p">(</span><span class="nb">- </span><span class="nv">y1</span> <span class="nv">y2</span><span class="p">)</span> <span class="mi">2</span> <span class="p">)</span> <span class="p">)</span>
+<span class="p">(</span><span class="nf">sqrt</span> <span class="p">(</span><span class="nb">+ </span><span class="p">(</span><span class="nf">pow</span> <span class="p">(</span><span class="nb">- </span><span class="nv">x1</span> <span class="nv">x2</span><span class="p">)</span> <span class="mi">2</span> <span class="p">)</span> <span class="p">(</span><span class="nf">pow</span> <span class="p">(</span><span class="nb">- </span><span class="nv">y1</span> <span class="nv">y2</span><span class="p">)</span> <span class="mi">2</span> <span class="p">)</span> <span class="p">)</span>
 </code></pre></div>
 
-<hr class="solid">
-<a id="functions"> </a>
-<h2 id="functions">Functions</h2>
+<p><br></p>
+
+<hr />
+
+<p><br></p>
+
+<h1 id="functions">Functions</h1>
 
 <p>Forms are syntactical constructs for function objects. For simplicity, we will refer as function to any object that can be invoked (called) with or without arguments, in order to obtain some value from that object or to have it to perform some action. </p>
 
@@ -211,7 +225,7 @@ are only visible inside that construction.</p>
 
 <p>These two function definitions are equivalent:</p>
 
-<div class="codehilite"><pre><span></span><code><span class="nv">func1</span><span class="o">:</span> <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">textout</span> <span class="s">&quot;Hello, world!&quot;</span><span class="p">))</span><span class="o">,</span>
+<div class="codehilite"><pre><span></span><code><span class="nv">func1</span><span class="o">:</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">textout</span> <span class="s">&quot;Hello, world!&quot;</span><span class="p">))</span><span class="o">,</span>
 
 <span class="nv">func2</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> <span class="p">(</span><span class="nf">textout</span> <span class="s">&quot;Hello, world!&quot;</span><span class="p">))</span>
 </code></pre></div>
@@ -226,7 +240,7 @@ are only visible inside that construction.</p>
 
 <p>A method call is an invocation of a member function of some object:</p>
 
-<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="nb">append </span><span class="nv">vec1</span> <span class="mi">25</span><span class="p">)</span> <span class="c1">// append an integer &#39;25&#39; to the end of &#39;vec1&#39; vector object</span>
+<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="nf">append</span> <span class="nv">vec1</span> <span class="mi">25</span><span class="p">)</span> <span class="c1">// append an integer &#39;25&#39; to the end of &#39;vec1&#39; vector object</span>
 <span class="p">(</span><span class="nb">+ </span><span class="mi">5</span> <span class="mi">7</span><span class="p">)</span> <span class="c1">// add 7 to 5</span>
 </code></pre></div>
 
@@ -240,15 +254,19 @@ are only visible inside that construction.</p>
 <p>A routine call is an invocation of a function that is not a member of some class:</p>
 
 <div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="nf">textout</span> <span class="s">&quot;5 + 7 = &quot;</span> <span class="p">(</span><span class="nb">+ </span><span class="mi">5</span> <span class="mi">7</span><span class="p">))</span> <span class="c1">// outputs: &quot;5 + 7 = 12&quot;</span>
-<span class="p">(</span><span class="nf">textout</span> <span class="mi">5</span> <span class="s">&quot; plus &quot;</span> <span class="mi">7</span> <span class="s">&quot; equals &quot;</span> <span class="p">(</span><span class="nb">sqrt </span><span class="mi">144</span><span class="p">))</span> 
+<span class="p">(</span><span class="nf">textout</span> <span class="mi">5</span> <span class="s">&quot; plus &quot;</span> <span class="mi">7</span> <span class="s">&quot; equals &quot;</span> <span class="p">(</span><span class="nf">sqrt</span> <span class="mi">144</span><span class="p">))</span> 
 <span class="c1">// outputs: &quot;5 plus 7 equals 12&quot;</span>
 </code></pre></div>
 
 <p>Routines are not associated to some object and don't have a subject in their call syntax.</p>
 
-<hr class="solid">
-<a id="classes"> </a>
-<h2 id="classes">Classes</h2>
+<p><br></p>
+
+<hr />
+
+<p><br></p>
+
+<h1 id="classes">Classes</h1>
 
 <p><em>Classes</em> are templates for creating objects. A template is a list of data variables, which represent some kind of things, for example a database record storing information about an employee:</p>
 
@@ -266,7 +284,7 @@ are only visible inside that construction.</p>
   <span class="nv">x</span><span class="o">:</span> <span class="nv">Double</span><span class="p">()</span><span class="o">,</span>
   <span class="nv">y</span><span class="o">:</span> <span class="nv">Double</span><span class="p">()</span><span class="o">,</span>
   <span class="nv">distance</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> <span class="nv">pt</span> <span class="nv">Point</span><span class="p">()</span>
-               <span class="p">(</span><span class="nb">sqrt </span><span class="p">(</span><span class="nb">+ </span><span class="p">(</span><span class="nf">pow</span> <span class="p">(</span><span class="nb">- </span><span class="nv">x</span> <span class="nv">pt</span><span class="o">.</span><span class="nv">x</span><span class="p">)</span> <span class="mi">2</span><span class="p">)</span> <span class="p">(</span><span class="nf">pow</span> <span class="p">(</span><span class="nb">- </span><span class="nv">y</span> <span class="nv">pt</span><span class="o">.</span><span class="nv">y</span><span class="p">)</span> <span class="mi">2</span><span class="p">))))</span>
+               <span class="p">(</span><span class="nf">sqrt</span> <span class="p">(</span><span class="nb">+ </span><span class="p">(</span><span class="nf">pow</span> <span class="p">(</span><span class="nb">- </span><span class="nv">x</span> <span class="nv">pt</span><span class="o">.</span><span class="nv">x</span><span class="p">)</span> <span class="mi">2</span><span class="p">)</span> <span class="p">(</span><span class="nf">pow</span> <span class="p">(</span><span class="nb">- </span><span class="nv">y</span> <span class="nv">pt</span><span class="o">.</span><span class="nv">y</span><span class="p">)</span> <span class="mi">2</span><span class="p">))))</span>
 <span class="p">}</span>
 </code></pre></div>
 
@@ -282,22 +300,73 @@ are only visible inside that construction.</p>
 <span class="nv">record</span><span class="o">:</span> <span class="nv">Employee</span><span class="p">()</span>
 </code></pre></div>
 
-<h3 id="initialization-of-class-objects">Initialization of class objects</h3>
+<h2 id="initialization-of-class-objects">Initialization of class objects</h2>
 
 <p>Classes can have an <code>init</code> method, which is automatically called when a class instance object is created. This method can receive arguments that can be used for setting the values of the object's fields.</p>
 
 <div class="codehilite"><pre><span></span><code><span class="nv">class</span> <span class="nv">Point</span> <span class="o">:</span> <span class="p">{</span>
   <span class="nv">x</span><span class="o">:</span> <span class="nv">Double</span><span class="p">()</span><span class="o">,</span>
   <span class="nv">y</span><span class="o">:</span> <span class="nv">Double</span><span class="p">()</span><span class="o">,</span>
-  <span class="nv">init</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> <span class="nv">x_</span> <span class="nv">Double</span><span class="p">()</span> <span class="nv">y_</span> <span class="nv">Double</span><span class="p">()</span> <span class="p">(</span><span class="nb">= </span><span class="nv">x</span> <span class="nv">x_</span><span class="p">)</span> <span class="p">(</span><span class="nb">= </span><span class="nv">y</span> <span class="nv">y_</span><span class="p">))</span>
+  <span class="k">in</span><span class="nv">it</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> <span class="nv">x_</span> <span class="nv">Double</span><span class="p">()</span> <span class="nv">y_</span> <span class="nv">Double</span><span class="p">()</span> <span class="p">(</span><span class="nb">= </span><span class="nv">x</span> <span class="nv">x_</span><span class="p">)</span> <span class="p">(</span><span class="nb">= </span><span class="nv">y</span> <span class="nv">y_</span><span class="p">))</span>
 <span class="p">}</span>
 
 <span class="nv">pt</span><span class="o">:</span> <span class="nv">Point</span><span class="p">(</span> <span class="mf">2.71</span> <span class="mf">3.14</span> <span class="p">)</span>
 </code></pre></div>
 
-<hr class="solid">
-<a id="built-in-types"> </a>
-<h2 id="built-in-types">Built-in types</h2>
+<p><br></p>
+
+<hr />
+
+<p><br></p>
+
+<h1 id="type-system">Type system</h1>
+
+<h2 id="overview-of-transd-type-system">Overview of Transd type system</h2>
+
+<p>Transd is strongly typed and its type system offers a variety of types to choose from for a particular programming task. Each type in Transd iѕ either <em>basic</em> or <em>compound</em>, and either <em>simple</em> or <em>container</em>. Within these categories Transd types are organized as follows:</p>
+
+<pre><code>                     Types
+                    /     \
+               Basic      Compound
+              /     \         |
+       Containers  Simple   Containers
+</code></pre>
+
+<p>Compound types are always containers, basic types are either simple or container.</p>
+
+<p><strong>Basic types</strong> are: <code>Bool</code>, <code>Byte</code>, <code>Char</code>, <code>Int</code>, <code>Long</code>, <code>ULong</code>, <code>Double</code>, <code>String</code>, <code>ByteArray</code>.</p>
+
+<p>Among basic types, <code>String</code> and <code>ByteArray</code> are containers, others - are simple types.</p>
+
+<p>Compound types take an additional type parameter for their instantiation. For example, a vector of integers is declared as <code>Vector&lt;Int&gt;</code>. Such vector can only contain <code>Int</code>s, that is the "Int" type parameter becomes a part of the definition of the whole type. This is why such types are called "compound". Compound types are also refered to as generic types, or <em>generics</em>.</p>
+
+<p><strong>Compound types</strong> are: <code>Vector</code>, <code>Index</code>, <code>HashIndex</code>.</p>
+
+<p>All compound types are containers.</p>
+
+<h2 id="type-traits">Type traits</h2>
+
+<p>Each type in Transd has a set of properies associated with it. These properties are called <em>type traits</em>. Type traits are used for organizing types into a hierarchy and grouping together similar types. Such grouping makes possible polymorphic use of types.</p>
+
+<p>For example, types <code>Double</code> and <code>Int</code> both have the <code>:Number</code> property. If some function can accept both <code>Double</code> and <code>Int</code> as a parameter, then instead of writing two overloaded versions of the function, it's possible to use the <code>:Number</code> type property as the parameter type.</p>
+
+<p>For example, a function receiving a number and returning its integral part can be defined as follows:</p>
+
+<div class="codehilite"><pre><span></span><code><span class="o">#</span><span class="nv">lang</span> <span class="k">transd</span>
+
+<span class="nv">MainModule</span><span class="o">:</span> <span class="p">{</span>
+<span class="nv">i</span><span class="o">:</span> <span class="nb">Int</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span><span class="o">,</span>
+<span class="nv">d</span><span class="o">:</span> <span class="nv">Double</span><span class="p">(</span><span class="mf">5.5</span><span class="p">)</span><span class="o">,</span>
+
+<span class="k">in</span><span class="nv">tgr</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> <span class="nv">n</span> <span class="o">:</span><span class="nv">Number</span><span class="p">()</span> <span class="p">(</span><span class="nf">ret</span> <span class="p">(</span><span class="nf">to-Int</span> <span class="nv">n</span><span class="p">)))</span><span class="o">,</span>
+
+<span class="nv">_start</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> <span class="p">(</span><span class="nf">lout</span> <span class="p">(</span><span class="k">in</span><span class="nv">tgr</span> <span class="nv">i</span><span class="p">))</span> <span class="c1">// =&gt; 5</span>
+           <span class="p">(</span><span class="nf">lout</span> <span class="p">(</span><span class="k">in</span><span class="nv">tgr</span> <span class="nv">d</span><span class="p">))</span> <span class="c1">// =&gt; 5</span>
+<span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="simple-types">Simple types</h2>
 
 <h3 id="null">Null</h3>
 
@@ -305,129 +374,165 @@ are only visible inside that construction.</p>
 
 <h3 id="bool">Bool</h3>
 
-<p><code>Bool</code> - the Bool type is used for storing logical truth values. The objects of this type can only have two values that are represented by keywords true and false. </p>
+<p><code>Bool</code> - the Bool type is used for storing logical truth values. The objects of this type can only have two values that are represented by keywords <code>true</code> and <code>false</code>. </p>
 
-<p>Values of type Int can be casted to Bool type, in which case 0 (zero) is casted to false, and any non-zero value is casted to true.</p>
+<p>Other types are implicitly convertible to Bool type. The simple types with value <code>0</code> and containers with zero length (empty) are converted to <code>false</code>, all other values are converted to <code>true</code>.</p>
 
-<h3 id="int">Int</h3>
+<h3 id="byte">Byte</h3>
 
-<p><code>Int</code> - this type represents signed integer numbers. It corresponds to <code>long int</code>in C++. </p>
+<p><code>Byte</code> - 8-bit unsigned integer.</p>
 
-<p>The size of Int is platform-dependent. On some systems (e.g. x64 Linux) Int is 8-byte long, on others (e.g. Windows, x86 Linux) Int is 4-bytes. It is guaranteed to be at least 32-bit. In cases when a Transd program is only intended to run on x64 Linux, then one can use Int for storing 64-bit values.</p>
+<p><strong>Values range:</strong> 0 - 255</p>
 
-<p>4-byte Int has the range of values:</p>
+<p><strong>Type constructor:</strong></p>
 
-<pre><code>-2,147,483,648 ... 2,147,483,647
-</code></pre>
+<p><code>Byte( :Integer )</code></p>
 
-<p>8-byte Int has the range of values:</p>
+<p><code>Byte</code> type has a polymorphic constructor, which accepts any integer as an initialization value, performing the automatic casting if needed.</p>
 
-<pre><code>-9,223,372,036,854,775,808 ... 9,223,372,036,854,775,807
+<h3 id="char">Char</h3>
+
+<p><code>Char</code> - a type that represents a Unicode character: a Unicode code point encoded in UTF-16/32.</p>
+
+<p><code>Char</code> is the only Transd type that has a platform-dependent size. </p>
+
+<p>On Linux, <code>Char</code> is 4-byte wide and uses UTF-32 encoding. On Windows, <code>Char</code> is 2-byte wide and uses UTF-16LE encoding.
+<br></p>
+
+<h3 id="integral-numeric-types">Integral numeric types</h3>
+
+<p>Integral numeric types represent integer numbers. Transd has the following integral numeric types: <code>Byte</code>, <code>Int</code>, <code>Long</code>, <code>ULong</code>.</p>
+
+<pre><code>Type       Values range                      Size         Signed
+-------------------------------------------------------------------
+
+Byte       0 to 255                          1 byte       unsigned
+
+Int        -2,147,483,648 to                 4 bytes      signed
+           2,147,483,647
+
+Long       -9,223,372,036,854,775,808 to     8 bytes      signed
+           9,223,372,036,854,775,807
+
+ULong      0 to 18,446,744,073,709,551,615   8 bytes      unsigned
 </code></pre>
 
 <h3 id="double">Double</h3>
 
-<p><code>Double</code> - is double precision floating point type. This type has 8-bytes length and corresponds to the type double in C++.</p>
+<p><code>Double</code> - is double precision 64-bit IEEE 754 floating point type.</p>
 
 <h3 id="string">String</h3>
 
-<p><code>String</code> - is a sequence of Unicode characters (code points), optimized for manipulating text-like data. In source code strings are written as sequences of characters enclosed with quotation marks.</p>
+<p><code>String</code> - is a container type that represents text string: it stores a sequence of Unicode characters (code points). This type is optimized for manipulating text-like data. Apart from supporting generic container operations, <code>String</code> supports a set of methods specific to manipulating text strings.</p>
 
 <p>Below is the list of the String class methods. ‘subj’ in the parameter list is the String object on which the method is called.</p>
 
-<h4 id="constructors">Constructors</h4>
+<h4 id="string-constructors">String constructors</h4>
 
-<p>String() 
+<p><code>String()</code><br>
 Creates an empty string.</p>
 
-<p>String( (str : String())+ )
-  str - any object evaluating to String.
-<code>str</code> can be a string variable, string literal or an expression returning a String. Any number of space separated objects can be passed to the constructor. The created string is the concatenation of all arguments.</p>
+<p><code>String( str : String() ... )</code><br>
+Parameters:<br>
+<em>str</em> - any object evaluating to <code>String</code>.</p>
+
+<p><code>str</code> can be a string variable, string literal or an expression returning a String. Any number of space separated objects can be passed to the constructor. The created string is the concatenation of all arguments.</p>
 
 <p>Examples:</p>
 
 <div class="codehilite"><pre><span></span><code><span class="nv">str1</span> <span class="o">:</span> <span class="nb">String</span><span class="p">()</span><span class="o">,</span>
-<span class="nv">str2</span> <span class="o">:</span> <span class="nb">String</span><span class="p">(</span><span class="s">&quot;Hello!&quot;</span><span class="p">)</span><span class="o">,</span>
+<span class="nv">str2</span> <span class="o">:</span> <span class="nb">String</span><span class="p">(</span><span class="s">&quot;Hello!&quot;</span><span class="p">)</span>
 </code></pre></div>
 
-<h4 id="value-initializers">Value initializers</h4>
+<h4 id="string-value-initializers">String value initializers</h4>
 
-<p>string-literal : </p>
-
-<p>Equivalent to String(str).</p>
+<p>A String variable can be initialized with a string literal.</p>
 
 <p>Example:</p>
 
-<hr />
+<div class="codehilite"><pre><span></span><code><span class="nv">str3</span> <span class="o">:</span> <span class="s">&quot;Hello!&quot;</span>
+</code></pre></div>
 
-<p>str3 : “Hello!”</p>
+<h4 id="string-methods">String methods</h4>
 
-<hr />
+<p><strong>set</strong></p>
 
-<p>set
-(set subj str String())
-(= subj str String())</p>
+<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="nf">set</span> <span class="nv">subj</span> <span class="nv">str</span><span class="p">)</span>
 
-<p>Assigns the value str to subj.</p>
+<span class="p">(</span><span class="nb">= </span><span class="nv">subj</span> <span class="nv">str</span><span class="p">)</span>
+</code></pre></div>
 
-<p>read
-(read subj)</p>
+<p>Parameters:<br>
+<em>str</em> - any object evaluating to <code>String</code>.</p>
 
-<p>Reads a string from stdin to subj.</p>
+<p>Assigns the value <em>str</em> to <em>subj</em>.</p>
 
-<p>eq
-(eq subj str String())
-(== subj str String())</p>
+<p>— — — — — —</p>
 
-<p>Compares two strings: subj and str. Returns true if code point sequences in both strings are identical. Otherwise, returns false.</p>
+<p><strong>read</strong></p>
 
-<hr />
+<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="nf">read</span> <span class="nv">subj</span><span class="p">)</span>
+</code></pre></div>
 
-<p>Examples</p>
+<p>Reads a string from <code>StdIn</code> to <em>subj</em>.</p>
 
-<p>read</p>
+<p>— — — — — —</p>
 
-<hr />
+<p><strong>eq</strong></p>
 
-<p>mainModule: {
-  s : String(),
-  _start : (λ (read s)
-    (textout "The input was:" s))
-}</p>
+<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="nf">eq</span> <span class="nv">subj</span> <span class="nv">str</span><span class="p">)</span>
 
-<hr />
+<span class="p">(</span><span class="nb">== </span><span class="nv">subj</span> <span class="nv">str</span><span class="p">)</span>
+</code></pre></div>
 
-<p>set</p>
+<p>Parameters:<br>
+<em>str</em> - any object evaluating to <code>String</code>.</p>
 
-<hr />
+<p>Compares two strings: <em>subj</em> and <em>str</em>. Returns <code>true</code> if code point sequences in both strings are identical. Otherwise, returns <code>false</code>.</p>
 
-<p>mainModule: {
-  s : String(),
-  s1 : “Hello, Transd!”,
-  _start : (λ (set s “Hello, world!”)
-    (= s s1))
-}</p>
+<p>— — — — — —</p>
 
-<hr />
+<h4 id="string-examples">String examples</h4>
 
-<p>eq</p>
+<p><strong>read</strong></p>
 
-<hr />
+<div class="codehilite"><pre><span></span><code><span class="nv">MainModule</span><span class="o">:</span> <span class="p">{</span>
+  <span class="nv">s</span> <span class="o">:</span> <span class="nb">String</span><span class="p">()</span><span class="o">,</span>
+  <span class="nv">_start</span> <span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> <span class="p">(</span><span class="nf">read</span> <span class="nv">s</span><span class="p">)</span>
+    <span class="p">(</span><span class="nf">textout</span> <span class="s">&quot;The input was:&quot;</span> <span class="nv">s</span><span class="p">))</span>
+<span class="p">}</span>
+</code></pre></div>
 
-<p>mainModule: {
-  s : "Hi!",
-  s1 : “Hello”,
-  _start : (λ (
-  (textout (eq s s1) "\n" 
-    (== s "Hi!")
-   )))
-}</p>
+<p><strong>set</strong></p>
 
-<p>OUTPUT:
+<div class="codehilite"><pre><span></span><code><span class="nv">MainModule</span><span class="o">:</span> <span class="p">{</span>
+  <span class="nv">s</span> <span class="o">:</span> <span class="nb">String</span><span class="p">()</span><span class="o">,</span>
+  <span class="nv">s1</span> <span class="o">:</span> <span class="s">&quot;Hello, Transd!&quot;</span><span class="o">,</span>
+  <span class="nv">_start</span> <span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> <span class="p">(</span><span class="nf">set</span> <span class="nv">s</span> <span class="s">&quot;Hello, world!&quot;</span><span class="p">)</span>
+    <span class="p">(</span><span class="nb">= </span><span class="nv">s</span> <span class="nv">s1</span><span class="p">))</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>eq</strong></p>
+
+<div class="codehilite"><pre><span></span><code><span class="nv">MainModule</span><span class="o">:</span> <span class="p">{</span>
+  <span class="nv">s</span> <span class="o">:</span> <span class="s">&quot;Hi!&quot;</span><span class="o">,</span>
+  <span class="nv">s1</span> <span class="o">:</span> <span class="s">&quot;Hello&quot;</span><span class="o">,</span>
+  <span class="nv">_start</span> <span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> <span class="p">(</span>
+  <span class="p">(</span><span class="nf">textout</span> <span class="p">(</span><span class="nf">eq</span> <span class="nv">s</span> <span class="nv">s1</span><span class="p">)</span> <span class="s">&quot;\n&quot;</span> 
+    <span class="p">(</span><span class="nb">== </span><span class="nv">s</span> <span class="s">&quot;Hi!&quot;</span><span class="p">)</span>
+   <span class="p">)))</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<pre><code>OUTPUT:
 false
-true</p>
+true
+</code></pre>
 
 <hr />
+
+<h3 id="bytearray">ByteArray</h3>
 
 <h3 id="vector">Vector</h3>
 
@@ -440,6 +545,22 @@ true</p>
 <h3 id="tsdbase">TSDBase</h3>
 
 <h3 id="filter">Filter</h3>
+
+<p><br></p>
+
+<hr />
+
+<p><br></p>
+
+<h2 id="container-functions">Container functions</h2>
+
+<p>Container functions are functions that operate on more than one container class. That is they are not specific to some particular container class, but can be applyed to various container types (Vector, String, etc.) and they will produce the similar result.</p>
+
+<h3 id="size">size</h3>
+
+<p><code>(size subj)</code></p>
+
+<p>Returns the number of elements in a container.</p>
 
 
 <hr width="100%" style="margin:30px 0 0 0;">
