@@ -12,3 +12,19 @@ div.doccol p{ margin: 0 0 1em 25px; line-height: 1.2em;}
 ol { padding-left: 50px; margin-top: -10px }
 li { margin-bottom: 10px; line-height: 1.5em; }
 
+hr {
+  border-top: 1px solid #eee;
+  width: 50%;
+  margin: 40px auto 20px auto;
+  color: #bbb;
+}
+body { font: 1em "Trebuchet MS", Arial, Sans-Serif; color: #444; }
+	h1 { font-size: 2.5em; font-weight: normal; color: #151515;}
+	h1 a { text-decoration: none; }
+	h2 { font-size: 2em; color: #151515; font-weight: normal; margin: 1.5em 1em 1em auto; }
+	h3 { font-size: 1.5em; font-weight: normal; margin: 1.5em 0 .5em; }
+	h4 { font-size: 1.2em; color: #191970; font-weight: normal; margin: 1.2em 0.5em 1.3em; }
+	p  { margin: 0 0 1em 0; line-height: 1.5em; }
+code { text-align: left; font: 1.0em Consolata, Monospace, "Courier New"; padding: 0px;
+		background-color: #e8e8e8; line-height: 1.5em; }
+pre { font-size: 1.0em; color: #555; padding: 10px; margin: -5px auto 15px auto;background-color: #e8e8e8; line-height: 1.5em;}

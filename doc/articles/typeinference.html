@@ -1,0 +1,207 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8">
+<title>TransD Programming Language Reference Manual</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta http-equiv="content-language" content="en-US">
+<meta name="language" content="English">
+<meta name="description" content="Type system of Transd">
+<meta name="keywords" content="Transd, programming language, type system">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<link href="../../css/codehighlight.css" rel="stylesheet" type="text/css" />
+<link href="../../css/tsd.css" rel="stylesheet" type="text/css" />
+<link href="../../css/main.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="header">
+  <h1>TransD</h1>
+  <ul id="menu">
+    <li><a href="../../index.html">home</a></li>
+    <li><a href="../../download.html">download</a></li>
+    <li><a href="../index.html">documentation</a></li>    
+    <li><a href="../../dev.html">development</a></li>
+    <li><a href="../../about.html">about</a></li>
+    <li><a href="../../contact.html">contact</a></li>
+  </ul>
+</div>
+<div class="wrap">
+<h2 style="margin-top: 20px;">Type inference in Transd</h2>
+<hr width="100%" style="margin:0 0 35px 0;">
+<h3 id="introduction">Introduction</h3>
+
+<p>Transd is a statically and strongly typed language. During the compilation of a Transd progam, all the program's expressions and objects are assigned with a type at the place of their first occurence in the code, and this type remains unchangeable during the whole life-time of the object.</p>
+
+<p>The two advantages that static typing brings to the language are: 1) gain in performance, 2) gain in program's safety.</p>
+
+<p>The types of program objects either should be explicitly specified by the programmer, or the explicit type annotations in many cases may be omitted, when the type of an object can be automatically deduced. Such automatic deducing of types (also called <em>type inference</em>) serves for two purposes: 1) it makes the program code less cluttered with explicit type annotations; 2) it frees the programer from typing the explicit type annotations.</p>
+
+<h3 id="type-inference">Type inference</h3>
+
+<p>The following Transd code dosn't have a single type annotation and may look like written in a dynamically typed language:</p>
+
+<div class="codehilite"><pre><span></span><code><span class="o">#</span><span class="nv">lang</span> <span class="nv">transd</span>
+
+<span class="nv">MainModule</span><span class="o">:</span> <span class="p">{</span>
+<span class="nv">v</span><span class="o">:</span> <span class="p">[</span><span class="mi">0</span><span class="o">,</span><span class="mi">1</span><span class="o">,</span><span class="mi">2</span><span class="o">,</span><span class="mi">3</span><span class="o">,</span><span class="mi">4</span><span class="o">,</span><span class="mi">4</span><span class="o">,</span><span class="mi">6</span><span class="o">,</span><span class="mi">7</span><span class="o">,</span><span class="mi">8</span><span class="o">,</span><span class="mi">9</span><span class="p">]</span><span class="o">,</span>
+<span class="nv">v1</span><span class="o">:</span> <span class="p">[</span><span class="s">&quot;a&quot;</span><span class="o">,</span> <span class="s">&quot;b&quot;</span><span class="o">,</span> <span class="s">&quot;c&quot;</span><span class="o">,</span> <span class="s">&quot;d&quot;</span><span class="o">,</span> <span class="s">&quot;e&quot;</span><span class="o">,</span> <span class="s">&quot;f&quot;</span><span class="o">,</span> <span class="s">&quot;g&quot;</span><span class="o">,</span> <span class="s">&quot;g&quot;</span><span class="p">]</span><span class="o">,</span>
+<span class="nv">s</span><span class="o">:</span> <span class="s">&quot;aabcdefgh&quot;</span><span class="o">,</span>
+<span class="nv">_start</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> 
+    <span class="p">(</span><span class="k">with</span> <span class="nv">pos</span> <span class="p">(</span><span class="nf">find-adjacent</span> <span class="nv">v</span><span class="p">)</span>
+        <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nf">neq</span> <span class="nv">pos</span> <span class="p">(</span><span class="nf">end</span> <span class="nv">v</span><span class="p">))</span> 
+            <span class="p">(</span><span class="nf">lout</span> <span class="p">(</span><span class="nf">get-el</span> <span class="nv">pos</span><span class="p">))))</span>
+    <span class="p">(</span><span class="k">with</span> <span class="nv">pos</span> <span class="p">(</span><span class="nf">find-adjacent</span> <span class="nv">v1</span><span class="p">)</span>
+        <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nf">neq</span> <span class="nv">pos</span> <span class="p">(</span><span class="nf">end</span> <span class="nv">v1</span><span class="p">))</span> 
+            <span class="p">(</span><span class="nf">lout</span> <span class="p">(</span><span class="nf">get-el</span> <span class="nv">pos</span><span class="p">))))</span>
+    <span class="p">(</span><span class="k">with</span> <span class="nv">pos</span> <span class="p">(</span><span class="nf">find-adjacent</span> <span class="nv">s</span><span class="p">)</span>
+        <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nf">neq</span> <span class="nv">pos</span> <span class="p">(</span><span class="nf">end</span> <span class="nv">s</span><span class="p">))</span> 
+            <span class="p">(</span><span class="nf">lout</span> <span class="p">(</span><span class="nf">get-el</span> <span class="nv">pos</span><span class="p">))))</span>
+<span class="p">)}</span>
+</code></pre></div>
+
+<p>This code searches for the first pairs of adjacent identical elements in three sequence containers, and outputs those elements if they were found. The output of the code is:</p>
+
+<pre><code>4
+g
+a
+</code></pre>
+
+<p>Despite the absence of type annotations, all the six variables, three <code>find-adjacent</code> functions and three <code>end</code> functions in this program have their own strictly defined types, which are automatically deduced at the compilation stage: </p>
+
+<div class="codehilite"><pre><span></span><code><span class="nv">v</span> <span class="o">:</span> <span class="nb">Vector&lt;Int&gt;</span><span class="o">,</span> 
+<span class="nv">v1</span> <span class="o">:</span> <span class="nb">Vector&lt;String&gt;</span><span class="o">,</span>
+<span class="nv">s</span> <span class="o">:</span> <span class="nv">String</span><span class="o">,</span>
+<span class="nv">pos</span> <span class="o">:</span> <span class="nv">Position</span><span class="o">&lt;</span><span class="nb">Int&gt;</span><span class="o">,</span>
+<span class="nv">pos</span> <span class="o">:</span> <span class="nv">Position</span><span class="o">&lt;</span><span class="nb">String&gt;</span><span class="o">,</span>
+<span class="nv">pos</span> <span class="o">:</span> <span class="nv">Position</span><span class="o">&lt;</span><span class="nv">Char</span><span class="o">&gt;</span>
+</code></pre></div>
+
+<p>Each of the <code>pos</code> variables is a local variable, whose scope is limited to the <code>with</code> block where it's been declared. Each of the <code>find-adjacent</code> and <code>end</code> functions has the return type coinciding with the type of the <code>pos</code> variable to the left of it.</p>
+
+<p>If we change the <code>_start</code> function and merge the last <code>with</code> block with the previous one as follows:</p>
+
+<div class="codehilite"><pre><span></span><code>    <span class="nv">_start</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> 
+        <span class="p">(</span><span class="k">with</span> <span class="nv">pos</span> <span class="p">(</span><span class="nf">find-adjacent</span> <span class="nv">v</span><span class="p">)</span>
+            <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nf">neq</span> <span class="nv">pos</span> <span class="p">(</span><span class="nf">end</span> <span class="nv">v</span><span class="p">))</span> 
+                <span class="p">(</span><span class="nf">lout</span> <span class="p">(</span><span class="nf">get-el</span> <span class="nv">pos</span><span class="p">))))</span>
+        <span class="p">(</span><span class="k">with</span> <span class="nv">pos</span> <span class="p">(</span><span class="nf">find-adjacent</span> <span class="nv">v1</span><span class="p">)</span>
+            <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nf">neq</span> <span class="nv">pos</span> <span class="p">(</span><span class="nf">end</span> <span class="nv">v1</span><span class="p">))</span> 
+                <span class="p">(</span><span class="nf">lout</span> <span class="p">(</span><span class="nf">get-el</span> <span class="nv">pos</span><span class="p">))))</span>
+            <span class="p">(</span><span class="nf">set</span> <span class="nv">pos</span> <span class="p">(</span><span class="nf">find-adjacent</span> <span class="nv">s</span><span class="p">))</span> <span class="c1">// compilation error!</span>
+            <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nf">neq</span> <span class="nv">pos</span> <span class="p">(</span><span class="nf">end</span> <span class="nv">s</span><span class="p">))</span> 
+                <span class="p">(</span><span class="nf">lout</span> <span class="p">(</span><span class="nf">get-el</span> <span class="nv">pos</span><span class="p">)))</span>
+    <span class="p">)</span>
+</code></pre></div>
+
+<p>A compilation error will be generated, since the type of the <code>pos</code> variable, which was deduced and assigned to the variable from the return type of <code>(find-adjacent v1)</code> function, doesn't match the return type of the <code>(find-adjacent s)</code> function.</p>
+
+<p>If needed, the code could be placed into one scope block as follows:</p>
+
+<div class="codehilite"><pre><span></span><code>    <span class="nv">_start</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> 
+        <span class="p">(</span><span class="k">with</span> <span class="nv">pos1</span> <span class="p">(</span><span class="nf">find-adjacent</span> <span class="nv">v</span><span class="p">)</span>
+              <span class="nv">pos2</span> <span class="p">(</span><span class="nf">find-adjacent</span> <span class="nv">v1</span><span class="p">)</span>
+              <span class="nv">pos3</span> <span class="p">(</span><span class="nf">find-adjacent</span> <span class="nv">s</span><span class="p">)</span>
+
+            <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nf">neq</span> <span class="nv">pos1</span> <span class="p">(</span><span class="nf">end</span> <span class="nv">v</span><span class="p">))</span> 
+                <span class="p">(</span><span class="nf">lout</span> <span class="p">(</span><span class="nf">get-el</span> <span class="nv">pos1</span><span class="p">)))</span>
+            <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nf">neq</span> <span class="nv">pos2</span> <span class="p">(</span><span class="nf">end</span> <span class="nv">v1</span><span class="p">))</span> 
+                <span class="p">(</span><span class="nf">lout</span> <span class="p">(</span><span class="nf">get-el</span> <span class="nv">pos2</span><span class="p">)))</span>
+            <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="nf">neq</span> <span class="nv">pos3</span> <span class="p">(</span><span class="nf">end</span> <span class="nv">s</span><span class="p">))</span> 
+                <span class="p">(</span><span class="nf">lout</span> <span class="p">(</span><span class="nf">get-el</span> <span class="nv">pos3</span><span class="p">))))</span>
+    <span class="p">)</span>
+</code></pre></div>
+
+<p>Type inference in Transd provides for flexibility and polymorphism of operations, while keeping them strictly typed and type verifiable at the stage of compilation. </p>
+
+<p>The next example demonstrates how type inference is used in type-safe data operations on datasets, containing different data types.</p>
+
+<p>Before reviewing the example, a brief description of language features used in the example is in place.</p>
+
+<p><code>typealias</code> statement in Transd is similar to <code>typedef</code> in C++: it is used for introducing short aliases for lengthy type definitions:</p>
+
+<div class="codehilite"><pre><span></span><code><span class="nv">LongType</span><span class="o">:</span> <span class="k">typealias</span><span class="p">(</span><span class="nb">Index&lt;String Vector&lt;Tuple&lt;Int Int Vector&lt;String&gt;</span><span class="o">&gt;&gt;&gt;</span><span class="p">)</span><span class="o">,</span>
+<span class="nv">vec1</span><span class="o">:</span> <span class="nb">Vector&lt;</span><span class="nv">LongType</span><span class="o">&gt;</span>
+</code></pre></div>
+
+<p><code>Tuple</code> is a compound container type, which is an array of fixed size, capable to store elements of different types. The types and the order of tuple members are an integral part of the type definition; they are specified or automatically deduced at the point of a tuple object declaration and that object can only contain the elements of these types at their respective placeѕ within the array. For example:</p>
+
+<div class="codehilite"><pre><span></span><code><span class="o">#</span><span class="nv">lang</span> <span class="nv">transd</span>
+
+<span class="nv">MainModule</span><span class="o">:</span> <span class="p">{</span>
+<span class="nv">t1</span><span class="o">:</span> <span class="nb">Tuple&lt;Int String&gt;</span><span class="p">(</span> <span class="p">[[</span><span class="mi">1</span><span class="o">,</span> <span class="s">&quot;abc&quot;</span><span class="p">]]</span> <span class="p">)</span><span class="o">,</span>
+
+<span class="nv">_start</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> 
+    <span class="p">(</span><span class="nf">lout</span> <span class="nv">t1</span><span class="p">)</span> <span class="c1">// =&gt; [[1, &quot;abc&quot;]]</span>
+    <span class="p">(</span><span class="nf">set-el</span> <span class="nv">t1</span> <span class="mi">0</span> <span class="mi">123</span><span class="p">)</span>
+    <span class="p">(</span><span class="nf">lout</span> <span class="nv">t1</span><span class="p">)</span> <span class="c1">// =&gt; [[123, &quot;abc&quot;]]</span>
+    <span class="p">(</span><span class="nf">set-el</span> <span class="nv">t1</span> <span class="mi">0</span> <span class="s">&quot;ABC&quot;</span><span class="p">)</span> <span class="c1">// compilation error: wrong type!</span>
+<span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Vectors of tuples can be used for quick handling of table-like datasets, where tuple objects store table records (rows), and the vector of tuples keeps the whole table. Type inference makes it possible to operate on such table in type-safe manner. For example:</p>
+
+<div class="codehilite"><pre><span></span><code><span class="o">#</span><span class="nv">lang</span> <span class="nv">transd</span>
+
+<span class="nv">MainModule</span><span class="o">:</span> <span class="p">{</span>
+<span class="nv">Row</span> <span class="o">:</span> <span class="k">typealias</span><span class="p">(</span><span class="nb">Tuple&lt;Int String Int String&gt;</span><span class="p">())</span><span class="o">,</span>
+<span class="nv">v</span><span class="o">:</span> <span class="nb">Vector&lt;</span><span class="nv">Row</span><span class="o">&gt;</span><span class="p">()</span><span class="o">,</span>
+<span class="nv">r1</span> <span class="o">:</span> <span class="p">[[</span><span class="mi">6</span><span class="o">,</span> <span class="s">&quot;y&quot;</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="s">&quot;b&quot;</span><span class="p">]]</span><span class="o">,</span>
+<span class="nv">r2</span> <span class="o">:</span> <span class="p">[[</span><span class="mi">1</span><span class="o">,</span> <span class="s">&quot;t&quot;</span><span class="o">,</span> <span class="mi">5</span><span class="o">,</span> <span class="s">&quot;d&quot;</span><span class="p">]]</span><span class="o">,</span>
+<span class="nv">r3</span> <span class="o">:</span> <span class="p">[[</span><span class="mi">3</span><span class="o">,</span> <span class="s">&quot;h&quot;</span><span class="o">,</span> <span class="mi">7</span><span class="o">,</span> <span class="s">&quot;a&quot;</span><span class="p">]]</span><span class="o">,</span>
+<span class="nv">r4</span> <span class="o">:</span> <span class="p">[[</span><span class="mi">2</span><span class="o">,</span> <span class="s">&quot;e&quot;</span><span class="o">,</span> <span class="mi">4</span><span class="o">,</span> <span class="s">&quot;c&quot;</span><span class="p">]]</span><span class="o">,</span>
+
+<span class="nv">_start</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> 
+    <span class="p">(</span><span class="nf">append</span> <span class="nv">v</span> <span class="nv">r1</span><span class="p">)(</span><span class="nf">append</span> <span class="nv">v</span> <span class="nv">r2</span><span class="p">)(</span><span class="nf">append</span> <span class="nv">v</span> <span class="nv">r3</span><span class="p">)(</span><span class="nf">append</span> <span class="nv">v</span> <span class="nv">r4</span><span class="p">)</span>
+    <span class="p">(</span><span class="nf">sort</span> <span class="nv">v</span>
+        <span class="p">(</span><span class="k">lambda</span> <span class="nv">l</span> <span class="nv">Row</span><span class="p">()</span> <span class="nv">r</span> <span class="nv">Row</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nv">Bool</span><span class="p">()</span>
+            <span class="p">(</span><span class="nf">ret</span> <span class="p">(</span><span class="nf">less</span> <span class="p">(</span><span class="nf">get</span> <span class="nv">l</span> <span class="mi">3</span><span class="p">)</span> <span class="p">(</span><span class="nf">get</span> <span class="nv">r</span> <span class="mi">3</span><span class="p">)))))</span>
+    <span class="p">(</span><span class="nf">lout</span> <span class="nv">v</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>OUTPUT:</p>
+
+<pre><code>[[[3, h, 7, a]], 
+ [[6, y, 3, b]], 
+ [[2, e, 4, c]], 
+ [[1, t, 5, d]]]
+
+</code></pre>
+
+<p>This example shows how a vector of tuples, containing a table with differently typed fields, can be sorted with a custom comparison predicate. In this case the vector is sorted by the last tuple field in ascending order.</p>
+
+<p>Note, that all operations with tuple fields are type safe and type verifiable at compile time. Example:</p>
+
+<div class="codehilite"><pre><span></span><code><span class="o">#</span><span class="nv">lang</span> <span class="nv">transd</span>
+
+<span class="nv">MainModule</span><span class="o">:</span> <span class="p">{</span>
+    <span class="nv">tp</span> <span class="o">:</span> <span class="p">[[</span><span class="mi">12</span><span class="o">,</span> <span class="s">&quot;ab&quot;</span><span class="o">,</span> <span class="mi">34</span><span class="o">,</span> <span class="s">&quot;cd&quot;</span><span class="p">]]</span><span class="o">,</span>
+
+    <span class="nv">concatStr</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> <span class="nv">l</span> <span class="nv">String</span><span class="p">()</span> <span class="nv">r</span> <span class="nv">String</span><span class="p">()</span> <span class="p">(</span><span class="nf">ret</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">l</span> <span class="nv">r</span><span class="p">)))</span><span class="o">,</span>
+
+    <span class="nv">_start</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> 
+        <span class="p">(</span><span class="nf">lout</span> <span class="p">(</span><span class="nf">concatStr</span> <span class="p">(</span><span class="nf">get</span> <span class="nv">tp</span> <span class="mi">1</span><span class="p">)</span> <span class="p">(</span><span class="nf">get</span> <span class="nv">tp</span> <span class="mi">3</span><span class="p">)))</span>
+    <span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>OUTPUT:</p>
+
+<pre><code>abcd
+</code></pre>
+
+<p>Here, a <code>tp</code> variable is declared, whose type <code>Tuple&lt;Int String Int String&gt;</code> is deduced automatically. Then, <code>tp</code>'s fields 1 and 3, which contain strings, are passed to <code>concatStr</code> function, which accepts two arguments of <code>String()</code> type and returns a new string, which is the concatenation of arguments. If a pair of other fields is passed to <code>concatStr</code>, say, fields 0 and 2, or fields 1 and 2, a compilation type error will be generated.</p>
+
+<p>Type inference in Transd allows to omit in source code the annotations of function return types. E.g., in the example abobe, the return type of <code>concatStr</code> function is unambigously deducible at compile time from the types of its arguments and expressions in the function's body.</p>
+
+
+<hr width="100%" style="margin:30px 0 0 0;">
+</div>
+<div id="footer">
+  <p>&copy; Copyright 2021 <a href='&#109;ail&#116;o&#58;alb%65rger&#64;g%6Dai&#108;&#46;&#37;63o&#109;'>Albert Berger</a> &middot; All Rights Reserved</p>
+</div>
+</body>
+</html>
