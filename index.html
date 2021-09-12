@@ -29,61 +29,108 @@
     <div id="image"></div>
     <div class="box">
       <h2>Front-end language for your program</h2>
-      <p>Transd is a compact and powerful language, which you can bundle with your program, 
-      for extending, customizing and configuring it.</p>
+      <p>Transd is a compact and powerful language for communication between users 
+      and programs.</p>
     </div>
   </div>
 </div>
 <div id="bar">
-  <div class="wrap"> <span class="step"><a>1</a> <a href="#speed">speed</a></span> <span class="step"><a>2</a> <a href="#selfsufficiency">self-sufficiency</a></span> <span class="step"><a>3</a> <a href="#safety">safety</a></span> </div>
+  <div class="wrap"> <span class="step"><a>1</a> <a href="#speed">simple</a></span> <span class="step"><a>2</a> <a href="#selfsufficiency">powerful</a></span> <span class="step"><a>3</a> <a href="#safety">compact</a></span> </div>
 </div>
 <div class="wrap">
   <div class="col3">
-    <h3><span class="red">Who</span> are potential users of TransD?</h3>
-    <p>C++ developers whose programs are meant to be highly configurable or easily extensible by the 
-    program's users.</p>
+    <h3><font color="#007878">What tasks can Transd solve?</font></h3>
+    <p>Extending or customizing the program's functionality; scripting the program's behaviour; processing configuration files from simple to very advanced.</p>
   </div>
   <div class="col3">
-    <h3><span class="red">What</span> problem does TransD solve?</h3>
-    <p>TransD provides fast and reliable interface between a program and the user. It can be used for
-    extending program's functionality, scripting, and advanced configuration.</p>
+    <h3><font color="#007878">How Transd is used?</font></h3>
+    <p>Transd can be integrated into a program as a C++ library or can be bundled as an executable file.</p>
   </div>
   <div class="col3 last">
-    <h3><span class="red">Why</span> TransD?</h3>
-    <p>TransD is fast, doesn't have any dependencies, easily customizable, and can also be used
-    as a general framework for advanced program customization through the configuration files.</p>
+    <h3><font color="#007878">Why TransD?</font></h3>
+    <p>Transd is a full-fledged programming language with many advanced features. Also, it's fast, small, and doesn't have any dependencies.</p>
   </div>
 <div class="col1" style="margin-top: 0px;">  
   <hr style="width: 50%;  margin-left: 230px; color: #ccc; margin-bottom: 20px;  
 bottom-border: solid 1px ;height: 0px; text-align: center;">
 </div>
 <div class="col1" style="margin-top: 20px;">
-<p style="font-size: 1.2em;"><b>TransD</b> is a tool for post-compile-time extending, configuring
-and maintaining your C++ program. Transd is implemented as a compact self-contained two-file
-library, which can be used
-for a wide variety of tasks from reading and writing configuration files, to parsing external data
-files, to writing scripts calling your program's functions, to writing executable modules extending 
-your program, and much more.</p>
-<h3 style="margin-top: 35px;">Highlights:</h3>
+<h3 style="margin-top: 35px;">Example scenarios of using Transd</h3>
 </div>
 
-	<div class="col1" style="margin-top: 15px"><a id="safety"> </a><h3 style="color: #777">Safety</h3>
-	<p>Transd achieves high performance without doing just-in-time compilation and creating
-	executable code at run-time. Also the restricted mode is 
-	possible with preventing access for programs to any groups of system functions.</p></div>
-	<div class="col1" style="margin-top: 15px"><a id="speed"> </a><h3 style="color: #777">Speed</h3>
-	<p>Transd has smaller overhead compared to native code than an intepreter or virtual machine.
-	Its performance is close to native, even without doing just-in-time compilation.</p>  
+	<div class="col1" style="margin-top: 15px"><a id="safety"> </a><h3 style="color: #077">Handling a simple configuration file</h3>
+	<p>Your program has a simple configuration file, and Transd is used for its processing.</p>
+	<p>The configuration file has the form of name/value pairs grouped into sections:</p>
+<pre><code>section1 : {
+	name1: value1,
+	name2: value2
+}
+
+section2 : {
+	name3: value3,
+	name4: value4
+}
+</code></pre>
+<p>Transd reads this file and returns for each section a list of name/value pairs.</p>	
 	</div>
-	<div class="col1" style="margin-top: 15px"><a id="selfsufficiency"> </a><h3 style="color: #777">Self-containment</h3>
-	<p>Transd is fully implemented in one header and one source file. There are no any other 
-	dependencies or prerequisites.</p> 
+	<div class="col1" style="margin-top: 15px"><a id="speed"> </a><h3 style="color: #077">Handling an advanced configuration</h3>
+	<p>Task: your program needs complex configuration that supports definition of objects,
+	type checking, values checking, etc.</p> 
+	<p>Transd allows you to handle complex configuration by having one or several configuration
+	files and a separate file with rules for processing them.</p>
+	<p>The file with rules is usually provided by the program's vendor and not
+	editable by the user. The rules are, basically, a program written in Transd, which can
+	define data structures, field types, check that values are in allowed interval, etc. This
+	program can also define functions, which the user can override in the configuration file.</p>
+	<p>Example rules definition file (edited by the program's vendor):</p>
+	<pre><code># lang transd
+
+class SomeClass: {
+	numVar: Int(),
+	strVar: String(),
+	someFunc: (lambda (ret numVar)),
+	check: (lambda (if (> numVar 1000) (throw "Error: numVar is too big!")))
+}
+
+MainModule: {
+	config: SomeClass(),
+	// other code
+}</code></pre>
+	<p>Example configuration file (edited by the program's user):</p>
+	<pre><code>obj1: {
+	class: "SomeClass",
+	numVar: 25,
+	strVar: "some string",
+	someFunc: "(lambda (+ numVar 5))"
+}
+</code></pre>
+<p>Transd reads the configuration file, runs the definition file and returns the result as defined
+in the definition file.</p>
+	</div>
+	<div class="col1" style="margin-top: 15px"><a id="selfsufficiency"> </a><h3 style="color: #077">Extending the program's functionality</h3>
+	<p>Task: your program has functionality that may be customized or extended. This customization can be
+	implemented in Transd.</p>
+	
+	<p>For example, for graphics rendering programs, new rendering functions can be written; for
+	data processing programs - custom parsers for handling new data formats, etc.</p>
+
+	<p>A simple example of extending a graphics program with a rendering function written in 
+	Transd can be found <a href="https://github.com/transd-lang/graph">here</a>. 	
+	</p> 
 	</div>	
-	<div class="col1" style="margin-top: 15px"><a id="simplicity"> </a><h3 style="color: #777">Simplicity</h3>
-			<p>Transd's syntax is simple, highly uniform, with minimal usage of special symbols and
-	constructs. Anyone with minimal programming experience can start to use it within minutes
-	just looking at <a href="doc/split/maincode.html">code examples</a>.</p>
-<h4 style="margin-top: 65px;"><a href="highlights.html">More highlights</a></h4>
+	<div class="col1" style="margin-top: 15px"><a id="simplicity"> </a><h3 style="color: #077">"Thin host" scheme</h3>
+	<p>Task: you have a simple, script-like program, which should be multi-platform, extendable by the
+	user, and run without any pre-requisites.</p>
+	<p>You can write your program in Transd and ship it with a launcher written
+	in C++. The laucher should have just several lines of code that launches the your Transd program, and
+	the embedded Transd library for running it.</p>
+	<p>In this variant your program distribution will consist of a single executable, containing
+	the launcher along with the Transd compiler library, and one or more source files containing 
+	your Transd program.</p>
+	<p>An example of "thin host" scheme is <a href="https://github.com/transd-lang/frend">FREND</a> 
+	interpreter, which can run any Transd program, and whose source code only reads commands
+	and runs them in the compiler.</p>
+<h4 style="margin-top: 65px;"><a href="highlights.html">Highlights of Transd programming language</a></h4>
 	<hr width="100%" style="margin:100px 0 0 0;">
 	</div>	
 
