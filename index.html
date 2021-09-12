@@ -35,20 +35,21 @@
   </div>
 </div>
 <div id="bar">
-  <div class="wrap"> <span class="step"><a>1</a> <a href="#speed">simple</a></span> <span class="step"><a>2</a> <a href="#selfsufficiency">powerful</a></span> <span class="step"><a>3</a> <a href="#safety">compact</a></span> </div>
+  <div class="wrap"> <span class="step"><a>1</a> <a href="#simple">simple</a></span> <span class="step"><a>2</a> <a href="#powerful">powerful</a></span> <span class="step"><a>3</a> <a href="#compact">compact</a></span> </div>
 </div>
 <div class="wrap">
   <div class="col3">
     <h3><font color="#007878">What tasks can Transd solve?</font></h3>
-    <p>Extending or customizing the program's functionality; scripting the program's behaviour; processing configuration files from simple to very advanced.</p>
+    <p>Extending or customizing the program's functionality; scripting the program's behavior; processing configuration files from simple to very advanced.</p>
   </div>
   <div class="col3">
     <h3><font color="#007878">How Transd is used?</font></h3>
-    <p>Transd can be integrated into a program as a C++ library or can be bundled as an executable file.</p>
+    <p>Transd can be integrated into a program as a two-file C++ library or can be bundled as an executable file.</p>
   </div>
   <div class="col3 last">
-    <h3><font color="#007878">Why TransD?</font></h3>
-    <p>Transd is a full-fledged programming language with many advanced features. Also, it's fast, small, and doesn't have any dependencies.</p>
+    <h3><font color="#007878">Why Transd?</font></h3>
+    <p>Transd is a full-fledged programming language with many advanced features. It's cross-platform, 
+    fast, and extremely compact: it's implemented just in two source files and doesn't have any dependencies.</p>
   </div>
 <div class="col1" style="margin-top: 0px;">  
   <hr style="width: 50%;  margin-left: 230px; color: #ccc; margin-bottom: 20px;  
@@ -58,7 +59,7 @@ bottom-border: solid 1px ;height: 0px; text-align: center;">
 <h3 style="margin-top: 35px;">Example scenarios of using Transd</h3>
 </div>
 
-	<div class="col1" style="margin-top: 15px"><a id="safety"> </a><h3 style="color: #077">Handling a simple configuration file</h3>
+	<div class="col1" style="margin-top: 15px"><a id="simple"> </a><h3 style="color: #077">Handling a simple configuration file</h3>
 	<p>Your program has a simple configuration file, and Transd is used for its processing.</p>
 	<p>The configuration file has the form of name/value pairs grouped into sections:</p>
 <pre><code>section1 : {
@@ -73,7 +74,7 @@ section2 : {
 </code></pre>
 <p>Transd reads this file and returns for each section a list of name/value pairs.</p>	
 	</div>
-	<div class="col1" style="margin-top: 15px"><a id="speed"> </a><h3 style="color: #077">Handling an advanced configuration</h3>
+	<div class="col1" style="margin-top: 15px"><a id="powerful"> </a><h3 style="color: #077">Handling an advanced configuration</h3>
 	<p>Task: your program needs complex configuration that supports definition of objects,
 	type checking, values checking, etc.</p> 
 	<p>Transd allows you to handle complex configuration by having one or several configuration
@@ -107,7 +108,7 @@ MainModule: {
 <p>Transd reads the configuration file, runs the definition file and returns the result as defined
 in the definition file.</p>
 	</div>
-	<div class="col1" style="margin-top: 15px"><a id="selfsufficiency"> </a><h3 style="color: #077">Extending the program's functionality</h3>
+	<div class="col1" style="margin-top: 15px"><h3 style="color: #077">Extending the program's functionality</h3>
 	<p>Task: your program has functionality that may be customized or extended. This customization can be
 	implemented in Transd.</p>
 	
@@ -118,18 +119,17 @@ in the definition file.</p>
 	Transd can be found <a href="https://github.com/transd-lang/graph">here</a>. 	
 	</p> 
 	</div>	
-	<div class="col1" style="margin-top: 15px"><a id="simplicity"> </a><h3 style="color: #077">"Thin host" scheme</h3>
-	<p>Task: you have a simple, script-like program, which should be multi-platform, extendable by the
-	user, and run without any pre-requisites.</p>
-	<p>You can write your program in Transd and ship it with a launcher written
-	in C++. The laucher should have just several lines of code that launches the your Transd program, and
-	the embedded Transd library for running it.</p>
+	<div class="col1" style="margin-top: 15px"><a id="compact"> </a><h3 style="color: #077">"Thin host" scheme</h3>
+	<p>Task: you have a simple, script-like program, which should be multi-platform, and run without installing any 
+	pre-requisites such as a particular programming language, environment or library.</p>
+	<p>You can write your program in Transd and ship it with a launcher executable, whose code is written
+	in C++. The laucher source apart from the embedded Transd compiler library, can have just several lines of code 
+	that starts your Transd program in the embedded Transd compiler.</p>
 	<p>In this variant your program distribution will consist of a single executable, containing
-	the launcher along with the Transd compiler library, and one or more source files containing 
-	your Transd program.</p>
+	the launcher, and one or more source files containing your Transd program.</p>
 	<p>An example of "thin host" scheme is <a href="https://github.com/transd-lang/frend">FREND</a> 
-	interpreter, which can run any Transd program, and whose source code only reads commands
-	and runs them in the compiler.</p>
+	interpreter, which can run any Transd program, and whose very small source only contains the code 
+	for reading commands and running them in the compiler.</p>
 <h4 style="margin-top: 65px;"><a href="highlights.html">Highlights of Transd programming language</a></h4>
 	<hr width="100%" style="margin:100px 0 0 0;">
 	</div>	
