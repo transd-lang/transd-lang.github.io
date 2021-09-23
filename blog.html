@@ -39,6 +39,90 @@ hr {
 <hr style="margin-top: 10px; border: 1px solid #55c; height: 0px;">
 <div class="wrap" style="margin-top: 25px">
 <h2 style="margin-bottom: 50px">The ongoing progress report</h2>
+<h3 id="2021-sep-23-afc-a-program-on-transd">2021-Sep-23 | "AFC": a program on Transd</h3>
+
+<p>For demonstration purposes a first program on Transd has been created: "Audio Flow Combiner". This program illustrates one way of using Transd as a front-end language. Serving as a front-end for the popular and venerable "SoX" audio program, <a href="AFC_man.html">AFC</a> can create finely grained audio flows from one or several audio files.</p>
+
+<p>This program demonstrates many features of the language and main principles of structuring a Transd program. Its source code can be used as a tutorial in Transd programming, and as a reference for the particular task of scripting program's behaviour through the command line. The analysis of the program's source code can be found <a href="AFC.html">here</a>.</p>
+
+<h3 id="2021-aug-28-tsd-objects">2021-Aug-28 | TSD objects</h3>
+
+<p>A new <code>Object</code> type has been added to the type system. This type represents a Transd Structured Data (TSD) object: a named block of text data structured in the form of name/value pairs:</p>
+
+<div class="codehilite"><pre><span></span><code><span class="s">&quot;order_255&quot;</span> <span class="o">:</span> <span class="p">{</span>
+    <span class="s">&quot;Orange Juice&quot;</span><span class="o">:</span> <span class="mf">0.95</span><span class="o">,</span>
+    <span class="s">&quot;Lunch Herb Crusted Salmon&quot;</span><span class="o">:</span> <span class="mf">3.95</span><span class="o">,</span>
+    <span class="s">&quot;Orange Chicken&quot;</span><span class="o">:</span> <span class="mf">1.95</span><span class="o">,</span>
+    <span class="s">&quot;Side of French Fries&quot;</span><span class="o">:</span> <span class="mf">0.95</span><span class="o">,</span> 
+    <span class="nv">total</span><span class="o">:</span> <span class="mf">7.80</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>A text file with many such objects can be processed with Transd in the following way:</p>
+
+<div class="codehilite"><pre><span></span><code><span class="nv">objs</span><span class="o">:</span> <span class="nb">Index&lt;String Vector&lt;</span><span class="nv">Object</span><span class="o">&gt;&gt;</span><span class="p">()</span><span class="o">,</span>
+
+<span class="p">(</span><span class="nf">rebind</span> <span class="nv">objs</span> <span class="p">(</span><span class="nf">group-by</span> 
+                <span class="p">(</span><span class="nf">read-tsd-file</span> <span class="s">&quot;restaurant_orders&quot;</span><span class="p">)</span> 
+                <span class="p">(</span><span class="nf">λ</span> <span class="nv">ob</span> <span class="nv">Object</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nv">String</span><span class="p">()</span> 
+                    <span class="p">(</span><span class="nf">get-String</span> <span class="nv">ob</span> <span class="s">&quot;name&quot;</span><span class="p">))))</span>
+</code></pre></div>
+
+<p>And in <code>objs</code> variable we have an Index with TSD objects, addressable by name (e.g. "order_255") and ready to be placed into a TSDBase or processed in some other way.</p>
+
+<p>What gives this feature much more power is that it can be used for initializing Transd objects with text data. </p>
+
+<p>E.g. we have a program that defines several classes and uses objects of those classes. Then we can initialize these objects from a single text file, which can play the role of a database, advanced configuration file, etc. Our program can look like this:</p>
+
+<div class="codehilite"><pre><span></span><code><span class="nv">class</span> <span class="nv">ClassA</span> <span class="o">:</span> <span class="p">{</span>
+    <span class="nv">field1</span><span class="o">:</span> <span class="nv">String</span><span class="p">()</span><span class="o">,</span>
+    <span class="nv">field2</span><span class="o">:</span> <span class="nv">Int</span><span class="p">()</span><span class="o">,</span>
+    <span class="nv">meth1</span><span class="o">:</span> <span class="p">(</span><span class="k">lambda</span> <span class="o">...</span> <span class="p">)</span>
+<span class="p">}</span>
+
+<span class="nv">class</span> <span class="nv">ClassB</span> <span class="o">:</span> <span class="p">{</span>
+    <span class="nv">field1</span><span class="o">:</span> <span class="nv">vector</span><span class="o">&lt;</span><span class="nb">String&gt;</span><span class="p">()</span><span class="o">,</span>
+    <span class="nv">field2</span><span class="o">:</span> <span class="nv">Double</span><span class="p">()</span><span class="o">,</span>
+    <span class="nv">meth1</span><span class="o">:</span> <span class="p">(</span><span class="k">lambda</span> <span class="o">...</span> <span class="p">)</span>
+<span class="p">}</span>
+
+<span class="nv">MainModule</span><span class="o">:</span> <span class="p">{</span>
+    <span class="nv">objs</span><span class="o">:</span> <span class="nb">Index&lt;String Vector&lt;</span><span class="nv">Object</span><span class="o">&gt;&gt;</span><span class="p">()</span><span class="o">,</span>
+    <span class="nv">objA_1</span><span class="o">:</span> <span class="nv">ClassA</span><span class="p">()</span><span class="o">,</span>
+    <span class="nv">objA_2</span><span class="o">:</span> <span class="nv">ClassA</span><span class="p">()</span><span class="o">,</span>
+    <span class="nv">objB</span><span class="o">:</span> <span class="nv">ClassB</span><span class="p">()</span><span class="o">,</span>
+
+    <span class="nv">_start</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> <span class="p">(</span><span class="nf">rebind</span> <span class="nv">objs</span> <span class="p">(</span><span class="nf">group-by</span> 
+                <span class="p">(</span><span class="nf">read-tsd-file</span> <span class="s">&quot;database1&quot;</span><span class="p">)</span> 
+                <span class="p">(</span><span class="nf">λ</span> <span class="nv">ob</span> <span class="nv">Object</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nv">String</span><span class="p">()</span> 
+                    <span class="p">(</span><span class="nf">get-String</span> <span class="nv">ob</span> <span class="s">&quot;name&quot;</span><span class="p">))))</span>
+    <span class="p">(</span><span class="nf">load-from-object</span> <span class="nv">objA_1</span> <span class="p">(</span><span class="nf">get</span> <span class="p">(</span><span class="nf">snd</span> <span class="p">(</span><span class="nf">get</span> <span class="nv">objs</span> <span class="s">&quot;objA_1&quot;</span><span class="p">))</span> <span class="mi">0</span><span class="p">))</span>
+    <span class="p">(</span><span class="nf">load-from-object</span> <span class="nv">objA_2</span> <span class="p">(</span><span class="nf">get</span> <span class="p">(</span><span class="nf">snd</span> <span class="p">(</span><span class="nf">get</span> <span class="nv">objs</span> <span class="s">&quot;objA_2&quot;</span><span class="p">))</span> <span class="mi">0</span><span class="p">))</span>
+    <span class="p">(</span><span class="nf">load-from-object</span> <span class="nv">objB</span> <span class="p">(</span><span class="nf">get</span> <span class="p">(</span><span class="nf">snd</span> <span class="p">(</span><span class="nf">get</span> <span class="nv">objs</span> <span class="s">&quot;objB&quot;</span><span class="p">))</span> <span class="mi">0</span><span class="p">))</span>
+    <span class="o">...</span>
+</code></pre></div>
+
+<p>And the program's data file will look like this:</p>
+
+<pre><code>"objA_1": {
+    class: "ClassA",
+    field1: "string1",
+    field2: 25
+}
+"objA_2": {
+    class: "ClassA",
+    field1: "string2",
+    field2: 37
+}
+"objB": {
+    class: "ClassB",
+    field1: ["string3", "string4", "string5"],
+    field2: 14.1
+}
+</code></pre>
+
+<p>Thus, with addition of TSD Object type, it's now possible in Transd to implement with minimum of code the chains "TEXT_DATA --> TSD Object --> TSDBase database". That is, with a small amount of code we can create objects of custom structures, read them in from a text file, and work with them in TSDBase in a database way: sorting, quering, selecting, etc.</p>
+
 <h3 id="2021-jul-08-type-system">2021-Jul-08 | Type system</h3>
 
 <p>Type system has become much closer to the production shape. All fundamental types are of fixed size now, instead of platform-dependent sizes, when <code>long int</code> on Windows was 4 bytes and on Linux - 8 bytes. Strings remain platform dependent, since <code>wchar_t</code> is irreplaceable for Unicode handling, and its size is different on Windows and Linux.</p>
@@ -95,7 +179,7 @@ HashIndex&lt;&gt; - generic hash table
 
 <span class="nv">MainModule</span><span class="o">:</span> <span class="p">{</span>
     <span class="nv">_start</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> 
-        <span class="p">(</span><span class="nf">with</span> <span class="nv">fs</span> <span class="nb">FileStream</span><span class="p">()</span> <span class="nv">words</span> <span class="nb">String</span><span class="p">()</span>
+        <span class="p">(</span><span class="k">with</span> <span class="nv">fs</span> <span class="nv">FileStream</span><span class="p">()</span> <span class="nv">words</span> <span class="nv">String</span><span class="p">()</span>
             <span class="p">(</span><span class="nf">open</span> <span class="nv">fs</span> <span class="s">&quot;/mnt/proj/tmp/unixdict.txt&quot;</span><span class="p">)</span>
             <span class="p">(</span><span class="nf">textin</span> <span class="nv">words</span> <span class="nv">fs</span><span class="p">)</span>
             <span class="p">(</span><span class="nf">textout</span> 
@@ -103,8 +187,8 @@ HashIndex&lt;&gt; - generic hash table
                 <span class="p">(</span><span class="nf">regroup-by</span> 
                 <span class="p">(</span><span class="nf">group-by</span> 
                 <span class="p">(</span><span class="nf">split</span> <span class="nv">words</span><span class="p">)</span>
-                    <span class="p">(</span><span class="nf">λ</span> <span class="nv">s</span> <span class="nb">String</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">String</span><span class="p">()</span> <span class="p">(</span><span class="nf">sort</span> <span class="nv">s</span><span class="p">)))</span>
-                    <span class="p">(</span><span class="nf">λ</span> <span class="nv">v</span> <span class="nb">Vector</span><span class="o">&lt;</span><span class="nb">String</span><span class="o">&gt;</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">Int</span><span class="p">()</span> <span class="p">(</span><span class="nf">size</span> <span class="nv">v</span><span class="p">))))))))</span>
+                    <span class="p">(</span><span class="nf">λ</span> <span class="nv">s</span> <span class="nv">String</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nv">String</span><span class="p">()</span> <span class="p">(</span><span class="nf">sort</span> <span class="nv">s</span><span class="p">)))</span>
+                    <span class="p">(</span><span class="nf">λ</span> <span class="nv">v</span> <span class="nb">Vector&lt;String&gt;</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nv">Int</span><span class="p">()</span> <span class="p">(</span><span class="nf">size</span> <span class="nv">v</span><span class="p">))))))))</span>
 <span class="p">}</span>
 </code></pre></div>
 
@@ -153,20 +237,20 @@ HashIndex&lt;&gt; - generic hash table
 <div class="codehilite"><pre><span></span><code><span class="o">#</span><span class="nv">lang</span> <span class="nv">transd</span>
 
 <span class="nv">MainModule</span><span class="o">:</span> <span class="p">{</span>
-    <span class="nv">Tuis</span> <span class="o">:</span> <span class="nv">typealias</span><span class="p">(</span> <span class="nv">Tuple</span><span class="p">(</span> <span class="nb">Int</span><span class="p">()</span> <span class="nb">String</span><span class="p">()</span> <span class="p">)</span> <span class="p">)</span><span class="o">,</span>
-    <span class="nv">v1</span><span class="o">:</span> <span class="nb">Vector</span><span class="p">(</span> <span class="nv">Tuis</span><span class="p">()</span> <span class="p">)</span><span class="o">,</span>
+    <span class="nv">Tuis</span> <span class="o">:</span> <span class="k">typealias</span><span class="p">(</span> <span class="nv">Tuple</span><span class="p">(</span> <span class="nv">Int</span><span class="p">()</span> <span class="nv">String</span><span class="p">()</span> <span class="p">)</span> <span class="p">)</span><span class="o">,</span>
+    <span class="nv">v1</span><span class="o">:</span> <span class="nv">Vector</span><span class="p">(</span> <span class="nv">Tuis</span><span class="p">()</span> <span class="p">)</span><span class="o">,</span>
     <span class="nv">uv1</span><span class="o">:</span> <span class="p">[[</span><span class="mi">6</span><span class="o">,</span> <span class="s">&quot;a&quot;</span><span class="p">]]</span><span class="o">,</span>
     <span class="nv">uv2</span><span class="o">:</span> <span class="p">[[</span><span class="mi">1</span><span class="o">,</span> <span class="s">&quot;c&quot;</span><span class="p">]]</span><span class="o">,</span>
     <span class="nv">uv3</span><span class="o">:</span> <span class="p">[[</span><span class="mi">3</span><span class="o">,</span> <span class="s">&quot;h&quot;</span><span class="p">]]</span><span class="o">,</span>
     <span class="nv">uv4</span><span class="o">:</span> <span class="p">[[</span><span class="mi">2</span><span class="o">,</span> <span class="s">&quot;e&quot;</span><span class="p">]]</span><span class="o">,</span>
-    <span class="nv">_start</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> <span class="p">(</span><span class="nf">with</span> <span class="nv">abc</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="nv">_start</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> <span class="p">(</span><span class="k">with</span> <span class="nv">abc</span> <span class="mi">1</span><span class="p">)</span>
         <span class="p">(</span><span class="nf">add</span> <span class="nv">v</span> <span class="nv">uv1</span><span class="p">)</span> <span class="p">(</span><span class="nf">add</span> <span class="nv">v</span> <span class="nv">uv2</span><span class="p">)(</span><span class="nf">add</span> <span class="nv">v</span> <span class="nv">uv3</span><span class="p">)(</span><span class="nf">add</span> <span class="nv">v</span> <span class="nv">uv4</span><span class="p">)</span>
         <span class="p">(</span><span class="nf">set</span> <span class="nv">v1</span> <span class="mi">0</span> <span class="nv">uv1</span><span class="p">)</span> <span class="p">(</span><span class="nf">set</span> <span class="nv">v1</span> <span class="mi">1</span> <span class="nv">uv2</span><span class="p">)(</span><span class="nf">set</span> <span class="nv">v1</span> <span class="mi">2</span> <span class="nv">uv3</span><span class="p">)(</span><span class="nf">set</span> <span class="nv">v1</span> <span class="mi">3</span> <span class="nv">uv4</span><span class="p">)</span>
         <span class="p">(</span><span class="nf">textout</span> <span class="s">&quot;v: &quot;</span> <span class="nv">v</span> <span class="s">&quot;\n&quot;</span><span class="p">)</span>
         <span class="p">(</span><span class="nf">textout</span> <span class="s">&quot;v1: &quot;</span> <span class="nv">v1</span> <span class="s">&quot;\n&quot;</span><span class="p">)</span>
         <span class="p">(</span><span class="nf">textout</span> <span class="p">(</span><span class="nf">sort</span> <span class="nv">v</span> <span class="o">:</span><span class="nv">asc</span> 
-            <span class="p">(</span><span class="k">lambda </span><span class="nv">l</span> <span class="nv">Tuis</span><span class="p">()</span> <span class="nv">r</span> <span class="nv">Tuis</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nv">Bool</span><span class="p">()</span>
-                <span class="p">(</span><span class="nf">ret</span> <span class="p">(</span><span class="nf">less</span><span class="o">&lt;</span><span class="nb">Int</span><span class="o">&gt;</span> <span class="p">(</span><span class="nf">get</span> <span class="nv">l</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nf">get</span> <span class="nv">r</span> <span class="mi">0</span><span class="p">)))))</span> <span class="s">&quot;\n&quot;</span><span class="p">)</span>
+            <span class="p">(</span><span class="k">lambda</span> <span class="nv">l</span> <span class="nv">Tuis</span><span class="p">()</span> <span class="nv">r</span> <span class="nv">Tuis</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nv">Bool</span><span class="p">()</span>
+                <span class="p">(</span><span class="nf">ret</span> <span class="p">(</span><span class="nf">less</span><span class="o">&lt;</span><span class="nb">Int&gt;</span> <span class="p">(</span><span class="nf">get</span> <span class="nv">l</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nf">get</span> <span class="nv">r</span> <span class="mi">0</span><span class="p">)))))</span> <span class="s">&quot;\n&quot;</span><span class="p">)</span>
     <span class="p">)</span>
 <span class="p">}</span>
 </code></pre></div>

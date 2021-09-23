@@ -13,7 +13,7 @@ body { margin: 50px 0 0; background: #fff url(../img/bg.jpg) repeat-x; font: 1em
 	.red { color: #9D2900; }
 	
 .wrap { width: 900px; margin: 0 auto; }
- 
+
 #header { width: 900px; height: 55px; margin: 0 auto; }
 	#menu  { float: right; padding: 20px 0 0 0; list-style: none; }
 		#menu li { display: inline; }

@@ -10,6 +10,7 @@
 <meta name="keywords" content="Transd, programming language, C++">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="css/main.css" rel="stylesheet" type="text/css" />
+    <link href="css/codehighlight.css" rel="stylesheet" type="text/css" />
     <meta name="google-site-verification" content="63G17VnFhEwRurzQxiGD7ZDbQ_ROuEDM_xtxZXAjfS0" />
 </head>
 <body>
@@ -60,53 +61,42 @@ bottom-border: solid 1px ;height: 0px; text-align: center;">
 </div>
 
 	<div class="col1" style="margin-top: 15px"><a id="simple"> </a><h3 style="color: #077">Handling a simple configuration file</h3>
-	<p>Your program has a simple configuration file, and Transd is used for its processing.</p>
-	<p>The configuration file has the form of name/value pairs grouped into sections:</p>
-<pre><code>section1 : {
-	name1: value1,
-	name2: value2
-}
+	<p>Task: Your program has configuration needs from simple to moderately complex.</p>
+	<p>Solution: The configuration file(s) for your program can be organized as named 
+	sections with lists of name/value items:</p>
+	<div class="codehilite"><pre><span></span><code><span class="nv">network</span> <span class="o">:</span> <span class="p">{</span>
+    <span class="nv">siteName</span><span class="o">:</span> <span class="s">&quot;localhost&quot;</span><span class="o">,</span>
+    <span class="nv">requestPassword</span><span class="o">:</span> <span class="nv">true</span>
+<span class="p">}</span>
 
-section2 : {
-	name3: value3,
-	name4: value4
-}
-</code></pre>
-<p>Transd reads this file and returns for each section a list of name/value pairs.</p>	
+<span class="nv">users</span> <span class="o">:</span> <span class="p">{</span>
+    <span class="nv">usernames</span><span class="o">:</span> <span class="p">[</span><span class="s">&quot;alice&quot;</span><span class="o">,</span> <span class="s">&quot;bob&quot;</span><span class="o">,</span> <span class="s">&quot;tom&quot;</span><span class="p">]</span><span class="o">,</span>
+    <span class="nv">userquotas</span><span class="o">:</span> <span class="p">[</span><span class="mi">35</span><span class="o">,</span> <span class="mi">35</span><span class="o">,</span> <span class="mi">30</span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>
+	 Transd has built-in support of such format
+	and can process such files with almost no customization. Values in name/value pairs can
+	be strings, integers, floats, booleans, and lists of these. Transd reads and validates 
+	configuration files and returns the processed results via C++ API or standard output.</p> 
+	
 	</div>
 	<div class="col1" style="margin-top: 15px"><a id="powerful"> </a><h3 style="color: #077">Handling an advanced configuration</h3>
-	<p>Task: your program needs complex configuration that supports definition of objects,
-	type checking, values checking, etc.</p> 
-	<p>Transd allows you to handle complex configuration by having one or several configuration
-	files and a separate file with rules for processing them.</p>
-	<p>The file with rules is usually provided by the program's vendor and not
-	editable by the user. The rules are, basically, a program written in Transd, which can
-	define data structures, field types, check that values are in allowed interval, etc. This
-	program can also define functions, which the user can override in the configuration file.</p>
-	<p>Example rules definition file (edited by the program's vendor):</p>
-	<pre><code># lang transd
+	<p>Task: Your program should handle complex configuration that possibly includes typed objects, 
+	user-defined functions,	type checking, values checking, etc.</p> 
+	<p>Transd provides an effective solution for handling complex configurations. It combines,
+	on the one side, a simple and clear syntax of configuration files, which nonetheless allows to
+	express complex things, such as object-oriented configuration with type checking and support
+	of user-defined scripts. On the other side, it provides effective means for converting and
+	transferring the information from configuration files to the host program with much less
+	amount of code than a written from scratch solution would require.  
+	</p>
+	<p align=center>
+<img src="img/Diagram1.png" style="margin-top: 35px" alt="" />
+</p>
+<p>An example of handling a moderately complex configuration can be seen in a <a href="AFC.html">demonstration
+program</a>.</p>
 
-class SomeClass: {
-	numVar: Int(),
-	strVar: String(),
-	someFunc: (lambda (ret numVar)),
-	check: (lambda (if (> numVar 1000) (throw "Error: numVar is too big!")))
-}
-
-MainModule: {
-	config: SomeClass(),
-	// other code
-}</code></pre>
-	<p>Example configuration file (edited by the program's user):</p>
-	<pre><code>obj1: {
-	class: "SomeClass",
-	numVar: 25,
-	strVar: "some string",
-	someFunc: "(lambda (+ numVar 5))"
-}
-</code></pre>
-<p>Transd reads the configuration file, runs the definition file and returns the result as defined
-in the definition file.</p>
 	</div>
 	<div class="col1" style="margin-top: 15px"><h3 style="color: #077">Extending the program's functionality</h3>
 	<p>Task: your program has functionality that may be customized or extended. This customization can be

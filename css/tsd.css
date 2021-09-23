@@ -26,5 +26,5 @@ body { font: 1em "Trebuchet MS", Arial, Sans-Serif; color: #444; }
 	h4 { font-size: 1.2em; color: #191970; font-weight: normal; margin: 1.2em 0.5em 1.3em; }
 	p  { margin: 0 0 1em 0; line-height: 1.5em; }
 code { text-align: left; font: 1.0em Consolata, Monospace, "Courier New"; padding: 0px;
-		background-color: #e8e8e8; line-height: 1.5em; }
-pre { font-size: 1.0em; color: #555; padding: 10px; margin: -5px auto 15px auto;background-color: #e8e8e8; line-height: 1.5em;}
+		background-color: #eee; line-height: 1.5em; }
+pre { font-size: 1.0em; color: #555; padding: 10px; margin: -5px auto 15px auto;background-color: #eee; line-height: 1.5em;}
