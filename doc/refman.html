@@ -20,11 +20,13 @@ hr {
   color: #bbb;
 }
 body { font: 1em "Trebuchet MS", Arial, Sans-Serif; color: #444; }
-	h1 { font-size: 2.5em; font-weight: normal; color: #151515;}
+	h1 { font: bold 2.0em sans-serif; color: #404040;}
 	h1 a { text-decoration: none; }
-	h2 { font-size: 2em; color: #151515; font-weight: normal; margin: 1.5em 1em 1em auto; }
-	h3 { font-size: 1.5em; font-weight: normal; margin: 1.5em 0 .5em; }
-	h4 { font-size: 1.2em; color: #191970; font-weight: normal; margin: 1.2em 0.5em 1.3em; }
+	h2 { font: normal 2.0em sans-serif; color: #404040; margin: 1.5em 1em 1em auto; }
+	h3 { font: bold 1.8em serif; color: #4040a0; margin: 1.5em 0 .5em; }
+	h4 { font: bold 1.3em sans-serif; color: #707070; margin: 1.2em 0 1.3em; }
+	h5 { font: normal 1.2em sans-serif; color: #404040; margin: 1.2em 0.5em 1.3em; }
+	h6 { font: bold 1.2em sans-serif; color: #4040a0; margin: 0 0 0.5em 0; }	
 	p  { margin: 0 0 1em 0; line-height: 1.5em; }
 code { text-align: left; font: 1.0em Consolata, Monospace, "Courier New"; padding: 0px;
 		background-color: #e8e8e8; line-height: 1.5em; }
@@ -157,10 +159,10 @@ font-size: 3em; font-weight: normal; color: #005b56; font-family: serif;">Transd
 <p>Example:</p>
 
 <div class="codehilite"><pre><span></span><code><span class="nv">Module1</span><span class="o">:</span> <span class="p">{</span>
-  <span class="nv">s</span><span class="o">:</span>  <span class="nb">String</span><span class="p">()</span><span class="o">,</span>
-  <span class="nv">s1</span><span class="o">:</span> <span class="nb">String</span><span class="p">(</span><span class="s">&quot;some string&quot;</span><span class="p">)</span><span class="o">,</span>
-  <span class="nv">v</span><span class="o">:</span>  <span class="nb">Vector</span><span class="o">&lt;</span><span class="nb">Int</span><span class="o">&gt;</span><span class="p">(</span> <span class="mi">10</span> <span class="p">)</span><span class="o">,</span>
-  <span class="nv">v1</span><span class="o">:</span> <span class="nb">Vector</span><span class="o">&lt;</span><span class="nb">Int</span><span class="o">&gt;</span><span class="p">(</span> <span class="p">[</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="p">]</span> <span class="p">)</span>
+  <span class="nv">s</span><span class="o">:</span>  <span class="nv">String</span><span class="p">()</span><span class="o">,</span>
+  <span class="nv">s1</span><span class="o">:</span> <span class="nv">String</span><span class="p">(</span><span class="s">&quot;some string&quot;</span><span class="p">)</span><span class="o">,</span>
+  <span class="nv">v</span><span class="o">:</span>  <span class="nb">Vector&lt;Int&gt;</span><span class="p">(</span> <span class="mi">10</span> <span class="p">)</span><span class="o">,</span>
+  <span class="nv">v1</span><span class="o">:</span> <span class="nb">Vector&lt;Int&gt;</span><span class="p">(</span> <span class="p">[</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="p">]</span> <span class="p">)</span>
 <span class="p">}</span>
 </code></pre></div>
 
@@ -271,10 +273,10 @@ are only visible inside that construction.</p>
 <p><em>Classes</em> are templates for creating objects. A template is a list of data variables, which represent some kind of things, for example a database record storing information about an employee:</p>
 
 <div class="codehilite"><pre><span></span><code><span class="nv">class</span> <span class="nv">Employee</span> <span class="o">:</span> <span class="p">{</span>
-  <span class="nv">id</span><span class="o">:</span> <span class="nb">Int</span><span class="p">()</span><span class="o">,</span>
-  <span class="nv">name</span><span class="o">:</span> <span class="nb">String</span><span class="p">()</span><span class="o">,</span>
-  <span class="nv">department</span><span class="o">:</span> <span class="nb">String</span><span class="p">()</span><span class="o">,</span>
-  <span class="nv">salary</span><span class="o">:</span> <span class="nb">Int</span><span class="p">()</span>
+  <span class="nv">id</span><span class="o">:</span> <span class="nv">Int</span><span class="p">()</span><span class="o">,</span>
+  <span class="nv">name</span><span class="o">:</span> <span class="nv">String</span><span class="p">()</span><span class="o">,</span>
+  <span class="nv">department</span><span class="o">:</span> <span class="nv">String</span><span class="p">()</span><span class="o">,</span>
+  <span class="nv">salary</span><span class="o">:</span> <span class="nv">Int</span><span class="p">()</span>
 <span class="p">}</span>
 </code></pre></div>
 
@@ -294,8 +296,8 @@ are only visible inside that construction.</p>
 
 <p>Classes, in fact, are types of objects, and are similar to built-in types such as <code>String</code> or <code>Vector</code>. You instantiate a class by declaring a variable of that class in the same way as you declare variables of built-in types:</p>
 
-<div class="codehilite"><pre><span></span><code><span class="nv">i</span><span class="o">:</span> <span class="nb">Int</span><span class="p">()</span><span class="o">,</span>
-<span class="nv">str</span><span class="o">:</span> <span class="nb">String</span><span class="p">()</span><span class="o">,</span>
+<div class="codehilite"><pre><span></span><code><span class="nv">i</span><span class="o">:</span> <span class="nv">Int</span><span class="p">()</span><span class="o">,</span>
+<span class="nv">str</span><span class="o">:</span> <span class="nv">String</span><span class="p">()</span><span class="o">,</span>
 <span class="nv">pt</span><span class="o">:</span> <span class="nv">Point</span><span class="p">()</span><span class="o">,</span>
 <span class="nv">record</span><span class="o">:</span> <span class="nv">Employee</span><span class="p">()</span>
 </code></pre></div>
@@ -327,12 +329,10 @@ are only visible inside that construction.</p>
 
 <pre><code>                     Types
                     /     \
-               Basic      Compound
-              /     \         |
-       Containers  Simple   Containers
+               Basic       Compound
+              /     \       /      \
+        Simple  Containers Simple  Containers
 </code></pre>
-
-<p>Compound types are always containers, basic types are either simple or container.</p>
 
 <p><strong>Basic types</strong> are: <code>Bool</code>, <code>Byte</code>, <code>Char</code>, <code>Int</code>, <code>Long</code>, <code>ULong</code>, <code>Double</code>, <code>String</code>, <code>ByteArray</code>.</p>
 
@@ -340,9 +340,9 @@ are only visible inside that construction.</p>
 
 <p>Compound types take an additional type parameter for their instantiation. For example, a vector of integers is declared as <code>Vector&lt;Int&gt;</code>. Such vector can only contain <code>Int</code>s, that is the "Int" type parameter becomes a part of the definition of the whole type. This is why such types are called "compound". Compound types are also refered to as generic types, or <em>generics</em>.</p>
 
-<p><strong>Compound types</strong> are: <code>Vector</code>, <code>Index</code>, <code>HashIndex</code>.</p>
+<p><strong>Compound types</strong> are: <code>Position</code>, <code>Tuple</code>, <code>Vector</code>, <code>Index</code>, <code>HashIndex</code>.</p>
 
-<p>All compound types are containers.</p>
+<p><code>Position</code> is a simple type, all other compound types are containers.</p>
 
 <h2 id="type-traits">Type traits</h2>
 
@@ -350,23 +350,25 @@ are only visible inside that construction.</p>
 
 <p>For example, types <code>Double</code> and <code>Int</code> both have the <code>:Number</code> property. If some function can accept both <code>Double</code> and <code>Int</code> as a parameter, then instead of writing two overloaded versions of the function, it's possible to use the <code>:Number</code> type property as the parameter type.</p>
 
-<p>For example, a function receiving a number and returning its integral part can be defined as follows:</p>
+<p>For example, a function receiving a number and returning the integral part of that number can be defined as follows:</p>
 
-<div class="codehilite"><pre><span></span><code><span class="o">#</span><span class="nv">lang</span> <span class="k">transd</span>
+<div class="codehilite"><pre><span></span><code><span class="o">#</span><span class="nv">lang</span> <span class="nv">transd</span>
 
 <span class="nv">MainModule</span><span class="o">:</span> <span class="p">{</span>
-<span class="nv">i</span><span class="o">:</span> <span class="nb">Int</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span><span class="o">,</span>
+<span class="nv">i</span><span class="o">:</span> <span class="nv">Int</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span><span class="o">,</span>
 <span class="nv">d</span><span class="o">:</span> <span class="nv">Double</span><span class="p">(</span><span class="mf">5.5</span><span class="p">)</span><span class="o">,</span>
+<span class="nv">s</span><span class="o">:</span> <span class="nv">String</span><span class="p">(</span><span class="s">&quot;5&quot;</span><span class="p">)</span><span class="o">,</span>
 
 <span class="k">in</span><span class="nv">tgr</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> <span class="nv">n</span> <span class="o">:</span><span class="nv">Number</span><span class="p">()</span> <span class="p">(</span><span class="nf">ret</span> <span class="p">(</span><span class="nf">to-Int</span> <span class="nv">n</span><span class="p">)))</span><span class="o">,</span>
 
 <span class="nv">_start</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> <span class="p">(</span><span class="nf">lout</span> <span class="p">(</span><span class="k">in</span><span class="nv">tgr</span> <span class="nv">i</span><span class="p">))</span> <span class="c1">// =&gt; 5</span>
            <span class="p">(</span><span class="nf">lout</span> <span class="p">(</span><span class="k">in</span><span class="nv">tgr</span> <span class="nv">d</span><span class="p">))</span> <span class="c1">// =&gt; 5</span>
+           <span class="p">(</span><span class="nf">lout</span> <span class="p">(</span><span class="k">in</span><span class="nv">tgr</span> <span class="nv">s</span><span class="p">))</span> <span class="c1">// compilation error!</span>
 <span class="p">)</span>
 <span class="p">}</span>
 </code></pre></div>
 
-<h2 id="simple-types">Simple types</h2>
+<h2 id="built-in-types">Built-in types</h2>
 
 <h3 id="null">Null</h3>
 
@@ -425,26 +427,23 @@ ULong      0 to 18,446,744,073,709,551,615   8 bytes      unsigned
 
 <p><code>String</code> - is a container type that represents text string: it stores a sequence of Unicode characters (code points). This type is optimized for manipulating text-like data. Apart from supporting generic container operations, <code>String</code> supports a set of methods specific to manipulating text strings.</p>
 
-<p>Below is the list of the String class methods. ‘subj’ in the parameter list is the String object on which the method is called.</p>
+<p>Below is the list of the String class methods. <em>subj</em> in the parameter list is the String object on which the method is called.</p>
 
-<h4 id="string-constructors">String constructors</h4>
+<h4 id="constructor">Constructor</h4>
 
-<p><code>String()</code><br>
-Creates an empty string.</p>
-
-<p><code>String( str : String() ... )</code><br>
+<p><code>String( [str]* )</code><br>
 Parameters:<br>
 <em>str</em> - any object evaluating to <code>String</code>.</p>
 
-<p><code>str</code> can be a string variable, string literal or an expression returning a String. Any number of space separated objects can be passed to the constructor. The created string is the concatenation of all arguments.</p>
+<p><code>str</code> can be a string variable, string literal or an expression returning a String. Any number of space separated objects can be passed to the constructor. The new string is the concatenation of all arguments. If no arguments is given, the new string is empty string.</p>
 
 <p>Examples:</p>
 
-<div class="codehilite"><pre><span></span><code><span class="nv">str1</span> <span class="o">:</span> <span class="nb">String</span><span class="p">()</span><span class="o">,</span>
-<span class="nv">str2</span> <span class="o">:</span> <span class="nb">String</span><span class="p">(</span><span class="s">&quot;Hello!&quot;</span><span class="p">)</span>
+<div class="codehilite"><pre><span></span><code><span class="nv">str1</span> <span class="o">:</span> <span class="nv">String</span><span class="p">()</span><span class="o">,</span>
+<span class="nv">str2</span> <span class="o">:</span> <span class="nv">String</span><span class="p">(</span><span class="s">&quot;Hello!&quot;</span><span class="p">)</span>
 </code></pre></div>
 
-<h4 id="string-value-initializers">String value initializers</h4>
+<h4 id="value-initializer">Value initializer</h4>
 
 <p>A String variable can be initialized with a string literal.</p>
 
@@ -453,51 +452,174 @@ Parameters:<br>
 <div class="codehilite"><pre><span></span><code><span class="nv">str3</span> <span class="o">:</span> <span class="s">&quot;Hello!&quot;</span>
 </code></pre></div>
 
-<h4 id="string-methods">String methods</h4>
+<h4 id="methods">Methods</h4>
 
-<p><strong>set</strong></p>
+<p>Methods of <code>String</code> class include:</p>
+
+<ul>
+<li>general containers' methods, such as <code>(size)</code> or <code>(clear)</code>;</li>
+<li>sequence containers' methods, such as <code>(sort)</code> or <code>(reverse)</code>;</li>
+<li><code>String</code>'s own methods, such as text manipulation routines.</li>
+</ul>
+
+<h5 id="container-methods">Container methods</h5>
+
+<h6 id="clear">clear</h6>
+
+<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="nf">clear</span> <span class="nv">subj</span><span class="p">)</span>
+</code></pre></div>
+
+<p>Return type: <code>Null</code></p>
+
+<p>Discards the string's contents and makes it empty.</p>
+
+<h6 id="eq">eq</h6>
+
+<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="nf">eq</span> <span class="nv">subj</span> <span class="nv">str</span><span class="p">)</span>
+ <span class="nv">or</span>
+<span class="p">(</span><span class="nb">== </span><span class="nv">subj</span> <span class="nv">str</span><span class="p">)</span>
+</code></pre></div>
+
+<p>Parameters:<br>
+<em>str</em> : <code>String</code><br>
+Return type: <code>Bool</code></p>
+
+<p>Compares two strings: <em>subj</em> and <em>str</em>. Returns <code>true</code> if code point sequences in both strings are identical. Otherwise, returns <code>false</code>.</p>
+
+<h6 id="set">set</h6>
 
 <div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="nf">set</span> <span class="nv">subj</span> <span class="nv">str</span><span class="p">)</span>
-
+ <span class="nv">or</span>
 <span class="p">(</span><span class="nb">= </span><span class="nv">subj</span> <span class="nv">str</span><span class="p">)</span>
 </code></pre></div>
 
 <p>Parameters:<br>
-<em>str</em> - any object evaluating to <code>String</code>.</p>
+<em>str</em> : <code>String</code><br>
+Return type: <code>Null</code></p>
 
 <p>Assigns the value <em>str</em> to <em>subj</em>.</p>
 
-<p>— — — — — —</p>
+<h6 id="size">size</h6>
 
-<p><strong>read</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="nf">size</span> <span class="nv">subj</span><span class="p">)</span>
+</code></pre></div>
+
+<p>Return type: <code>Int</code></p>
+
+<p>Returns the length of the string as the number of code points.</p>
+
+<h5 id="sequence-container-methods">Sequence container methods</h5>
+
+<h6 id="back">back</h6>
+
+<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="nf">back</span> <span class="nv">subj</span><span class="p">)</span>
+</code></pre></div>
+
+<p>Return type: <code>Char</code></p>
+
+<p>Returns the last character of non-empty <em>subj</em>. If <em>subj</em> is empty, an exception will be thrown.</p>
+
+<h6 id="begin">begin</h6>
+
+<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="nf">begin</span> <span class="nv">subj</span><span class="p">)</span>
+</code></pre></div>
+
+<p>Return type: <code>Position</code></p>
+
+<p>Returns the <code>Position</code> object for the first character of <em>subj</em>. If <em>subj</em> is empty, the function returns the <code>end</code> position.</p>
+
+<h6 id="end">end</h6>
+
+<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="nf">end</span> <span class="nv">subj</span><span class="p">)</span>
+</code></pre></div>
+
+<p>Return type: <code>Position</code></p>
+
+<p>Returns the <code>Position</code> object denoting the end of <em>subj</em>'s character sequence. The <code>end</code> position is the position after the last character. In an empty string the <code>begin</code> position is equal to the <code>end</code> position.</p>
+
+<h6 id="find-first-not-of">find-first-not-of</h6>
+
+<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="nf">find-first-not-of</span> <span class="nv">subj</span> <span class="nv">str</span> <span class="p">[</span><span class="nv">pos</span><span class="p">])</span>
+</code></pre></div>
+
+<p>Parameters:<br>
+<em>str : String</em> - a list of characters.<br>
+<em>pos : :Integer</em> - (default: 0) character index in <em>subj</em> to start search from.<br>
+Return type: <code>Int</code></p>
+
+<p>Returns the index of the first character in <em>subj</em>, not contained in <em>str</em>. If no such character was found, the returned value is -1.</p>
+
+<h6 id="front">front</h6>
+
+<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="nf">front</span> <span class="nv">subj</span><span class="p">)</span>
+</code></pre></div>
+
+<p>Return type: <code>Char</code></p>
+
+<p>Returns the first character of non-empty <em>subj</em>. If <em>subj</em> is empty, an exception will be thrown.</p>
+
+<h6 id="reverse">reverse</h6>
+
+<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="nf">reverse</span> <span class="nv">subj</span><span class="p">)</span>
+</code></pre></div>
+
+<p>Return type: <code>String</code></p>
+
+<p>Reverses a string. That is "abc" is transformed to "cba". The <em>subj</em> becomes reversed and the reference to it is returned.</p>
+
+<h6 id="shuffle">shuffle</h6>
+
+<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="nf">shuffle</span> <span class="nv">subj</span><span class="p">)</span>
+</code></pre></div>
+
+<p>Return type: <code>String</code></p>
+
+<p>Randomly permutates the characters in <em>subj</em> and returns the reference to it.</p>
+
+<h6 id="sort">sort</h6>
+
+<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="nf">sort</span> <span class="nv">subj</span> <span class="p">[</span><span class="nv">cmpFunc</span><span class="p">])</span>
+</code></pre></div>
+
+<p>Parameters:<br>
+<em>cmpFunc : Lambda</em> - (optional) comparison predicate function.<br>
+Return type: <code>String</code></p>
+
+<p>Sorts a string. That is arranges the string's code points in ascending or descending order according to some comparison function. The default comparison function compares the numeric values of code points. The reversed sorting order is achieved by using a reversed Range as the function's subject:</p>
+
+<div class="codehilite"><pre><span></span><code><span class="nv">s</span><span class="o">:</span> <span class="s">&quot;bcaed&quot;</span><span class="o">,</span>
+<span class="nv">f</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> <span class="p">(</span><span class="nf">lout</span> <span class="p">(</span><span class="nf">sort</span> <span class="nv">Range</span><span class="p">(</span><span class="k">in</span><span class="o">:</span> <span class="nv">s</span> <span class="mi">-0</span> <span class="mi">0</span><span class="p">))))</span> <span class="c1">// &quot;edcba&quot;</span>
+</code></pre></div>
+
+<h5 id="own-methods">Own methods</h5>
+
+<h6 id="read">read</h6>
 
 <div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="nf">read</span> <span class="nv">subj</span><span class="p">)</span>
 </code></pre></div>
 
 <p>Reads a string from <code>StdIn</code> to <em>subj</em>.</p>
 
-<p>— — — — — —</p>
+<h6 id="tolower">tolower</h6>
 
-<p><strong>eq</strong></p>
-
-<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="nf">eq</span> <span class="nv">subj</span> <span class="nv">str</span><span class="p">)</span>
-
-<span class="p">(</span><span class="nb">== </span><span class="nv">subj</span> <span class="nv">str</span><span class="p">)</span>
+<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="nf">tolower</span> <span class="nv">subj</span><span class="p">)</span>
 </code></pre></div>
 
-<p>Parameters:<br>
-<em>str</em> - any object evaluating to <code>String</code>.</p>
+<p>Converts all letters in the string to lower case.</p>
 
-<p>Compares two strings: <em>subj</em> and <em>str</em>. Returns <code>true</code> if code point sequences in both strings are identical. Otherwise, returns <code>false</code>.</p>
+<h6 id="toupper">toupper</h6>
 
-<p>— — — — — —</p>
+<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="nf">toupper</span> <span class="nv">subj</span><span class="p">)</span>
+</code></pre></div>
+
+<p>Converts all letters in the string to upper case.</p>
 
 <h4 id="string-examples">String examples</h4>
 
 <p><strong>read</strong></p>
 
 <div class="codehilite"><pre><span></span><code><span class="nv">MainModule</span><span class="o">:</span> <span class="p">{</span>
-  <span class="nv">s</span> <span class="o">:</span> <span class="nb">String</span><span class="p">()</span><span class="o">,</span>
+  <span class="nv">s</span> <span class="o">:</span> <span class="nv">String</span><span class="p">()</span><span class="o">,</span>
   <span class="nv">_start</span> <span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> <span class="p">(</span><span class="nf">read</span> <span class="nv">s</span><span class="p">)</span>
     <span class="p">(</span><span class="nf">textout</span> <span class="s">&quot;The input was:&quot;</span> <span class="nv">s</span><span class="p">))</span>
 <span class="p">}</span>
@@ -506,7 +628,7 @@ Parameters:<br>
 <p><strong>set</strong></p>
 
 <div class="codehilite"><pre><span></span><code><span class="nv">MainModule</span><span class="o">:</span> <span class="p">{</span>
-  <span class="nv">s</span> <span class="o">:</span> <span class="nb">String</span><span class="p">()</span><span class="o">,</span>
+  <span class="nv">s</span> <span class="o">:</span> <span class="nv">String</span><span class="p">()</span><span class="o">,</span>
   <span class="nv">s1</span> <span class="o">:</span> <span class="s">&quot;Hello, Transd!&quot;</span><span class="o">,</span>
   <span class="nv">_start</span> <span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> <span class="p">(</span><span class="nf">set</span> <span class="nv">s</span> <span class="s">&quot;Hello, world!&quot;</span><span class="p">)</span>
     <span class="p">(</span><span class="nb">= </span><span class="nv">s</span> <span class="nv">s1</span><span class="p">))</span>
@@ -538,9 +660,57 @@ true
 
 <h3 id="stringstream">StringStream</h3>
 
+<h2 id="built-in-functions">Built-in functions</h2>
+
+<h6 id="textout">textout</h6>
+
+<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="nf">textout</span> <span class="p">[</span><span class="nv">to</span><span class="o">:</span> <span class="o">&lt;</span><span class="nv">streamObj</span><span class="o">&gt;</span><span class="p">]</span> <span class="p">[</span><span class="nv">param</span><span class="p">]</span><span class="err">*</span><span class="p">)</span>
+</code></pre></div>
+
+<p>Parameters:<br>
+<em>streamObj : Stream</em> - (default: <code>StdOut</code>) a Stream object.<br>
+<em>param</em> - a variable, literal or expression.</p>
+
+<p>Return type: <code>Null</code></p>
+
+<p>Prints out the parameters <code>[param]*</code> to a stream destination: <em>streamObj</em>. The destination can be of type <code>StringStream</code>, <code>ByteStream</code>, or <code>FileStream</code>. If the destination is not specified, the output is done to <code>StdOut</code>.</p>
+
+<p><code>[param]*</code> is a list of any number of space separated parameters. A parameter is any expression whose value can be represented by a text string. 'Null' values are represented by a null string and not printed.</p>
+
+<p>Examples:</p>
+
+<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="k">with</span> <span class="nv">s</span> <span class="s">&quot;abcde&quot;</span>
+    <span class="p">(</span><span class="nf">textout</span> <span class="p">(</span><span class="nf">front</span> <span class="nv">s</span><span class="p">)</span> <span class="p">(</span><span class="nf">back</span> <span class="nv">s</span><span class="p">)</span> <span class="p">(</span><span class="nf">clear</span> <span class="nv">s</span><span class="p">)</span> <span class="s">&quot; &quot;</span>
+         <span class="p">(</span><span class="nf">eval</span> <span class="s">&quot;(front s)&quot;</span><span class="p">)</span> <span class="s">&quot; &quot;</span> <span class="p">(</span><span class="nf">eval</span> <span class="s">&quot;(back s)&quot;</span><span class="p">))</span>
+<span class="p">)</span>
+<span class="c1">// Output: ae false false</span>
+
+<span class="p">(</span><span class="k">with</span> <span class="nv">s</span> <span class="s">&quot;abcde&quot;</span> <span class="nv">n</span> <span class="mi">10</span>
+    <span class="p">(</span><span class="nf">textout</span> <span class="s">&quot;The length of \&quot;&quot;</span> <span class="nv">s</span> <span class="s">&quot;\&quot; is &quot;</span> 
+        <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="o">&gt;</span> <span class="p">(</span><span class="nf">size</span> <span class="nv">s</span><span class="p">)</span> <span class="nv">n</span><span class="p">)</span> <span class="s">&quot;more&quot;</span> <span class="k">else</span> <span class="s">&quot;less&quot;</span><span class="p">)</span> <span class="s">&quot; than &quot;</span> <span class="nv">n</span> <span class="s">&quot; characters&quot;</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="c1">// Output: The length of &quot;abcde&quot; is less than 10 characters.</span>
+</code></pre></div>
+
 <h2 id="built-in-classes">Built-in classes</h2>
 
 <h3 id="directory">Directory</h3>
+
+<h4 id="methods-2">Methods</h4>
+
+<p>(<strong>read</strong> subj <em>dir</em> <em>filePatt</em> )</p>
+
+<p>Read file names in a directory.</p>
+
+<p><em>dir</em>:String() - the directory whose contents are to be read;</p>
+
+<h2 id="_filepatt_string-the-regular-expression-with-the-pattern-of-file-names-to-include"><em>filePatt</em>:String() - the regular expression with the pattern of file names to include;</h2>
+
+<p>(<strong>read-rec</strong> subj <em>rootDir</em> <em>filePatt</em> )
+Recursively read file nanes in a directory tree.</p>
+
+<p><em>rootDir</em>:String() - the directory whose contents are to be read;
+<em>filePatt</em>:String() - the regular expression with the pattern of file names to include;</p>
 
 <h3 id="tsdbase">TSDBase</h3>
 
@@ -556,7 +726,7 @@ true
 
 <p>Container functions are functions that operate on more than one container class. That is they are not specific to some particular container class, but can be applyed to various container types (Vector, String, etc.) and they will produce the similar result.</p>
 
-<h3 id="size">size</h3>
+<h3 id="size-2">size</h3>
 
 <p><code>(size subj)</code></p>
 
