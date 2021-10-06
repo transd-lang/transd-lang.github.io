@@ -23,7 +23,7 @@ body { margin: 50px 0 0; background: #fff url(../img/bg.jpg) repeat-x; font: 1em
 
 #teaser { clear: both; height: 259px; background: #fff url(../img/teaserbg.jpg) repeat-x; font-size: 1.0em;}
 	.box { float: left; padding: 66px 0 0; width: 480px; color: #C7E3EE; }
-	#image { float: right; width: 388px; position: relative; top: 16px; background: url(../img/logotype1.jpg) no-repeat top right; height: 258px; }
+	#image { float: right; width: 388px; position: relative; top: 16px; background: url(../img/logotype2.png) no-repeat top right; height: 258px; }
 	
 #bar { height: 40px; margin: 0 0 30px; padding: 8px 0 0 0; background: url(../img/bar.jpg) repeat-x; font-size: .74em;}
 	.step { cursor: pointer; color: #FAFDDD; padding: 4px 0 0 11px; margin: 0 35px 0 0; font-size: 1.4em; float: left; text-align: center; background: url(../img/step.jpg) no-repeat; height: 30px; }
