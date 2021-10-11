@@ -41,7 +41,7 @@
   <div class="col3">
     <h3><font color="#007878">What tasks can Transd solve?</font></h3>
     <p>Extending or customizing the functionality of programs by the end user; 
-    processing complex configuration files; scripting the program's behaviour.</p>
+    processing data sets and complex configuration files; scripting the program's behaviour.</p>
   </div>
   <div class="col3">
     <h3><font color="#007878">How Transd is used?</font></h3>
@@ -56,14 +56,59 @@
   <hr style="width: 50%;  margin-left: 230px; color: #ccc; margin-bottom: 20px;  
 bottom-border: solid 1px ;height: 0px; text-align: center;">
 </div>
-<div class="col1" style="margin-top: 20px;">
-<h3 style="margin-top: 35px;">Example scenarios of using Transd</h3>
-</div>
+<div style="width: 900px; height: 300px;display: table-cell; position: relative; vertical-align: middle;">
+<div style="float: left;">
+<h2 style="margin-top: 35px;">Use cases for Transd</h2>
 
-	<div class="col1" style="margin-top: 15px"><a id="simple"> </a><h3 style="color: #077">Handling a simple configuration file</h3>
-	<p>Task: Your program has configuration needs from simple to moderately complex.</p>
-	<p>Solution: The configuration file(s) for your program can be organized as named 
-	sections with lists of name/value items:</p>
+<p>
+<ul style="padding-left: 25px; line-height: 2.0em">
+<li><a href="#simple">Working with external data sets</a></li>
+<li><a href="#simpleConf">Processing a simple configuration file</a></li>
+<li><a href="#powerful">Handling an advanced configuration</a></li>
+<li><a href="#extending">Extending the program's functionality by the user</a></li>
+<li><a href="#compact">Multi-platform scripting language</a></li>
+</ul>
+</p>
+</div>
+<div style="float: right;margin-top: 35px;">
+<img src="img/transductor_gear.jpg" alt="" /></div>
+</div>
+<div class="col1" style="margin-top: 15px"><a id="simple"> </a><h3 style="color: #077">Working with external data</h3>
+<p>Moderately large data sets can be worked with in Transd using a very small amount of code. 
+A program consisting of several lines can read a 'CSV' file into memory and perform 
+data queries on it, similar to SQL queries.</p>
+<p>Example (essential code):</p>
+
+<pre><code><font color="#027D00">// read CSV file contents into 'dataStr' string</font>
+(textin dataStr fstream)
+
+<font color="#027D00">// load the data into an object of a built-in Table type</font>
+(load-table dataTbl dataStr)
+
+<font color="#027D00">// create an index on the field(s) of interest</font>
+(build-index dataTbl "Department")
+
+<font color="#027D00">// make a query</font>
+(with rows (tsd-query dataTbl 
+                select: ["Department"] 
+                as:     [[String()]] 
+                :distinct 
+                sortby: "Department" )
+    (for row in rows do
+        (with recs (tsd-query dataTbl 
+                select: all 
+                as: [[String(), String(), Int(), String()]]
+                where: (lambda Department String() (eq Department (get row 0))) 
+                sortby: "Salary" 
+                :desc 
+                limit: 2)
+            (for rec in recs do (textout rec "\n"))))) 
+</code></pre>
+<p>Full code for this example can be found <a href="https://github.com/transd-lang/Tourbillon-test-suite/blob/main/suite/tests/tsdbase.td">here</a>.</p>
+	<div class="col1" style="margin-top: 15px"><a id="simpleConf"> </a><h3 style="color: #077">Handling a simple configuration file</h3>
+	<p> Programs requiring simple configuration can use Transd for processing config
+	files with minimum of coding. The configuration file(s) for such program can be organized
+	in the form of named sections with lists of name/value items:</p>
 	<div class="codehilite"><pre><span></span><code><span class="nv">network</span> <span class="o">:</span> <span class="p">{</span>
     <span class="nv">siteName</span><span class="o">:</span> <span class="s">&quot;localhost&quot;</span><span class="o">,</span>
     <span class="nv">requestPassword</span><span class="o">:</span> <span class="nv">true</span>
@@ -75,22 +120,21 @@ bottom-border: solid 1px ;height: 0px; text-align: center;">
 <span class="p">}</span>
 </code></pre></div>
 <p>
-	 Transd has built-in support of such format
-	and can process such files with almost no customization. Values in name/value pairs can
-	be strings, integers, floats, booleans, and lists of these. Transd reads and validates 
-	configuration files and returns the processed results via C++ API or standard output.</p> 
+	Such format has built-in support in Transd and can be processed with almost no customization.
+	Values in name/value pairs can be strings, integers, floats, booleans, and lists of these.
+	Transd reads and validates configuration files and returns the processed results via C++ API
+	or standard output.</p> 
 	
 	</div>
 	<div class="col1" style="margin-top: 15px"><a id="powerful"> </a><h3 style="color: #077">Handling an advanced configuration</h3>
-	<p>Task: Your program should handle complex configuration that possibly includes typed objects, 
-	user-defined functions,	type checking, values checking, etc.</p> 
-	<p>Transd provides an effective solution for handling complex configurations. It combines,
-	on the one side, a simple and clear syntax of configuration files, which nonetheless allows to
-	express complex things, such as object-oriented configuration with type checking and support
-	of user-defined scripts. On the other side, it provides effective means for converting and
-	transferring the information from configuration files to the host program with much less
-	amount of code than a written from scratch solution would require.  
-	</p>
+	<p>Cases of complex configuration may include definition of custom user classes, using 
+	types, variables and expressions in config files, and definition of custom user functions
+	that can be executed by Transd.</p>
+	<p>Complex configuration is handled by associating with configuration files a custom handler,
+	written in Transd. The amount of code in such handler usually is considerably less, than in
+	one written on the program's native language, thanks to the built-in support of the	format in
+	which config files are written ("Transd Structured Data" (TSD) format).
+	</p> 
 	<p align=center>
 <img src="img/Diagram1.png" style="margin-top: 35px" alt="" />
 </p>
@@ -98,28 +142,24 @@ bottom-border: solid 1px ;height: 0px; text-align: center;">
 program</a>.</p>
 
 	</div>
-	<div class="col1" style="margin-top: 15px"><h3 style="color: #077">Extending the program's functionality</h3>
-	<p>Task: your program has functionality that may be customized or extended. This customization can be
-	implemented in Transd.</p>
-	
-	<p>For example, for graphics rendering programs, new rendering functions can be written; for
-	data processing programs - custom parsers for handling new data formats, etc.</p>
-
-	<p>A simple example of extending a graphics program with a rendering function written in 
+	<div class="col1" style="margin-top: 15px"><a id="extending"> </a><h3 style="color: #077">Extending the program's functionality</h3>
+	<p>Transd can be used for creating a library of user-defined functions, extensions, add-ons,
+	plugins.</p>
+	<p>With Transd as an extension language, the user is able to write their own functions from
+	scratch or download a third party's add-on and run it either via interpreter, or internally,
+	in case if Transd is included	in the program as a C++	library.</p>
+	<p>An example of extending a graphics program with a rendering function written in 
 	Transd can be found <a href="https://github.com/transd-lang/graph">here</a>. 	
 	</p> 
 	</div>	
-	<div class="col1" style="margin-top: 15px"><a id="compact"> </a><h3 style="color: #077">"Thin host" scheme</h3>
-	<p>Task: you have a simple, script-like program, which should be multi-platform, and run without installing any 
-	pre-requisites such as a particular programming language, environment or library.</p>
-	<p>You can write your program in Transd and ship it with a launcher executable, whose code is written
-	in C++. The laucher source apart from the embedded Transd compiler library, can have just several lines of code 
-	that starts your Transd program in the embedded Transd compiler.</p>
-	<p>In this variant your program distribution will consist of a single executable, containing
-	the launcher, and one or more source files containing your Transd program.</p>
-	<p>An example of "thin host" scheme is <a href="https://github.com/transd-lang/frend">FREND</a> 
-	interpreter, which can run any Transd program, and whose very small source only contains the code 
-	for reading commands and running them in the compiler.</p>
+	<div class="col1" style="margin-top: 15px"><a id="compact"> </a><h3 style="color: #077">Cross-platform scripting language</h3>
+	<p>Transd can be used as a cross-platform general-purpose programming language for performing
+	various programming tasks in cases when other dependencies are maybe too big, or not 
+	cross-platform, etc.
+	</p>
+	<p>An example of using Transd as a cross-platform general purpose language is 
+	simply a Transd interpreter: <a href="https://github.com/transd-lang/frend">FREND</a>.
+	</p>
 <h4 style="margin-top: 65px;"><a href="highlights.html">Highlights of Transd programming language</a></h4>
 	<hr width="100%" style="margin:100px 0 0 0;">
 	</div>	
