@@ -9,7 +9,7 @@ div.tree a.show, div.tree a.hide { display: none; }
     border-width: 2px;
 }*/
 
-button {
+.expander {
   border-width: 0px;
   color: black;
   padding: 0px 0px;
