@@ -29,8 +29,8 @@
   <div class="wrap">
     <div id="image"></div>
     <div class="box">
-      <p style="font: bold 2.5em sans-serif; color: #FFFF15; margin: 0 0 15px;">Data front-end for your program</p>
-      <h3>Transd is a language for creating data processing extensions to programs.</h3>
+      <p style="font: bold 2.0em sans-serif; color: #EEEE15; margin: 0 0 15px;">New paradigm in programming languages</p>
+      <h3>Minimalism in size, not in features</h3>
     </div>
   </div>
 </div>
@@ -38,6 +38,9 @@
   <div class="wrap"> <span class="step"><a>1</a> <a href="#simple">simple</a></span> <span class="step"><a>2</a> <a href="#powerful">powerful</a></span> <span class="step"><a>3</a> <a href="#compact">compact</a></span> </div>
 </div>
 <div class="wrap">
+<div style="float: left;"><p style=" font: 1.5em sans-serif; color: #555; margin: 15px 0 35px 0; line-height: 1.5em;">
+New executable model of a programming language - <em>virtual compilation</em> - makes it possible to greatly
+reduce the size of its implementation, while fully retaining its power.</p></div>
   <div class="col3">
     <h3><font color="#007878">What tasks can Transd solve?</font></h3>
     <p>Extending or customizing the functionality of programs by the end user; 
@@ -56,77 +59,118 @@
   <hr style="width: 50%;  margin-left: 230px; color: #ccc; margin-bottom: 20px;  
 bottom-border: solid 1px ;height: 0px; text-align: center;">
 </div>
-<div style="float: left;"><p style=" font: 1.5em sans-serif; color: #555; margin: 15px;line-height: 1.5em;">Lightweight and compact programming language with static typing, 
-classes, first class functions, data queries, generics, and much more. <br>5 Mb as a single executable file 
-or 20 000 lines of code as a two-file C++ source library.</p></div>
+
 <div style="width: 900px; height: 300px;display: table-cell; position: relative; vertical-align: middle;">
 <div style="float: left;">
 <h2 style="margin-top: 35px;">Use cases for Transd</h2>
 
 <p>
 <ul style="padding-left: 25px; line-height: 2.0em">
-<li><a href="#simple">Working with external data sets</a></li>
-<li><a href="#simpleConf">Processing a simple configuration file</a></li>
+<li><a href="#simple">Text data processing</a></li>
+<li><a href="#compact">Cross-platform scripting language</a></li>
 <li><a href="#powerful">Handling an advanced configuration</a></li>
 <li><a href="#extending">Extending the program's functionality by the user</a></li>
-<li><a href="#compact">Multi-platform scripting language</a></li>
+<li><a href="#simpleConf">Processing a simple configuration file</a></li>
 </ul>
 </p>
 </div>
 <div style="margin-top: 35px;text-align:center;">
 <img src="img/transductor_gear.jpg" alt="" /></div>
 </div>
-<div class="col1" style="margin-top: 15px"><a id="simple"> </a><h3 style="color: #077">Working with external data</h3>
-<p>Moderately large data sets can be worked with in Transd using a very small amount of code. 
-A program consisting of several lines can read a 'CSV' file into memory and perform 
-data queries on it, similar to SQL queries.</p>
-<p>Example (essential code):</p>
+<div class="col1" style="margin-top: 15px"><a id="simple"> </a><h3 style="color: #077">
+Text data processing</h3>
+<p>Transd out of the box can work with structured or semi-structured text data (CSV tables, 
+JSON-like objects, etc.).</p>
+<p>Moderately large data sets can be processed with Transd using a very small amount of code. 
+A program consisting of several lines can read a 'CSV' file, or other data, into memory and 
+perform data queries on it, similar to SQL queries.</p>
+<p>An example fully working program:</p>
 
-<pre><code><font color="#027D00">// read CSV file contents into 'dataStr' string</font>
-(textin dataStr fstream)
+<pre><code>#lang transd
 
-<font color="#027D00">// load the data into an object of a built-in Table type</font>
-(load-table dataTbl dataStr)
+MainModule: {
+    tabfile: "/mnt/data/employees.csv",
+    tabstr: "",
 
-<font color="#027D00">// create an index on the field(s) of interest</font>
-(build-index dataTbl "Department")
+    _start: (λ 
+<font color="#027D00">//-- Read a CSV file into a string --</font>
+        (with fs FileStream()
+            (open fs tabfile) (textin tabstr fs))
 
-<font color="#027D00">// make a query</font>
-(with rows (tsd-query dataTbl 
-                select: ["Department"] 
-                as:     [[String()]] 
-                :distinct 
-                sortby: "Department" )
-    (for row in rows do
-        (with recs (tsd-query dataTbl 
-                select: all 
-                as: [[String(), String(), Int(), String()]]
-                where: (lambda Department String() (eq Department (get row 0))) 
-                sortby: "Salary" 
-                :desc 
-                limit: 2)
-            (for rec in recs do (textout rec "\n"))))) 
+        (with tabl Table()
+<font color="#027D00">//-- Load table and build indexes --</font>
+            (load-table tabl tabstr)
+            (build-index tabl "Age in Company (Years)")
+            (build-index tabl "Salary")
+
+<font color="#027D00">//-- Do a SELECT query</font>
+            (with rows (tsd-query tabl 
+                    select: ["Name Prefix", "First Name", "Last Name",
+                             "Age in Company (Years)", "Salary"]
+                    as: [[String(),String(),String(),Double(),Int()]]
+                    where: "\"Age in Company (Years)\" > 30.0 AND 
+                        Salary < 48000"
+                    sortby: "Salary")
+<font color="#027D00">//-- Print result</font>
+                (for row in rows do (lout row)))
+    ))
+}
+
+OUTPUT:
+
+[Mrs., Sam, Flint, 30.12, 40359]
+[Drs., Delma, Eberle, 34.04, 41097]
+[Dr., Johnie, Amey, 36.6, 42940]
+[Prof., Haywood, Nuss, 30.27, 43089]
+[Mr., Vincenzo, Pryor, 35.93, 43538]
+[Hon., Candace, Stamps, 32.87, 43642]
+[Mrs., Emiko, Lange, 30.47, 43644]
+[Mr., Demetrius, Simard, 36.13, 44285]
+[Hon., Samual, Dowdy, 36.2, 44428]
+[Mrs., Lorina, Shirley, 30.16, 45276]
+[Hon., Arcelia, Slagle, 32.77, 45504]
+[Ms., Laureen, Lecompte, 35.99, 45641]
+[Prof., Wilford, Burk, 30.29, 46053]
+[Ms., Liza, Chilton, 33.04, 46649]
+[Mr., Hunter, Shine, 30.99, 46834]
+[Mrs., Kelsey, Shaner, 32.01, 47528]
+[Prof., Arlen, Neville, 30.01, 47686]
+
+Run-time:
+ table loading: 5 sec;
+ running query: 0.034 sec.
 </code></pre>
-<p>Full code for this example can be found <a href="https://github.com/transd-lang/Tourbillon-test-suite/blob/main/suite/tests/tsdbase.td">here</a>.</p>
-	<div class="col1" style="margin-top: 15px"><a id="simpleConf"> </a><h3 style="color: #077">Handling a simple configuration file</h3>
-	<p> Programs requiring simple configuration can use Transd for processing config
-	files with minimum of coding. The configuration file(s) for such program can be organized
-	in the form of named sections with lists of name/value items:</p>
-	<div class="codehilite"><pre><span></span><code><span class="nv">network</span> <span class="o">:</span> <span class="p">{</span>
-    <span class="nv">siteName</span><span class="o">:</span> <span class="s">&quot;localhost&quot;</span><span class="o">,</span>
-    <span class="nv">requestPassword</span><span class="o">:</span> <span class="nv">true</span>
-<span class="p">}</span>
+<p>This program reads a 37 column table with 10,000 rows of
+<a href="https://eforexcel.com/wp/downloads-16-sample-csv-files-data-sets-for-testing/">
+sample data</a> and makes a SELECT query on it.</p>
+<p>To run this example:</p>
+<ol style="padding-left: 25px; line-height: 2.0em">
+<li>Copy the code above (without "OUTPUT") and save it into a text file. </li>
+<li>Download a file with Transd interpreter <a href="https://github.com/transd-lang/TREE3/releases">TREE3</a>.</li>
+<li>Download the <a href="https://eforexcel.com/wp/downloads-16-sample-csv-files-data-sets-for-testing/">
+sample dataset</a> and in the first line change <code>Age in Company (Years)</code> to 
+<code>Age in Company (Years):Double</code>, and <code>Salary</code> to <code>Salary:Int</code>.</li>
+<li>Change in the code the value of <code>tabfile</code> variable with the full path to
+the file with the downloaded dataset.</li>
+<li>Type on your command line:<p>
+<code><pre>[PATH_TO_INTERPRETER]tree3 [THE_SAVED_PROGRAM_FILE_NAME]</code></pre></p>
+And press <code>Enter</code>.
+</li>
+</ol>
+</p>
 
-<span class="nv">users</span> <span class="o">:</span> <span class="p">{</span>
-    <span class="nv">usernames</span><span class="o">:</span> <span class="p">[</span><span class="s">&quot;alice&quot;</span><span class="o">,</span> <span class="s">&quot;bob&quot;</span><span class="o">,</span> <span class="s">&quot;tom&quot;</span><span class="p">]</span><span class="o">,</span>
-    <span class="nv">userquotas</span><span class="o">:</span> <span class="p">[</span><span class="mi">35</span><span class="o">,</span> <span class="mi">35</span><span class="o">,</span> <span class="mi">30</span><span class="p">]</span>
-<span class="p">}</span>
-</code></pre></div>
-<p>
-	Such format has built-in support in Transd and can be processed with almost no customization.
-	Values in name/value pairs can be strings, integers, floats, booleans, and lists of these.
-	Transd reads and validates configuration files and returns the processed results via C++ API
-	or standard output.</p> 
+
+
+
+	<div class="col1" style="margin-top: 15px"><a id="compact"> </a><h3 style="color: #077">Cross-platform scripting language</h3>
+	<p>Transd can be used as a bundled/embedded cross-platform general-purpose programming 
+	language for performing	various programming tasks in cases when other solutions are too big, 
+	or not	cross-platform, etc.
+	</p>
+	<p>An example of using Transd as a cross-platform general purpose language is 
+	a Transd interpreter: <a href="https://github.com/transd-lang/TREE3">TREE3</a>. The size of
+	its executable on Windows is less than 3 Mb, on Linux - less than 5 Mb (statically linked).
+	</p>
 	
 	</div>
 	<div class="col1" style="margin-top: 15px"><a id="powerful"> </a><h3 style="color: #077">Handling an advanced configuration</h3>
@@ -155,14 +199,28 @@ program</a>.</p>
 	Transd can be found <a href="https://github.com/transd-lang/graph">here</a>. 	
 	</p> 
 	</div>	
-	<div class="col1" style="margin-top: 15px"><a id="compact"> </a><h3 style="color: #077">Cross-platform scripting language</h3>
-	<p>Transd can be used as a cross-platform general-purpose programming language for performing
-	various programming tasks in cases when other dependencies are maybe too big, or not 
-	cross-platform, etc.
-	</p>
-	<p>An example of using Transd as a cross-platform general purpose language is 
-	simply a Transd interpreter: <a href="https://github.com/transd-lang/frend">FREND</a>.
-	</p>
+
+
+	<div class="col1" style="margin-top: 15px"><a id="simpleConf"> </a><h3 style="color: #077">Handling a simple configuration file</h3>
+	<p> Programs requiring simple configuration can use Transd for processing config
+	files with minimum of coding. The configuration file(s) for such program can be organized
+	in the form of named sections with lists of name/value items:</p>
+	<div class="codehilite"><pre><span></span><code><span class="nv">network</span> <span class="o">:</span> <span class="p">{</span>
+    <span class="nv">siteName</span><span class="o">:</span> <span class="s">&quot;localhost&quot;</span><span class="o">,</span>
+    <span class="nv">requestPassword</span><span class="o">:</span> <span class="nv">true</span>
+<span class="p">}</span>
+
+<span class="nv">users</span> <span class="o">:</span> <span class="p">{</span>
+    <span class="nv">usernames</span><span class="o">:</span> <span class="p">[</span><span class="s">&quot;alice&quot;</span><span class="o">,</span> <span class="s">&quot;bob&quot;</span><span class="o">,</span> <span class="s">&quot;tom&quot;</span><span class="p">]</span><span class="o">,</span>
+    <span class="nv">userquotas</span><span class="o">:</span> <span class="p">[</span><span class="mi">35</span><span class="o">,</span> <span class="mi">35</span><span class="o">,</span> <span class="mi">30</span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>
+	Such format has built-in support in Transd and can be processed with almost no customization.
+	Values in name/value pairs can be strings, integers, floats, booleans, and lists of these.
+	Transd reads and validates configuration files and returns the processed results via C++ API
+	or standard output.</p> 
+
 <h4 style="margin-top: 65px;"><a href="highlights.html">Highlights of Transd programming language</a></h4>
 	<hr width="100%" style="margin:100px 0 0 0;">
 	</div>	
