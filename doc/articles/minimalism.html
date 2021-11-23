@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8">
+<title>Minimalism in Transd</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta http-equiv="content-language" content="en-US">
+<meta name="language" content="English">
+<meta name="description" content="Minimalism in Transd">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<link href="../../css/codehighlight.css" rel="stylesheet" type="text/css" />
+<link href="../../css/tsd.css" rel="stylesheet" type="text/css" />
+<link href="../../css/main.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="header">
+  <h1>TransD</h1>
+  <ul id="menu">
+    <li><a href="../../index.html">home</a></li>
+    <li><a href="../../download.html">download</a></li>
+    <li><a href="../index.html">documentation</a></li>    
+    <li><a href="../../dev.html">development</a></li>
+    <li><a href="../../about.html">about</a></li>
+    <li><a href="../../contact.html">contact</a></li>
+  </ul>
+</div>
+<div class="wrap">
+<h2 style="margin-top: 20px;">Type inference in Transd</h2>
+<hr width="100%" style="margin:0 0 35px 0;">
+<h2 id="minimalism-in-software">Minimalism in software</h2>
+
+<p>Epigraph:<br>
+<em>"The things must be as simple as possible, but..."</em></p>
+
+<p>In the world of software programming the are three statements that are unconditionally true. Namely, if two (non-trivial) programs have the same functionality, then:</p>
+
+<ol>
+<li>The smaller in size program is better.</li>
+<li>The faster program is better.</li>
+<li>The more simple/convenient in use program is better.</li>
+</ol>
+
+<p>From which we deduce the three qualities of a program that represent the unconditional good in the world of software programming:</p>
+
+<ol>
+<li>Small in physical size.</li>
+<li>Fast in execution speed.</li>
+<li>Simple in use.</li>
+</ol>
+
+<p>The conventional wisdom and the "Law of Two-Thirds" tell us that for sufficiently complex software systems one can't have it all. Only two out of the three at the maximum.</p>
+
+<p>Those programmers/users who did computing at the times when <a href="https://quoteinvestigator.com/2011/09/08/640k-enough/">"640Kb of memory was enough to anyone"</a> observe, that nowadays the first unconditional good in the above list often if not completely and outright forgotten, then largely neglected.</p>
+
+<p>But, the fact is that compactness of a software system has not ceased to be an uncoditional good. And we, at Transd, put it as one the main software design principles (and selling points), and go a long way to observe it. We consider keeping the software size minimal not only as an important technical aspect, but also as an element of manufacturing culture and almost as an item in the programmer's "Code of Conduct".</p>
+
+<h3 id="what-is-included-into-the-notion-of-physical-size-of-software">What is included into the notion of "physical size" of software?</h3>
+
+<p>In the order of importance:</p>
+
+<ol>
+<li>The number and size of software prerequisites that need to exist on the user's computer for our software to run. (Excluding the size of the targeted OS in its standard configuration.)</li>
+<li>The size of our software assembly shipped to the user, and/or artifacts resulting after user's compiling the source code distribution.</li>
+<li>The size of source code. (Especially in the case of source code libraries that are included in user's software programming project.)</li>
+</ol>
+
+<h3 id="minimalism-in-transd">Minimalism in Transd</h3>
+
+<p>The "user" here means both the programmer who uses the Transd library in their software programming project, and the end user who uses the program written in Transd.</p>
+
+<ol>
+<li>The number of prerequisites that need to exist on user's computer is zero. Transd compiles and runs on Windows and Linux out of the box in their base configurations. Transd source files does not include anything besides C/C++ standard libraries.</li>
+<li>The size of Transd run-time assembly, needed for executing Transd programs, is zero in case of using Transd as a source code library compiled together with the including software project. In case of using Transd as a bundled separate executable, the size of executable is less than 3Mb on Windows and less than 5Mb on Linux (as of November, 2021). The Linux executable is statically linked, so there is little chance of library incompatibility.</li>
+<li>The Transd source code included into the distributed C++ source library is minimized: that is the number of files in the library and their size is reduced to the minimum. Currently, the Transd C++ source library consists of two files: one header file, and one CPP file. The program text is deflated by replacing the identifiers with short symbols, and by removing empty lines. Whereby the size of program text is shrinked several times. Currently, the minimized source code library contains totally less than 20,000 lines, and has the size less than 700Kb.</li>
+</ol>
+
+<p>All in all, the minimization of size and dependencies is important for any software, and for embeddable libraries like Transd it is a major requirement.</p>
+
+
+<hr width="100%" style="margin:30px 0 0 0;">
+</div>
+<div id="footer">
+  <p>&copy; Copyright 2021 <a href='&#109;ail&#116;o&#58;alb%65rger&#64;g%6Dai&#108;&#46;&#37;63o&#109;'>Albert Berger</a> &middot; All Rights Reserved</p>
+</div>
+</body>
+</html>

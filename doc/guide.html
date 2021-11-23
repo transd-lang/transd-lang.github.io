@@ -28,7 +28,7 @@ body { font: 1em "Trebuchet MS", Arial, Sans-Serif; color: #444; }
 	p  { margin: 0 0 1em 0; line-height: 1.5em; }
 code { text-align: left; font: 1.0em Consolata, Monospace, "Courier New"; padding: 0px;
 		background-color: #fff; line-height: 1.5em; }
-pre { font-size: 1.0em; color: #555; padding: 10px; margin: -5px auto 5px auto;background-color: #fff; line-height: 1.5em;}
+pre { font-size: 1.0em; color: #555; padding: 10px; margin: -5px auto 15px auto;background-color: #fff; line-height: 1.5em;}
 
 </style>
 </head>
@@ -42,11 +42,7 @@ pre { font-size: 1.0em; color: #555; padding: 10px; margin: -5px auto 5px auto;b
 <a id="intro"> </a>
 <h2 id="introduction">Introduction</h2>
 
-<p>Transd has started as a C++ library, that could be included in C++ programs for allowing users to define simple functions which then would be executed by the program. Why there was a need for a new library? Because of two considerations: it had to be compact and portable, and it had to be fast. So it was decided to create a library for this functionality from scratch.</p>
-
-<p>The library was very simple and it's internal design was based on three basic notions: Expression, Name, and Data. (The first letters of these words form an acronym which was used in the first name of the library: FREND - the library was meant to perform functions of a FRont END for users' interaction with C++ applications). The internal workings of the library were based on the idea of a network of finite-automaton-like objects which communicate with each other and perform the needed computation.</p>
-
-<p>The library worked pretty well and proved that the idea of using a computational network for implementation of programming languages could be fruitful. So the library has evolved into a general-purpose multiparadigm programming language, whose name - Transd - again was a reference to the key principles of its internal design. (The original "FREND" name hasn't gone though, and has been assigned to the Transd command line interpreter, which can be used for running Transd programs and evaluating Transd expressions on the command line: this interpreter essentially also is a front end.)</p>
+<p>Transd is a general-purpose programming language with enhanced text data processing capabilities and strong emphasis on compactness of implementation. The latter property makes Transd especially suitable for being used as an embeddable or extension language.</p>
 
 <p>Transd is statically typed: the type of each object and expression is known on the stage of compilation. This not only helps in increasing performance, but also in writing correct programs by early detecting many errors.</p>
 
@@ -56,7 +52,7 @@ pre { font-size: 1.0em; color: #555; padding: 10px; margin: -5px auto 5px auto;b
 
 <p>One of the main principles in Transd's design is the compactness of implementation and, second, minimization of dependencies. Currently, the full C++ embedding implementation of Transd is distributed as a two-files library (one header, one source file), which doesn't have any additional dependencies.</p>
 
-<p>Another important design consideration is performance. The very first C++ application for which the original FREND library was created was a ray-tracer, which rendered graphics by applying a shading function to each pixel of the image. The user could define their own shading function in FREND language, store it in a configuration file, and the ray-tracer would use it for rendering. And it worked very fast, at about 80% of native speed.</p>
+<p>Another important design consideration is performance. The very first C++ application in which Transd was used as an extension language was a ray-tracer, which rendered graphics by applying a shading function to each pixel of the image. The user could define their own shading function in Transd language, store it in a configuration file, and the ray-tracer would use it for rendering. This Transd plug-in performed rendering at about 70% of native speed.</p>
 
 <p>Compactness, minimal dependencies and speed make Transd a good choice for an embedding or extension language for extending or customizing a C++ program's functionality by the user, for parsing and processing structured textual data in custom formats, etc.</p>
 
@@ -66,11 +62,11 @@ pre { font-size: 1.0em; color: #555; padding: 10px; margin: -5px auto 5px auto;b
 <a id="getstarted"> </a>
 <h2 id="getting-started">Getting started</h2>
 
-<p>This chapter begins the description of the language. One might find it useful to work through this and following chapters with a Transd REPL interpreter running in a shell window. The FREND command line interpreter can be obtained <a href="https://github.com/transd-lang/frend">here</a>.</p>
+<p>This chapter begins the description of the language. One might find it useful to work through this and following chapters with a Transd REPL interpreter running in a shell window. The TREE3 command line interpreter can be obtained <a href="https://github.com/transd-lang/TREE3">here</a>.</p>
 
 <p>The code examples that consist of a single expression can be run in the interpreter by typing them on the command line and pressing 'Return'. The text in the examples can contain comments, which start with two slashes <code>//</code> and continue until the end of line. The symbol <code>=&gt;</code> within comments precedes the text of the output that the expression in the example produces:</p>
 
-<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="nb">sqrt </span><span class="mi">64</span><span class="p">)</span> <span class="c1">// =&gt; 8</span>
+<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="nf">sqrt</span> <span class="mi">64</span><span class="p">)</span> <span class="c1">// =&gt; 8</span>
 </code></pre></div>
 
 <p>This means that after executing (evaluating) the <code>(sqrt 64)</code> expression, the intepreter produces <code>8</code> as the value (or result) of this expression.</p>
@@ -85,10 +81,10 @@ pre { font-size: 1.0em; color: #555; padding: 10px; margin: -5px auto 5px auto;b
 
 <p>You can run such code examples by first copying the code to a text file and then running it in the interpreter as follows:</p>
 
-<pre><code>/usr/bin/frend /tmp/example.td
+<pre><code>/usr/bin/tree3 /tmp/example.td
 </code></pre>
 
-<p>You need to replace the example file paths above with the actual paths on your machine to the <code>frend</code> interpreter and the source code file.</p>
+<p>You need to replace the example file paths above with the actual paths on your machine to the <code>tree3</code> interpreter and the source code file.</p>
 
 <h3 id="the-lambda-keyword-and-symbol">The 'lambda' keyword and 'λ' symbol</h3>
 
@@ -99,7 +95,7 @@ pre { font-size: 1.0em; color: #555; padding: 10px; margin: -5px auto 5px auto;b
 
 <p>can be spelled in the source code file as</p>
 
-<div class="codehilite"><pre><span></span><code>  <span class="nv">_start</span><span class="o">:</span> <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">textout</span> <span class="s">&quot;Hello, Transd!&quot;</span><span class="p">))</span>
+<div class="codehilite"><pre><span></span><code>  <span class="nv">_start</span><span class="o">:</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">textout</span> <span class="s">&quot;Hello, Transd!&quot;</span><span class="p">))</span>
 </code></pre></div>
 
 <p>For the interpreter these two lines have no difference.</p>
@@ -108,25 +104,30 @@ pre { font-size: 1.0em; color: #555; padding: 10px; margin: -5px auto 5px auto;b
 <a id="forms"> </a>
 <h2 id="forms">Forms</h2>
 
-<p>All computation in Transd is done, just like in other languages, by combining values and producing new values. Such combination of values (or variables) are called expressions. Transd has a universal syntactic construct for all kinds of expressions. This construct is called <em>form</em>. Form is, basically, a list of items, which is enclosed by parentheses for separating it from other forms.</p>
+<p>All Transd syntax can be reduced to two most basic syntactic units: data declaration and function definition:</p>
 
-<p>An example of a form, which represent a call of <code>pow</code> function, raising 2 into 4 power:</p>
+<div class="codehilite"><pre><span></span><code><span class="nv">varName</span><span class="o">:</span> <span class="nv">Type</span><span class="p">()</span><span class="o">,</span> <span class="c1">// data declaration</span>
+
+<span class="nv">funcName</span><span class="o">:</span> <span class="p">(</span><span class="k">lambda</span> <span class="o">...</span><span class="p">)</span> <span class="c1">// function definition</span>
+</code></pre></div>
+
+<p>All computation in Transd is done, like in most other languages, within function definitions by applying operations to values and producing new values. The syntactic unit describing such an application is called <em>expression</em>. Transd has a universal syntactic construct for all kinds of expressions. This construct is called <em>form</em>. Form is, basically, a list of items, which is enclosed in parentheses for separating it from other forms.</p>
+
+<p>An example of a form, which represents a call of <code>pow</code> function, raising 2 into 4 power:</p>
 
 <div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="nf">pow</span> <span class="mi">2</span> <span class="mi">4</span><span class="p">)</span> <span class="c1">// =&gt; 16</span>
 </code></pre></div>
 
-<p>Forms is the general Transd's syntax for expressions. The first item within the form is always the name of the operation or function which is performed or called by this form, and all subsequent items are the arguments to the operation:</p>
+<p>The first item within the form is always the name of the operation or function which is to be performed, and all subsequent items are the arguments to that function:</p>
 
 <div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="nb">+ </span><span class="mi">1</span> <span class="mi">1</span><span class="p">)</span>     <span class="c1">// =&gt; 2</span>
 
-<span class="p">(</span><span class="nb">sqrt </span><span class="mi">16</span><span class="p">)</span>   <span class="c1">// =&gt; 4</span>
+<span class="p">(</span><span class="nf">sqrt</span> <span class="mi">16</span><span class="p">)</span>   <span class="c1">// =&gt; 4</span>
 </code></pre></div>
-
-<p>Forms in Transd are evaluated by the language implementation by calling the internal function object, which implements the operation refered in the form, and passing to it the form's arguments. </p>
 
 <p>Form's arguments can themselves be forms, thus making up a <em>nested form</em>:</p>
 
-<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="nb">sqrt </span><span class="p">(</span><span class="nb">* </span><span class="mi">8</span> <span class="mi">2</span><span class="p">))</span>  <span class="c1">// =&gt; 4</span>
+<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="nf">sqrt</span> <span class="p">(</span><span class="nb">* </span><span class="mi">8</span> <span class="mi">2</span><span class="p">))</span>  <span class="c1">// =&gt; 4</span>
 
 <span class="p">(</span><span class="nb">+ </span><span class="p">(</span><span class="nf">pow</span> <span class="mi">3</span> <span class="mi">2</span><span class="p">)</span> <span class="p">(</span><span class="nf">pow</span> <span class="mi">2</span> <span class="mi">4</span><span class="p">))</span> <span class="c1">// =&gt; 25</span>
 </code></pre></div>
@@ -138,9 +139,9 @@ pre { font-size: 1.0em; color: #555; padding: 10px; margin: -5px auto 5px auto;b
 <div class="codehilite"><pre><span></span><code><span class="o">#</span><span class="nv">lang</span> <span class="nv">transd</span>
 
 <span class="nv">MainModule</span><span class="o">:</span> <span class="p">{</span>
-  <span class="nv">func</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> <span class="nv">var</span> <span class="nb">Int</span><span class="p">()</span> <span class="p">(</span><span class="nf">set</span> <span class="nv">var</span> <span class="mi">25</span><span class="p">))</span><span class="o">,</span>
+  <span class="nv">func</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> <span class="nv">par</span> <span class="nv">Int</span><span class="p">()</span> <span class="p">(</span><span class="nf">set</span> <span class="nv">par</span> <span class="mi">25</span><span class="p">))</span><span class="o">,</span>
 
-  <span class="nv">_start</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> <span class="p">(</span><span class="nf">with</span> <span class="nv">i</span> <span class="nb">Int</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span> 
+  <span class="nv">_start</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> <span class="p">(</span><span class="k">with</span> <span class="nv">i</span> <span class="nv">Int</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span> 
                <span class="p">(</span><span class="nf">textout</span> <span class="nv">i</span><span class="p">)</span>   <span class="c1">// =&gt; 5</span>
                <span class="p">(</span><span class="nf">func</span> <span class="nv">i</span><span class="p">)</span>
                <span class="p">(</span><span class="nf">textout</span> <span class="nv">i</span><span class="p">)</span>   <span class="c1">// =&gt; 25</span>
@@ -156,9 +157,9 @@ pre { font-size: 1.0em; color: #555; padding: 10px; margin: -5px auto 5px auto;b
 
 <p>The programming language defined in the Transd Reference Manual.</p>
 
-<h4 id="frend">FREND</h4>
+<h4 id="tree3">TREE3</h4>
 
-<p>A REPL command line interpreter for Transd programming language. FREND uses the Tourbillon  compiler as the Transd implementation.</p>
+<p>A REPL command line interpreter for Transd programming language. TREE3 uses the Tourbillon  compiler as the Transd implementation.</p>
 
 <h4 id="tourbillon-compiler">Tourbillon compiler</h4>
 

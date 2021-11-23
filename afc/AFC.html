@@ -112,7 +112,7 @@ pre { font-size: 1.0em; color: #555; padding: 10px; margin: -5px auto 15px auto;
 <h2 id="dependencies">Dependencies</h2>
 
 <ol>
-<li><p>AFC is written in <strong>Transd</strong> programming language and needs a Transd interpreter for running.The FREND command line Transd interpreter can be downloaded <a href="https://github.com/transd-lang/frend">here</a>.</p></li>
+<li><p>AFC is written in <strong>Transd</strong> programming language and needs a Transd interpreter for running.The TREE3 command line Transd interpreter can be downloaded <a href="https://github.com/transd-lang/tree3">here</a>.</p></li>
 <li><p>AFC plays files via "<strong>SoX</strong>" command line audio program, which is needed to be <a href="https://sourceforge.net/projects/sox/files/sox/">downloaded</a> in order for AFC to work.</p></li>
 </ol>
 
@@ -120,14 +120,14 @@ pre { font-size: 1.0em; color: #555; padding: 10px; margin: -5px auto 15px auto;
 
 <p>Once you have defined the details of your audio flow in a flowlist file, you can start to play it. To play the flow, type the following command on the command line:</p>
 
-<pre><code>frend &lt;full/path/to&gt;/"AFC.td"
+<pre><code>tree3 &lt;full/path/to&gt;/"AFC.td"
 </code></pre>
 
-<p><code>frend</code> - is the name of the FREND interpreter's executable file, <code>"AFC.td"</code> - is a program file from this distribution. If directories with these files are not in the system PATH list, the file names need to be typed with the full paths.</p>
+<p><code>tree3</code> - is the name of the TREE3 interpreter's executable file, <code>"AFC.td"</code> - is a program file from this distribution. If directories with these files are not in the system PATH list, the file names need to be typed with the full paths.</p>
 
 <p>The above command will start the flow that has the default name in the flowlist file. To start a flow with other name, the command should be typed as follows:</p>
 
-<pre><code>frend &lt;full/path/to&gt;/ "AFC.td" &lt;flow_name&gt;
+<pre><code>tree3 &lt;full/path/to&gt;/ "AFC.td" &lt;flow_name&gt;
 </code></pre>
 
 <h2 id="flow-configuration">Flow configuration</h2>
