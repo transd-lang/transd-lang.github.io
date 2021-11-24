@@ -1,0 +1,117 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8">
+<title>Transd performance test</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta http-equiv="content-language" content="en-US">
+<meta name="language" content="English">
+<meta name="description" content="Transd performance test">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link href="css/main.css" rel="stylesheet" type="text/css" />
+
+</head>
+<body>
+<div id="header">
+<h1 style="margin-top: 0px;"><a href="index.html" 
+style="text-decoration: none; color: #33d" target=_top
+>Transd</a> </h1>
+  <ul id="menu">
+    <li><a href="index.html">home</a></li>
+    <li><a href="download.html">download</a></li>
+    <li><a href="doc/index.html">documentation</a></li>    
+    <li><a href="dev.html">development</a></li>
+    <li><a href="about.html">about</a></li>
+    <li><a href="contact.html">contact</a></li>
+  </ul>
+</div>
+
+<div class="wrap">
+
+<h3 style="margin-top: 20px;" id="about-transd">Performance</h3>
+<hr width="100%" style="margin:0 0 35px 0;">
+
+<p>There is a proven approach in achieving a good software performance: make it run well on old 
+hardware, and on modern hardware it will run great.</p>
+
+<p>Here is a performance test in an area of Transd's specialization: processing of structured data.</p> 
+
+<p>Task: a table, containing 3.7 millions values in 100.000 rows and 37 columns is read from a 
+CSV file, then a query is performed on the table, which selects table's rows based on certain
+values in two columns.</p>
+
+<p>The test is done on a machine having Intel Celeron 1.2GHz processor and 2Gb of memory. 
+Operating system: Linux.</p>
+
+<pre><code>
+$ cat /proc/cpuinfo
+processor	: 0
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 22
+model name	: Intel(R) Celeron(R) CPU          220  @ 1.20GHz
+stepping	: 1
+microcode	: 0x36
+cpu MHz		: 1200.060
+cache size	: 512 KB
+
+$ lsmem
+Memory block size:       128M
+Total online memory:       2G
+Total offline memory:      0B
+</pre></code>
+
+<p>The dataset for the test is taken from a site offering datasets for testing purposes:<br>
+<a href="https://eforexcel.com/wp/downloads-16-sample-csv-files-data-sets-for-testing/">https://eforexcel.com/wp/downloads-16-sample-csv-files-data-sets-for-testing/</a><br>
+The link to the dataset file:<br>
+<a href="https://eforexcel.com/wp/wp-content/uploads/2017/07/100000-Records.zip">https://eforexcel.com/wp/wp-content/uploads/2017/07/100000-Records.zip</a>
+</p>
+<p>In order to be able to operate with numbers in the table (in contradistinction to strings), 
+the type of values in columns need to be specified (at least for those columns on which we are 
+going to make queries). So, we change in the first line of the dataset file the headers of two 
+columns: 
+<ul style="padding-left: 25px; line-height: 2.0em">
+<li>Change <code>Age in Company (Years)</code> to <code>Age in Company (Years):Double</code></li>
+<li>Change <code>Salary</code> to <code>Salary:Int</code></li>
+</ul>
+</p>
+<p>To perform the test we need a Transd <a href="https://github.com/transd-lang/Tourbillon-test-suite/blob/main/misc/perftest.td">program</a> 
+and Transd <a href="https://github.com/transd-lang/TREE3/releases">interpreter</a>.</p>
+
+<p>Once the program and interpreter are downloaded, we need to specify where our dataset is
+located. For this, we edit the program file and set the value of the <code>tabfile</code>
+variable to the path to our dataset file:<p>
+
+<pre><code>MainModule: {
+<font color="#00aa00">    tabfile: "/mnt/dnl/100000-Records.csv",</font>
+    tabstr: "",
+</pre></code>
+<p>Then we perform the test:</p>
+
+<pre><code>$ tree3 perftest.td
+ 
+Loading database...
+20.44338 sec. elapsed
+Building indexes...
+1.698761 sec. elapsed
+Perfoming query...
+0.006182 sec. elapsed
+UT[Drs., Cameron, Diggs, 36.35, 40119]
+UT[Mr., Cory, Coyle, 37.62, 41078]
+UT[Mr., Carol, Vangundy, 36.59, 41724]
+UT[Mrs., Kristi, Beliveau, 38.39, 41796]
+UT[Ms., Particia, Blair, 35.06, 41819]
+UT[Mr., Wilber, Ransome, 37.67, 41994]
+UT[Ms., Cathern, Pettit, 36.36, 42453]
+UT[Mr., Lamar, Parson, 35.41, 42458]
+</pre></code>
+
+<p>We see that our little interpreter on a venerable Celeron 1.2GHz shows pretty mighty
+industry grade performance.</p>
+<hr width="100%" style="margin:300px 0 0 0;">	
+</div>	
+<div id="footer">
+  <p>&copy; Copyright 2020-2021 <a href='&#109;ail&#116;o&#58;alb%65rger&#64;g%6Dai&#108;&#46;&#37;63o&#109;'>Albert Berger</a> &middot; All Rights Reserved</p>
+</div>
+</body>
+</html>
