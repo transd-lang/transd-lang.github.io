@@ -35,15 +35,46 @@
   </div>
 </div>
 <div id="bar">
-  <div class="wrap"> <span class="step"><a>1</a> <a href="#simple">simple</a></span> <span class="step"><a>2</a> <a href="#powerful">powerful</a></span> <span class="step"><a>3</a> <a href="#compact">compact</a></span> </div>
+  <div class="wrap"> <span class="step"><a>1</a><a href="#compact">compact</a> </span> 
+  			<span class="step"><a>2</a> <a href="#fast">fast</a></span> 
+  			<span class="step"><a>3</a> <a href="#simple">simple</a></span> </div>
 </div>
 <div class="wrap">
-<div style="float: left;"><p style=" font: 1.5em sans-serif; color: #555; margin: 15px 0 35px 0; line-height: 1.5em;">
-New executable model of a programming language - <em>virtual compilation</em> - makes it possible to greatly
-reduce the size of its implementation, while fully retaining its power.</p>
-<p style=" font: 1.2em sans-serif; color: #555; margin: 15px 0 35px 0; line-height: 1.5em;">
-<a href="perftest.html"><b>Performance test</b></a>: loading a table with 3.7 million values and 
-performing query on it.</p>
+<div style="float: left;"><p style=" font: 1.2em sans-serif; color: #555; margin: 15px 0 5px 0; line-height: 1.5em;">
+Transd is a general-purpose statically typed programming language with data queries, classes, 
+generics, type inference. Transd uses a novel execution model: <i>virtual compilation</i>,
+which outwardly resembles the traditional interpretive model, but doesn't employ an interpreter 
+or virtual machine, whereby allows for reductions in implementation size and gains in
+execution speed.</p><p style=" font: 1.0em sans-serif; color: #777; margin: 0px 0 5px 0; line-height: 1.5em;">Albert Berger<br>author of Transd.</p>
+
+<div class="col1" style=" font: 1.0em sans-serif; color: #555; margin: 15px 0 0 0; line-height: 1.5em;"><a id="fast"> </a><h3 style="color: #077">
+Speed</h3>
+<p >
+Various parts of Transd have performance which currently varies from that of interpretive 
+languages to the speed comparable or even close to native. For example, a SELECT query on a table 
+with 100,000 records is performed in fractions of seconds: <a href="perftest.html"><b>performance 
+test</b></a>.</p>
+<p>
+The total coverage of such high-performing areas in the language will be increasing: the virtual
+compilation model allows this, but requires optimization, which has began from the 
+most demanding areas.</p>
+</div>
+<div class="col1" style=" font: 1.0em sans-serif; color: #555; margin: 15px 0 35px 0; line-height: 1.5em;">
+<a id="compact"> </a><h3 style="color: #077">Size</h3>
+<p>Transd is resource-savvy. With the special attention that code and binary don't 
+contain any overhead, Transd is made both small in physical size and simple to build on both 
+platforms.</p> <p>
+Building the Transd virtual compiler <a href="https://github.com/transd-lang/TREE3">TREE3</a> ("Transd Expression Evaluator") on Linux:
+<pre><code>$ cd transd/tree3/src
+$ g++ -O2 -std=c++14 transd.cpp main.cpp -D__LINUX__ -lpthread -o tree3
+$ ls --size --human-readable
+total 3.0M
+8.0K main.cpp  448K transd.cpp  176K transd.hpp  2.3M tree3
+$ ./tree3
+D-> (textout "Hello, Transd!")
+Hello, Transd!
+D->
+</code></pre></p>
 </div>
   <div class="col3">
     <h3><font color="#007878">What tasks can Transd solve?</font></h3>
@@ -66,7 +97,7 @@ bottom-border: solid 1px ;height: 0px; text-align: center;">
 
 <div style="width: 900px; height: 300px;display: table-cell; position: relative; vertical-align: middle;">
 <div style="float: left;">
-<h2 style="margin-top: 35px;">Use cases for Transd</h2>
+<h2 style="margin-top: 35px;">Examples of use cases for Transd</h2>
 
 <p>
 <ul style="padding-left: 25px; line-height: 2.0em">
