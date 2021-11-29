@@ -71,10 +71,20 @@ $ ls --size --human-readable
 total 3.0M
 8.0K main.cpp  448K transd.cpp  176K transd.hpp  2.3M tree3
 $ ./tree3
-D-> (textout "Hello, Transd!")
+_) (textout "Hello, Transd!")
 Hello, Transd!
-D->
+_)
 </code></pre></p>
+<p>The whole language compiles on both platforms with Clang, without installing any prerequisites, 
+using, basically, the same command: </p>
+<pre><code>Linux:
+
+$ clang++ -std=c++14 -O3 src/transd.cpp src/main.cpp -D__LINUX__ -lpthread -o tree3
+
+Windows:
+
+PS clang++ -std=c++14 -O3 src/transd.cpp src/main.cpp -DWIN32 -o tree3
+</code></pre>
 </div>
   <div class="col3">
     <h3><font color="#007878">What tasks can Transd solve?</font></h3>

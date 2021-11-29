@@ -2,7 +2,7 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta charset="utf-8">
-<title>Transd performance test</title>
+<title>Transd performance benchmarks</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <meta http-equiv="content-language" content="en-US">
 <meta name="language" content="English">
@@ -28,20 +28,20 @@ style="text-decoration: none; color: #33d" target=_top
 
 <div class="wrap">
 
-<h3 style="margin-top: 20px;" id="about-transd">Performance</h3>
+<h3 style="margin-top: 20px;color: #337" id="about-transd">Performance benchmarks of Transd</h3>
 <hr width="100%" style="margin:0 0 35px 0;">
 
 <p>There is a proven approach in achieving a good software performance: make it run well on old 
-hardware, and on modern hardware it will run great.</p>
+hardware, and on modern hardware it will fly.</p>
 
-<p>Here is a performance test in an area of Transd's specialization: processing of structured data.</p> 
+<p>Here are two performance benchmarks. One is in an area of Transd's specialization: 
+processing of structured data. The other is a lengthy numeric computation: multiplication
+of two matrices</p> 
 
-<p>Task: a table, containing 3.7 millions values in 100.000 rows and 37 columns is read from a 
-CSV file, then a query is performed on the table, which selects table's rows based on certain
-values in two columns.</p>
-
-<p>The test is done on a machine having Intel Celeron 1.2GHz processor and 2Gb of memory. 
-Operating system: Linux.</p>
+<p>The benchmarks are done on a machine having:</p><p>
+<b>Processor:</b> Intel Celeron 1.2GHz from 2002.<br>
+<b>Memory:</b> 2Gb.<br>
+<b>Operating system:</b> Linux with more or less modern 4.19 kernel.</p>
 
 <pre><code>
 $ cat /proc/cpuinfo
@@ -61,6 +61,19 @@ Total online memory:       2G
 Total offline memory:      0B
 </pre></code>
 
+<p>The benchmarks are run with the "TREE3" Transd interpreter ("Transd Expression Evaluator"),
+which can be downloaded <a href="https://github.com/transd-lang/TREE3/releases">here</a>.</p>
+
+<br><h4>Benchmark 1: SELECT query on a table</h4><br>
+
+<p>The Transd program with the benchmark can be obtained 
+<a href="https://github.com/transd-lang/Tourbillon-test-suite/blob/main/misc/perftest.td">
+here</a>.</p>
+
+<p>Benchmark: a table, containing 3.7 million values in 100.000 rows and 37 columns is read from a 
+CSV file, then a query is performed on the table, which selects table's rows based on certain
+values in two columns.</p>
+
 <p>The dataset for the test is taken from a site offering datasets for testing purposes:<br>
 <a href="https://eforexcel.com/wp/downloads-16-sample-csv-files-data-sets-for-testing/">https://eforexcel.com/wp/downloads-16-sample-csv-files-data-sets-for-testing/</a><br>
 The link to the dataset file:<br>
@@ -75,10 +88,8 @@ columns:
 <li>Change <code>Salary</code> to <code>Salary:Int</code></li>
 </ul>
 </p>
-<p>To perform the test we need a Transd <a href="https://github.com/transd-lang/Tourbillon-test-suite/blob/main/misc/perftest.td">program</a> 
-and Transd <a href="https://github.com/transd-lang/TREE3/releases">interpreter</a>.</p>
 
-<p>Once the program and interpreter are downloaded, we need to specify where our dataset is
+<p>After that, we need to specify where our dataset is
 located. For this, we edit the program file and set the value of the <code>tabfile</code>
 variable to the path to our dataset file:<p>
 
@@ -107,7 +118,47 @@ UT[Mr., Lamar, Parson, 35.41, 42458]
 </pre></code>
 
 <p>We see that our little interpreter on a venerable Celeron 1.2GHz shows pretty mighty
-industry grade performance.</p>
+industry grade performance. This is not a trick or hack. All values in the table and
+indexes are boxed and used in a completely normal way without any raw-data hackery.</p>
+
+<p>This demonstrates one of the main design properties of Transd: it is intended to become as
+declarative as possible. And the more high level a function is externally (such as SELECT
+data query - a distinct feature of some declarative languages), the more it is optimized in
+its implementation internally.</p>
+
+<p>To further illustrate this principle, we will perform a benchmark at the opposite side
+of the abstraction scale: a lengthy number crunching in a manual implementation of matrix
+multiplication.</p>
+
+<br><h4>Benchmark 2: "Manual" matrix multiplication</h4><br>
+
+<p>The Transd program with the benchmark can be obtained 
+<a href="https://github.com/transd-lang/Tourbillon-test-suite/blob/main/misc/matrices.td">
+here</a>.</p>
+
+<p>Benchmark: Two square matrices A and B are multiplied and the result is stored in matrix C.</p>
+<p>Matrices are implemented as two-dimensional vectors of 'double' type numbers. In Transd types
+this looks as: <code>'Vector&ltVector&ltDouble>>'</code></p>
+
+<p>This benchmark is done in the same hardware envionment as described above.</p>
+
+<p>As a basis for assesing the benchmark results, the comparison with the same task done 
+with Python will be used. The Python benchmark can be found <a href="https://github.com/transd-lang/Tourbillon-test-suite/blob/main/misc/matrices.td">
+here</a>. The Python version used in the test is 3.7.4.</p>
+
+<p>For <code>n = 200</code> the following results were observed:</p>
+
+<pre><code>$ python matrices.py
+Computation time was: 5.470508 sec
+
+$ tree3 matrices.td
+Computation time was: 5.655717 sec
+</code></pre>
+
+<p>As we see, in the low-level data manipulation, our interpreter demonstrates quite 
+remarkable performance, which is close to Python's.
+</p>
+
 <hr width="100%" style="margin:300px 0 0 0;">	
 </div>	
 <div id="footer">
