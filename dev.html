@@ -44,7 +44,15 @@ https://github.com/transd-lang/</a></p>
 <h4>Beta-version</h4>
 <p>Release the beta-version of the language: <strong><font size="+1" face="serif">Transd 0.5
 </font></strong><br>
-<font size="+1"; face="monospace"><strong>Estimated time of completion:</strong></font> Summer of 2021.</p>
+<font size="+1"; face="monospace"><strong>Estimated time of completion:</strong></font> First quarter of 2022.</p>
+</article>
+<article style="padding-top: 10px">
+<h4>Processing semi-structured data</h4>
+<p>Expand the built-in language support for semi-structured data processing. <code>TSDBase</code>
+type will resemble a NoSQL database: data objects (JSON-like) with all different or partly 
+coinciding fields will be loaded into a database and data queries on them will be possible.
+<br>
+<font size="+1"; face="monospace"><strong>Estimated time of completion:</strong></font> January, 2022.</p>
 </article>
 <article style="padding-top: 10px">
 <h4>Documentation</h4>
@@ -65,24 +73,14 @@ bottom-border: solid 1px ;height: 0px; text-align: center;">
 </div>
 <h3>Things planned:</h3>
 <article style="padding-top: 10px">
-<h4>Expand built-in data query capabilities</h4>
-<p>Currently Transd has preliminary built-in support of structured data queries. An example can
-be seen in the 'tsdbase.td' test file of the 
-<a href="https://github.com/transd-lang/Tourbillon-test-suite">compiler test suit</a>. 
-An example of a query:</p>
-<pre><code>(with rows (tsd-query base select: ["Department"]
-            as: [[String()]] :distinct sortby: "Department") ...
-</code></pre><br>
-<p>Where 'rows' is a variable storing the query result (vector of tuples); 'tsd-query' is a built-in
-function performing the query; 'base' - the name of TSDBase object on which the query is performed;
-the rest is the content of the query.
-
-What is planned is to expand considerably this part of the language with various enhancements,
-such as, e.g. serializing structured data to and from persistent storage (currently all DB-like 
-structure - records, indexes, etc. - is created at run-time.)   
-
-</p>
-<p><font size="+1"; face="monospace"><strong>Estimated start time:</strong></font> after the release of beta-version of Transd.</p>
+<h4>Unlimited precision numbers.</h4>
+<p>Currently, the biggest integer types in Transd type system are 64-bit <code>Long</code> and
+<code>ULong</code>. The addition of support of unlimited precision numbers is planned. 
+In maximum case - this type will be included in the language core, where it will be available 
+in the Transd embeddable C++ library. In minimum case - big numbers will be added to the TREE3 
+interpreter, where they will be available when Transd is used via stand-alone interpreter
+executable. </p>
+<p><font size="+1"; face="monospace"><strong>Estimated completion time:</strong></font> 2022 year.</p>
 </article>
 
 </section>

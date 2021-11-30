@@ -39,9 +39,51 @@ hr {
 <hr style="margin-top: 10px; border: 1px solid #55c; height: 0px;">
 <div class="wrap" style="margin-top: 25px">
 <h2 style="margin-bottom: 50px">The ongoing progress report</h2>
+<h3 id="2021-nov-30-november-results">2021-Nov-30 | November results</h3>
+
+<ul>
+<li><strong>Expanding data processing capabilities</strong><br>
+As the core of Transd has acquired its stable long-term shape, the emphasis of development has shifted to strengthening and expanding specialized parts of the language.</li>
+</ul>
+
+<p>The data processing section has been supplemented with <code>Table</code> class, and now includes the following classes:</p>
+
+<ol>
+<li><code>Object</code> - represents a text block of name/value pairs, treated as a single object. Such objects in Transd are called "TSD objects" ("TSD" - is short for "Transd Structured Data").</li>
+<li><code>TSDBase</code> - a collection of TSD objects, which can be viewed as an ad-hoc "NoSQL" database, and which supports "SELECT" and "UPDATE" data queries.</li>
+<li><code>Table</code> - a class for working with tabular data (e.g. CSV files). <code>Table</code> objects can be viewed as one-table databases, and they support "SELECT" and "UPDATE" data queries.</li>
+</ol>
+
+<ul>
+<li><p><strong>Performance increase</strong><br>
+Some good amount of laborious optimizations and profiling has brought its positive results in the form of considerable performance gains in both low-level and high-level operations of the language. Results can be seen <a href="https://transd.org/perftest.html">here</a>.</p></li>
+<li><p><strong>Portability increase</strong><br>
+With the addition of Clang to the list of building tools with which Transd is built seamlessly, the portability of the language reached its, in fact, ultimate level: on both platforms Transd can be compiled using, basically, the same command:</p></li>
+</ul>
+
+<pre><code>Linux:
+
+$ clang++ -std=c++14 -O3 src/transd.cpp src/main.cpp -D__LINUX__ -lpthread -o tree3
+
+Windows:
+
+PS clang++ -std=c++14 -O3 src/transd.cpp src/main.cpp -DWIN32 -o tree3
+</code></pre>
+
+<h3 id="2021-oct-31-october-results">2021-Oct-31 | October results</h3>
+
+<ul>
+<li><p><strong>(tsd-query) : UPDATE</strong> <br>
+Data query functionality has been expanded with the "UPDATE" query type. An example of using the UPDATE query can be seen here: <a href="http://rosettacode.org/wiki/Merge_and_aggregate_datasets#Transd">Merge aggregate datasets</a>.</p></li>
+<li><p><strong>DateTime type</strong> <br>
+Another type was added to the type system: <code>DateTime</code>. Among other uses, this type is indispensable in data processing. An example of usage is via the link in the previous paragraph.</p></li>
+<li><p><strong>Example Transd program</strong>
+Audio Flow Combiner, written in Transd, has reached the first level of maturity. It plays smoothly for hours most intricate and interwoven flows. The memory usage is astoundingly low (around 5 Mb of commited memory on Linux).</p></li>
+</ul>
+
 <h3 id="2021-sep-23-afc-a-program-on-transd">2021-Sep-23 | "AFC": a program on Transd</h3>
 
-<p>For demonstration purposes a first program on Transd has been created: "Audio Flow Combiner". This program illustrates one way of using Transd as a front-end language. Serving as a front-end for the popular and venerable "SoX" audio program, <a href="afc/split/mainafc.html">AFC</a> can create finely grained audio flows from one or several audio files.</p>
+<p>For demonstration purposes a first program on Transd has been created: "Audio Flow Combiner". This program illustrates one way of using Transd as a front-end language. Serving as a front-end for the popular and venerable "SoX" audio program, <a href="afc/AFC.html">AFC</a> can create finely grained audio flows from one or several audio files.</p>
 
 <p>This program demonstrates many features of the language and main principles of structuring a Transd program. Its source code can be used as a tutorial in Transd programming, and as a reference for the particular task of scripting program's behaviour through the command line. The analysis of the program's source code can be found <a href="AFC_review.html">here</a>.</p>
 
@@ -60,7 +102,7 @@ hr {
 
 <p>A text file with many such objects can be processed with Transd in the following way:</p>
 
-<div class="codehilite"><pre><span></span><code><span class="nv">objs</span><span class="o">:</span> <span class="nb">Index&lt;String Vector&lt;</span><span class="nv">Object</span><span class="o">&gt;&gt;</span><span class="p">()</span><span class="o">,</span>
+<div class="codehilite"><pre><span></span><code><span class="nv">objs</span><span class="o">:</span> <span class="nb">Index&lt;String Vector&lt;Object&gt;</span><span class="o">&gt;</span><span class="p">()</span><span class="o">,</span>
 
 <span class="p">(</span><span class="nf">rebind</span> <span class="nv">objs</span> <span class="p">(</span><span class="nf">group-by</span> 
                 <span class="p">(</span><span class="nf">read-tsd-file</span> <span class="s">&quot;restaurant_orders&quot;</span><span class="p">)</span> 
@@ -87,7 +129,7 @@ hr {
 <span class="p">}</span>
 
 <span class="nv">MainModule</span><span class="o">:</span> <span class="p">{</span>
-    <span class="nv">objs</span><span class="o">:</span> <span class="nb">Index&lt;String Vector&lt;</span><span class="nv">Object</span><span class="o">&gt;&gt;</span><span class="p">()</span><span class="o">,</span>
+    <span class="nv">objs</span><span class="o">:</span> <span class="nb">Index&lt;String Vector&lt;Object&gt;</span><span class="o">&gt;</span><span class="p">()</span><span class="o">,</span>
     <span class="nv">objA_1</span><span class="o">:</span> <span class="nv">ClassA</span><span class="p">()</span><span class="o">,</span>
     <span class="nv">objA_2</span><span class="o">:</span> <span class="nv">ClassA</span><span class="p">()</span><span class="o">,</span>
     <span class="nv">objB</span><span class="o">:</span> <span class="nv">ClassB</span><span class="p">()</span><span class="o">,</span>
