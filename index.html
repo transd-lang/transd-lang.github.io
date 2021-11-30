@@ -82,7 +82,7 @@ PS clang++ -std=c++14 -O3 src/transd.cpp src/main.cpp -DWIN32 -o tree3.exe
 Speed</h3>
 <p >
 Various parts of Transd have performance which currently varies from that of the fastest 
-interpretive languages not using Just-In-Time compilation to binary code to the speed comparable 
+interpretive languages not using binary Just-In-Time compilation to the speed comparable 
 or even close to native. For example, a SELECT query on a table with 100,000 records is performed
 in fractions of seconds: <a href="perftest.html"><b>performance test</b></a>.</p>
 <p>Transd doesn't use Just-In-Time compilation to machine code, and already in beta version has
