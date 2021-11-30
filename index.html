@@ -43,21 +43,13 @@
 <div style="float: left;"><p style=" font: 1.2em sans-serif; color: #555; margin: 15px 0 5px 0; line-height: 1.5em;">
 Transd is a general-purpose statically typed programming language with data queries, classes, 
 generics, type inference. Transd uses a novel execution model: <i>virtual compilation</i>,
-which outwardly resembles the traditional interpretive model, but doesn't employ an interpreter 
-or virtual machine, whereby facilitates reductions in implementation size and gains in
-performance.</p><p style=" font: 1.0em sans-serif; color: #777; margin: 0px 0 5px 0; line-height: 1.5em;">Albert Berger<br>author of Transd.</p>
-
-<div class="col1" style=" font: 1.0em sans-serif; color: #555; margin: 15px 0 0 0; line-height: 1.5em;"><a id="fast"> </a><h3 style="color: #077">
-Speed</h3>
-<p >
-Various parts of Transd have performance which currently varies from that of interpretive 
-languages to the speed comparable or even close to native. For example, a SELECT query on a table 
-with 100,000 records is performed in fractions of seconds: <a href="perftest.html"><b>performance 
-test</b></a>.</p>
-<p>
-The total coverage of such high-performing areas in the language will be increasing: the virtual
-compilation model makes it possible, but requires optimization, which has began from the 
-most demanding areas.</p>
+which outwardly resembles the traditional interpretive model, but internally doesn't employ an 
+interpreter or virtual machine, whereby facilitates reductions in implementation size and gains 
+in performance.<br>I hope, you'll find Transd useful and convenient.</p>
+<p style=" font: 1.0em sans-serif; color: #777; margin: 0px 0 5px 0; line-height: 1.5em;">Albert Berger<br>author of Transd.</p>
+<div class="col1" style="margin-top: 10px;">  
+  <hr style="width: 50%;  margin-left: 230px; color: #ccc; margin-bottom: 20px;  
+bottom-border: solid 1px ;height: 0px; text-align: center;">
 </div>
 <div class="col1" style=" font: 1.0em sans-serif; color: #555; margin: 15px 0 35px 0; line-height: 1.5em;">
 <a id="compact"> </a><h3 style="color: #077">Size</h3>
@@ -75,7 +67,7 @@ _) (textout "Hello, Transd!")
 Hello, Transd!
 _)
 </code></pre></p>
-<p>The whole language compiles on both platforms with Clang, without installing any prerequisites, 
+<p>The whole language compiles on Windows and Linux with Clang, without any prerequisites, 
 using, basically, the same command: </p>
 <pre><code>Linux:
 
@@ -85,6 +77,23 @@ Windows:
 
 PS clang++ -std=c++14 -O3 src/transd.cpp src/main.cpp -DWIN32 -o tree3.exe
 </code></pre>
+</div>
+<div class="col1" style=" font: 1.0em sans-serif; color: #555; margin: 15px 0 0 0; line-height: 1.5em;"><a id="fast"> </a><h3 style="color: #077">
+Speed</h3>
+<p >
+Various parts of Transd have performance which currently varies from that of the fastest 
+interpretive languages not using Just-In-Time compilation to binary code to the speed comparable 
+or even close to native. For example, a SELECT query on a table with 100,000 records is performed
+in fractions of seconds: <a href="perftest.html"><b>performance test</b></a>.</p>
+<p>Transd doesn't use Just-In-Time compilation to machine code, and already in beta version has
+a quite good performance. Which seems a sufficient reason for estimating that with passage of time
+it's performance will be between the native speed and the traditional interpretive model with
+virtual machines executing byte code. 
+</p>
+</div>
+<div class="col1" style="margin: 10px 0 10px 0;">  
+  <hr style="width: 50%;  margin-left: 230px; color: #ccc; margin-bottom: 20px;  
+bottom-border: solid 1px ;height: 0px; text-align: center;">
 </div>
   <div class="col3">
     <h3><font color="#007878">What tasks can Transd solve?</font></h3>
