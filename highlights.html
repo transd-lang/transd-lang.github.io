@@ -38,7 +38,7 @@ hr {
 </div>
 <hr style="margin-top: 10px; border: 1px solid #55c; height: 0px;">
 <div class="wrap" style="margin-top: 25px">
-<h2 style="margin-bottom: 50px">Main features of the Transd programming language</h2>
+<h2 style="margin-bottom: 50px">Quick survey of Transd</h2>
 <p>Below is a quick survey of the Transd programming language along with code examples. In the example code the screen output of is shown after the <code>//&lt;=</code> symbols. All <code>λ</code> symbols can be replaced with <code>lambda</code> word. All the examples can be run in the <a href="https://github.com/transd-lang/TREE3">Transd command line interpreter</a>. To run an example:</p>
 
 <ol>
@@ -51,11 +51,11 @@ hr {
 <pre><code>tree3 &lt;YOUR_FILE_NAME&gt;
 </code></pre>
 
-<h2 id="transd-quick-survey">Transd quick survey</h2>
+<h4 style="margin: 50px 0 20px 0;" id="transd-quick-survey"><b>Main features of the Transd programming language:</b></h4>
 
 <h3 id="type-safety">Type safety</h3>
 
-<p>Transd is statically typed: the types of all expressions and variables in a Transd program are known before the run-time phase begins. This greatly increases the robustness of programs, helps in the early detection of bugs, and improves the language perfomance.</p>
+<p>Transd is statically typed: the types of all expressions and variables in a Transd program are known before the run-time phase begins. This greatly increases the robustness of programs, helps in the early detection of bugs, and improves the language performance.</p>
 
 <div class="codehilite"><pre><span></span><code><span class="o">#</span><span class="nv">lang</span> <span class="nv">transd</span>
 <span class="nv">MainModule</span><span class="o">:</span> <span class="p">{</span>
@@ -161,10 +161,10 @@ data query language, as well as built-in functionality for working with tabular 
 <div class="codehilite"><pre><span></span><code><span class="o">#</span><span class="nv">lang</span> <span class="nv">transd</span>
 <span class="nv">MainModule</span><span class="o">:</span> <span class="p">{</span>
       <span class="nv">tabdata</span><span class="o">:</span>
-  <span class="s">&quot;Name,Salary:Int,Department</span>
-<span class="s">  Tom,10000,Transport</span>
-<span class="s">  Alice,25000,HR</span>
-<span class="s">  Bob,30000,Marketing&quot;</span><span class="o">,</span>
+<span class="s">&quot;Name,Salary:Int,Department</span>
+<span class="s">Tom,10000,Transport</span>
+<span class="s">Alice,25000,HR</span>
+<span class="s">Bob,30000,Marketing&quot;</span><span class="o">,</span>
 
    <span class="nv">_start</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> 
           <span class="p">(</span><span class="k">with</span> <span class="nv">tabl</span> <span class="nv">Table</span><span class="p">()</span>
