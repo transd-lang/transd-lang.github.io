@@ -7,7 +7,7 @@ body { margin: 50px 0 0; background: #fff url(../img/bg.jpg) repeat-x; font: 1em
 	h4 { font-size: 1.2em; color: #191970; font-weight: bold; margin: 0 0 .3em; }
 	p  { margin: 0 0 1em 0; line-height: 1.5em; }
 	em { border-bottom: 1px dotted #fff; cursor: pointer; }
-	a { color: #9D2900; }
+	a { color: #00299D; }
 	a:hover { color: #A0000E; text-decoration: none; }
 	img { border: 0; }
 	.red { color: #9D2900; }

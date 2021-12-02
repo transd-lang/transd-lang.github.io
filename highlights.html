@@ -1,4 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta charset="utf-8">
@@ -10,6 +10,19 @@
 <meta name="keywords" content="Transd, programming language, C++">
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link href="css/main.css" rel="stylesheet" type="text/css" />
+<link href="css/codehighlight.css" rel="stylesheet" type="text/css" />
+<link href="css/tsd.css" rel="stylesheet" type="text/css" />
+<style type="text/css">
+article{ padding-top: 10px;}
+pre{ background-color: #efefef; font: 1em "Courier New", monospace; }
+p{line-height: 1.5em;}
+hr {
+  border-top: 1px solid #eee;
+  width: 75%;
+  margin: 40px auto 20px auto;
+  color: #bbb;
+}
+</style>
 </head>
 <body>
 <div id="header">
@@ -25,139 +38,169 @@
 </div>
 <hr style="margin-top: 10px; border: 1px solid #55c; height: 0px;">
 <div class="wrap" style="margin-top: 25px">
-<h3 style="margin-bottom: 65px">Main features of the Transd programming language</h3>
-<p>Below is a list of main properties, capabilities and elements of Transd programming language.
-Most of entries are provided with examples from the language test suite. All example files can
-be downloaded and run in the <a href="https://github.com/transd-lang/TREE3">Transd command line interpreter</a>.  
-<h4 style="margin-top: 25px">Type safety</h4>
-<p>Transd is statically typed: the types of all expressions and variables in a Transd program are
-known before the run-time phase begins. This greatly increases the robustness of programs, helps 
-in early detection of bugs and improves the language perfomance.</p>
-<h4>Modules</h4>
-<p>All code in Transd programs is organized into modules. Modules serve for logical grouping of
-code and isolation of program parts. A source file can contain several modules,
-and a module can be defined in several source files. A module can be private or public. The 
-contents of public modules are accessible to other modules. The contents of private modules are
- inaccessible and invisible by default to other modules, but access to some or all module 
- members can be explicitly granted to some or all other modules.<br>
-Demo1: <a href="https://github.com/transd-lang/graph/blob/main/graph.td">'graph' program</a>, Demo2: 
-<a href="https://github.com/transd-lang/Tourbillon-test-suite/blob/main/suite/tests/imp.td">'imp.td' test file</a>.</p> 
+<h2 style="margin-bottom: 50px">Main features of the Transd programming language</h2>
+<p>Below is a quick survey of the Transd programming language along with code examples. In the example code the screen output of is shown after the <code>//&lt;=</code> symbols. All <code>λ</code> symbols can be replaced with <code>lambda</code> word. All the examples can be run in the <a href="https://github.com/transd-lang/TREE3">Transd command line interpreter</a>. To run an example:</p>
 
-<h4>Classes</h4>
-<p>Transd supports object-oriented programming style and offers the mechanism of classes
-as templates for new objects.<br>
-Demo: <a href="https://github.com/transd-lang/graph/blob/main/graph.td">'graph' program</a>.
-</p>
+<ol>
+<li>Open an empty text file.</li>
+<li>Copy the text of an example from this page and paste it into the empty file.</li>
+<li>Save the file under any name ending with <code>.td</code> extension: <code>&lt;ANY_NAME&gt;.td</code>.</li>
+<li>Run the file in the Transd interpreter:</li>
+</ol>
 
-<h4>First-class functions</h4>
-<p>Functions in Transd have very much in common with data and can be passed as parameters to, and 
-returned from other functions.<br>
-Demo1: <a href="https://github.com/transd-lang/Tourbillon-test-suite/blob/main/suite/tests/Type%20system/filter1.td">filter1.td</a>, 
-Demo2: <a href="https://github.com/transd-lang/Tourbillon-test-suite/blob/main/suite/tests/Type%20system/uvector.td">uvector.td</a>, 
-Demo3: <a href="https://github.com/transd-lang/Tourbillon-test-suite/blob/main/suite/tests/Builtin%20functions/sortvv.td">sortvv.td</a>.
-</p> 
-
-<h4>Generic collections</h4>
-<p>Transd type system includes parameterized, or compound, types (sometimes called "generics").
-Container types in Transd (vectors, associative arrays) are only allowed to contain elements of
-one type, which is specified at container's creation: for example, <code>Vector&lt;Int&gt;</code>. This drastically
-increases safety and speed of programs, and comprehensibility of program texts.<br>    
-Demo1: <a href="https://github.com/transd-lang/Tourbillon-test-suite/blob/main/suite/tests/Type%20system/uvector.td">uvector.td</a>,
-Demo2: <a href="https://github.com/transd-lang/Tourbillon-test-suite/blob/main/suite/tests/Syntax/decl_Vector.td">decl_Vector.td</a>.
-</p>
-
-<h4>Built-in data queries and table processing</h4>
-<p>Transd has powerful built-in capabilities for data processing. It has integrated SQL-like
-data query language, as well as built-in functionality for working with tabular data. One can
-compare two ways of working with the same tabular data in test files: 
-Demo1: <a href="https://github.com/transd-lang/Tourbillon-test-suite/blob/main/suite/tests/tsdbase.td">tsdbase.td</a> 
-Demo2: <a href="https://github.com/transd-lang/Tourbillon-test-suite/blob/main/suite/tests/Type%20system/uvector.td">uvector.td</a> </p>
-
-<h4>Tuples</h4>
-<p>Typed tuples can be used for storing together objects of different types. This makes work
-with differently typed elements, e.g. with tables, more safe and convenient. A table record can 
-contain fields of different types (strings, numbers, etc.). For example, a table contains 
-records with two fields: a string and a number. One can define a typed Tuple:
-<pre><code>Tuple&lt;String Int&gt;</code></pre>
-
-<p>then put each record of the table into such tuple, and store all tuples into a vector:
-
-<pre><code>Vector&lt;Tuple&lt;String Int&gt;&gt;></code></pre>
-
-<p>And this vector will be sortable by any of the tuple's fields! That is we get a mini-database
-with so little work! An example of this Transd's functionality can be seen in: 
-<a href="https://github.com/transd-lang/Tourbillon-test-suite/blob/main/suite/tests/Builtin%20functions/sortvv.td">sortvv.td</a></p>
-
-<h4>Filters</h4>
-<p>Filters is a tool for working with collections and ranges. They are used for applying
-a function to all or some elements of a collection or range. A filter object is created with
-two parameters: an input sequence and the action to apply to each element of the sequence. 
-Optionally, a third parameter can be added: a function, which selects (filters) elements in the
-sequence to which the action should be applyed.<br>
-Demo1: <a href="https://github.com/transd-lang/Tourbillon-test-suite/blob/main/suite/tests/Type%20system/filter.td">filter.td</a>,
-Demo2: <a href="https://github.com/transd-lang/Tourbillon-test-suite/blob/main/suite/tests/Type%20system/filter1.td">filter1.td</a>.</p>
-
-<h4>Exceptions</h4>
-<p> The powerful mechanism of error reporting is also present in Transd.<br>
-Demo: <a href="https://github.com/transd-lang/Tourbillon-test-suite/blob/main/suite/tests/try.td">try.td</a>.
-
-<h4>Dynamic module loading</h4>
-<p>Transd has two ways of dynamically accessing from a running Transd program the functionality 
-of other Transd libraries: via running a program and via module loading. The first variant loads
-the library and all its dependencies into its own separate name space. The second - into the 
-namespace of the main program where the library uses already loaded modules and can do useful
-job on the shared data, and then it can be unloaded for freeing memory or to avoid name clashes. 
-</p><p>
-This mechanism is at work in the Transd testing framework: the driver program runs test files
-one by one: a test file is loaded, it runs its tests in the shared namespace, so that it can 
-update shared variables, and then it's unloaded, making it possible to run a next test file,
-which has the same module name.<br>
-Demo1: <a href="https://github.com/transd-lang/Tourbillon-test-suite/blob/main/suite/runtests.td">runtests.td</a>, 
-Demo2: <a href="https://github.com/transd-lang/Tourbillon-test-suite/blob/main/suite/tests/imp.td">imp.td</a></p>
-
-<h4>Code as data</h4>
-<p>The 'eval' function can be used for interpreting a text string as code and run it. This
-feature is used in the command line interpreter for evaluating Transd expressions entered from
-the command line.<br>
-Demo: <a href="https://github.com/transd-lang/Tourbillon-test-suite/blob/main/suite/tests/eval.td">eval.td</a></p>
-
-<h4>Ranges</h4>
-<p>Ranges are used to define intervals in sequences, be it a number sequence or a sequence
-container.<br>
-Demo1: <a href="https://github.com/transd-lang/Tourbillon-test-suite/blob/main/suite/tests/Type%20system/range.td">range.td</a>,
-Demo2: <a href="https://github.com/transd-lang/Tourbillon-test-suite/blob/main/suite/tests/Builtin%20functions/sort.td">sort.td</a></p>
-
-<h4>Type aliases</h4>
-<p>Type aliases make it more convenient to work with long type names of compound types. 
-For example, one can create the "Record" alias for a typed Tuple:
-<pre><code>Tuple&lt;String Int String Double String&gt;&gt;></code></pre>
-<p>Such alias can be used everywhere instead of the original type name.<br> 
-Demo: <a href="https://github.com/transd-lang/Tourbillon-test-suite/blob/main/suite/tests/Builtin%20functions/sortvv.td">sortvv.td</a>
-</p>
-
-<h4>Strings</h4>
-<p>Strings are a built-in type in Transd. They have usual string operations, support 
-regular expressions and offer some enhancements, such as, for example, the syntax of
-the "substring" operation. E.g. if we have the following string:</p>
-<pre><code>s: "/home/user/.local/bin/scriptname.sh"
+<pre><code>tree3 &lt;YOUR_FILE_NAME&gt;
 </code></pre>
 
-<p>Then the function call
-<pre><code>(substr s from: after: last: "/" to: last: ".")
-</code></pre>
+<h2 id="transd-quick-survey">Transd quick survey</h2>
 
-<p>will return "scriptname".
+<h3 id="type-safety">Type safety</h3>
 
-<h4>Markers</h4>
-<p style="margin-bottom: 150px">Transd offers another syntactic novelty: it extends the usual function call syntax with the
-concept of 'markers'. A marker is an auxilliary token in a function call with colon at the
-start or at the end. In some cases they resemble parameter names, but as the previous example
-shows they have much wider use. </p>
+<p>Transd is statically typed: the types of all expressions and variables in a Transd program are known before the run-time phase begins. This greatly increases the robustness of programs, helps in the early detection of bugs, and improves the language perfomance.</p>
 
+<div class="codehilite"><pre><span></span><code><span class="o">#</span><span class="nv">lang</span> <span class="nv">transd</span>
+<span class="nv">MainModule</span><span class="o">:</span> <span class="p">{</span>
+  <span class="nv">i</span><span class="o">:</span> <span class="nv">Int</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span><span class="o">,</span>
+  <span class="nv">s</span><span class="o">:</span> <span class="nv">String</span><span class="p">(</span><span class="s">&quot;abc&quot;</span><span class="p">)</span><span class="o">,</span>
+  <span class="nv">func1</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> <span class="nv">par</span> <span class="nv">String</span><span class="p">()</span> <span class="p">(</span><span class="nf">lout</span> <span class="nv">par</span><span class="p">))</span><span class="o">,</span>
+  <span class="nv">func2</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> <span class="nv">par</span> <span class="nv">Int</span><span class="p">()</span> <span class="p">(</span><span class="nf">lout</span> <span class="nv">par</span><span class="p">))</span><span class="o">,</span>
+  <span class="nv">_start</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> 
+      <span class="p">(</span><span class="nf">func1</span> <span class="nv">s</span><span class="p">)</span>        <span class="c1">//&lt;= &quot;abc&quot;</span>
+      <span class="p">(</span><span class="nf">func2</span> <span class="nv">s</span><span class="p">)</span>        <span class="c1">//&lt;= compiler error, replace the argument &#39;s&#39; with &#39;i&#39;</span>
+  <span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>The type system of Transd includes such types as: <code>Bool, Int, Double, Long, ULong, Byte, Char, Object, Position, DateTime, Vector, Tuple, Index, HashIndex, ByteArray, Table, TSDBase, StringStream, ByteStream, FileStream, Lambda, String</code>.</p>
+
+<h3 id="modules">Modules</h3>
+
+<p>All code in Transd programs is organized into modules. Modules serve for logical grouping of the code and isolation of program parts. A source file can contain several modules, and a module can be defined in several source files. A module can be private or public. The contents of public modules are accessible to other modules. The contents of private modules are inaccessible and invisible by default to other modules, but the access to some or all module members can be explicitly granted to some or all other modules.</p>
+
+<div class="codehilite"><pre><span></span><code><span class="o">#</span><span class="nv">lang</span> <span class="nv">transd</span>
+
+<span class="nv">public</span> <span class="nv">module1</span><span class="o">:</span> <span class="p">{</span>
+  <span class="nv">i</span><span class="o">:</span> <span class="mi">5</span><span class="o">,</span>
+  <span class="nv">func1</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> <span class="p">(</span><span class="nf">textout</span> <span class="s">&quot;In module1::func1.&quot;</span><span class="p">))</span>
+<span class="p">}</span>
+
+<span class="nv">MainModule</span><span class="o">:</span> <span class="p">{</span>
+  <span class="nv">import</span><span class="o">:</span> <span class="s">&quot;module1&quot;</span><span class="o">,</span>
+  <span class="nv">_start</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> <span class="p">(</span><span class="nf">textout</span> <span class="nv">i</span> <span class="s">&quot; &quot;</span><span class="p">)</span> <span class="p">(</span><span class="nf">func1</span><span class="p">))</span> <span class="c1">//&lt;= 5 In module1::func1.</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="classes">Classes</h3>
+
+<p>Transd supports object-oriented programming style and offers the mechanism of classes as templates for new objects.</p>
+
+<div class="codehilite"><pre><span></span><code><span class="o">#</span><span class="nv">lang</span> <span class="nv">transd</span>
+
+<span class="nv">class</span> <span class="nv">Point</span><span class="o">:</span> <span class="p">{</span>
+     <span class="nv">x</span> <span class="o">:</span> <span class="nv">Double</span><span class="p">()</span><span class="o">,</span>
+     <span class="nv">y</span> <span class="o">:</span> <span class="nv">Double</span><span class="p">()</span><span class="o">,</span>
+     <span class="nv">@init</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> <span class="nv">x_</span> <span class="nv">Double</span><span class="p">()</span> <span class="nv">y_</span> <span class="nv">Double</span><span class="p">()</span> <span class="p">(</span><span class="nf">set</span> <span class="nv">x</span> <span class="nv">x_</span><span class="p">)</span> <span class="p">(</span><span class="nf">set</span> <span class="nv">y</span> <span class="nv">y_</span><span class="p">))</span><span class="o">,</span>
+     <span class="nv">dist</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> <span class="nv">pt</span> <span class="nv">Point</span><span class="p">()</span>
+                    <span class="p">(</span><span class="nf">sqrt</span> <span class="p">(</span><span class="nb">+ </span><span class="p">(</span><span class="nf">pow</span> <span class="p">(</span><span class="nb">- </span><span class="nv">x</span> <span class="nv">pt</span><span class="o">.</span><span class="nv">x</span><span class="p">)</span> <span class="mi">2</span> <span class="p">)</span> <span class="p">(</span><span class="nf">pow</span> <span class="p">(</span><span class="nb">- </span><span class="nv">y</span> <span class="nv">pt</span><span class="o">.</span><span class="nv">y</span><span class="p">)</span> <span class="mi">2</span> <span class="p">))))</span>
+<span class="p">}</span>
+
+<span class="nv">MainModule</span><span class="o">:</span> <span class="p">{</span>
+  <span class="nv">import</span><span class="o">:</span> <span class="s">&quot;Point&quot;</span><span class="o">,</span>
+  <span class="nv">pt1</span><span class="o">:</span> <span class="nv">Point</span><span class="p">(</span> <span class="mf">5.0</span> <span class="mf">6.0</span> <span class="p">)</span><span class="o">,</span>
+  <span class="nv">_start</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> 
+    <span class="p">(</span><span class="k">with</span> <span class="nv">pt2</span> <span class="nv">Point</span><span class="p">(</span><span class="mf">2.5</span> <span class="mf">4.5</span><span class="p">)</span>
+          <span class="nv">pt3</span> <span class="nv">Point</span><span class="p">(</span><span class="mf">15.8</span> <span class="mf">24.3</span><span class="p">)</span>
+      <span class="p">(</span><span class="nf">lout</span> <span class="p">(</span><span class="nf">dist</span> <span class="nv">pt1</span> <span class="nv">pt2</span><span class="p">))</span>   <span class="c1">//&lt;= 5.147815</span>
+      <span class="p">(</span><span class="nf">lout</span> <span class="p">(</span><span class="nf">dist</span> <span class="nv">pt1</span> <span class="nv">pt3</span><span class="p">))</span>   <span class="c1">//&lt;= 28.984996</span>
+    <span class="p">)</span>
+  <span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="functions-as-data-first-class-functions">Functions as data ("first-class" functions)</h3>
+
+<p>A built-in class <code>Lambda</code> plays the role of a function that can be passed to a function as an argument, assigned to a variable, etc.</p>
+
+<div class="codehilite"><pre><span></span><code><span class="o">#</span><span class="nv">lang</span> <span class="nv">transd</span>
+<span class="nv">MainModule</span><span class="o">:</span> <span class="p">{</span>
+  <span class="nv">lambd1</span><span class="o">:</span> <span class="nv">Lambda</span><span class="o">&lt;</span><span class="nb">String </span><span class="nv">Null</span><span class="o">&gt;</span><span class="p">(</span><span class="nf">λ</span> <span class="nv">s</span> <span class="nv">String</span><span class="p">()</span> 
+                 <span class="p">(</span><span class="nf">textout</span> <span class="nv">to</span><span class="o">:</span> <span class="nv">ss</span> <span class="s">&quot;Hello, &quot;</span> <span class="nv">s</span> <span class="s">&quot;! &quot;</span><span class="p">)</span> <span class="p">)</span><span class="o">,</span>
+
+  <span class="nv">func</span><span class="o">:</span><span class="p">(</span><span class="nf">λ</span> <span class="nv">lam</span> <span class="nv">Lambda</span><span class="o">&lt;</span><span class="nb">Int Int&gt;</span><span class="p">()</span> 
+          <span class="p">(</span><span class="nf">textout</span> <span class="s">&quot;Square of 8 is&quot;</span> <span class="p">(</span><span class="nf">exec</span> <span class="nv">lam</span> <span class="mi">8</span><span class="p">)))</span><span class="o">,</span> 
+
+  <span class="nv">_start</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> 
+          <span class="p">(</span><span class="nf">exec</span> <span class="nv">lambd1</span> <span class="s">&quot;Lambda&quot;</span><span class="p">)</span>              <span class="c1">//&lt;= &quot;Hello, Lambda!&quot;</span>
+          <span class="p">(</span><span class="nf">func</span> <span class="p">(</span><span class="nf">λ</span> <span class="nv">i</span> <span class="nv">Int</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nv">Int</span><span class="p">()</span> <span class="p">(</span><span class="nb">* </span><span class="nv">i</span> <span class="nv">i</span><span class="p">)))</span>  <span class="c1">//&lt;= &quot;Square of 8 is 64&quot;</span>
+  <span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>More examples can be seen <a href="https://github.com/transd-lang/Tourbillon-test-suite/blob/main/suite/tests/Type%20system/lambdas.td">here</a>.</p>
+
+<h3 id="generic-collections">Generic collections</h3>
+
+<p>Transd type system includes parameterized (or compound) types, sometimes called "generics". Container types in Transd (vectors, associative arrays, etc.) are only allowed to contain elements of one type, which is specified at container's creation: for example, <code>Vector&lt;Int&gt;</code>. This limitation for a container to hold values only of a certain type increases safety and speed of programs, and comprehensibility of program texts.</p>
+
+<div class="codehilite"><pre><span></span><code><span class="o">#</span><span class="nv">lang</span> <span class="nv">transd</span>
+<span class="nv">MainModule</span><span class="o">:</span> <span class="p">{</span>
+    <span class="nv">_start</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> 
+        <span class="p">(</span><span class="k">with</span> <span class="nv">v</span> <span class="nb">Vector&lt;Int&gt;</span><span class="p">([</span><span class="mi">1</span><span class="o">,</span><span class="mi">2</span><span class="o">,</span><span class="mi">3</span><span class="p">])</span>
+            <span class="p">(</span><span class="k">for</span> <span class="nv">i</span> <span class="k">in</span> <span class="nv">v</span> <span class="k">do</span> <span class="p">(</span><span class="nf">textout</span> <span class="p">(</span><span class="nb">* </span><span class="nv">i</span> <span class="mi">2</span><span class="p">)</span> <span class="s">&quot; &quot;</span><span class="p">))</span> <span class="c1">//&lt;= 2 4 6</span>
+        <span class="p">)</span>
+        <span class="p">(</span><span class="k">with</span> <span class="nv">v</span> <span class="nb">Vector&lt;String&gt;</span><span class="p">()</span>
+            <span class="p">(</span><span class="nf">append</span> <span class="nv">v</span> <span class="s">&quot;abc&quot;</span><span class="p">)</span> <span class="p">(</span><span class="nf">append</span> <span class="nv">v</span> <span class="s">&quot;def&quot;</span><span class="p">)</span> <span class="p">(</span><span class="nf">append</span> <span class="nv">v</span> <span class="s">&quot;ghi&quot;</span><span class="p">)</span>
+            <span class="p">(</span><span class="nf">lout</span> <span class="nv">v</span><span class="p">)</span> <span class="c1">//&lt;= [&quot;abc&quot;, &quot;def&quot;, &quot;ghi&quot;]</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="built-in-data-queries-and-table-processing">Built-in data queries and table processing</h3>
+
+<p>Transd has powerful built-in capabilities for data processing. It has an integrated SQL-like
+data query language, as well as built-in functionality for working with tabular data. </p>
+
+<div class="codehilite"><pre><span></span><code><span class="o">#</span><span class="nv">lang</span> <span class="nv">transd</span>
+<span class="nv">MainModule</span><span class="o">:</span> <span class="p">{</span>
+      <span class="nv">tabdata</span><span class="o">:</span>
+  <span class="s">&quot;Name,Salary:Int,Department</span>
+<span class="s">  Tom,10000,Transport</span>
+<span class="s">  Alice,25000,HR</span>
+<span class="s">  Bob,30000,Marketing&quot;</span><span class="o">,</span>
+
+   <span class="nv">_start</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> 
+          <span class="p">(</span><span class="k">with</span> <span class="nv">tabl</span> <span class="nv">Table</span><span class="p">()</span>
+              <span class="p">(</span><span class="nf">load-table</span> <span class="nv">tabl</span> <span class="nv">tabdata</span><span class="p">)</span>
+              <span class="p">(</span><span class="nf">build-index</span> <span class="nv">tabl</span> <span class="s">&quot;Salary&quot;</span><span class="p">)</span>
+
+              <span class="p">(</span><span class="k">with</span> <span class="nv">rows</span> <span class="p">(</span><span class="nf">tsd-query</span> <span class="nv">tabl</span> 
+                      <span class="nv">select</span><span class="o">:</span> <span class="p">[</span><span class="s">&quot;Name&quot;</span><span class="o">,</span> <span class="s">&quot;Department&quot;</span><span class="p">]</span>
+                      <span class="nv">as</span><span class="o">:</span> <span class="p">[[</span><span class="nv">String</span><span class="p">()</span><span class="o">,</span><span class="nv">String</span><span class="p">()]]</span>
+                      <span class="nv">where</span><span class="o">:</span> <span class="s">&quot;Salary &gt; 20000&quot;</span>
+                      <span class="nv">sortby</span><span class="o">:</span> <span class="s">&quot;Name&quot;</span><span class="p">)</span>
+                  <span class="p">(</span><span class="k">for</span> <span class="nv">row</span> <span class="k">in</span> <span class="nv">rows</span> <span class="k">do</span> <span class="p">(</span><span class="nf">lout</span> <span class="nv">row</span><span class="p">)))</span>
+      <span class="p">))</span>
+  <span class="c1">// The output:</span>
+  <span class="c1">// UT[Alice, HR]</span>
+  <span class="c1">// UT[Bob, Marketing]</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Among other features, Transd has list comprehensions, ranges, exceptions, dynamic module loading/unloading, etc.</p>
+
+<h3 id="size">Size</h3>
+
+<p>One of the featured properties of Transd is its implementation size. The size of the executable file with language interpreter on Windows and Linux - less than 3Mb (about 5 Mb if statically compiled).</p>
+
+<p>The C++ source code library of Transd, which can be directly included in other C++ projects as an embedded language, is contained in two files and consists of less than 20,000 lines of code. (All figures are from December, 2021).</p>
+
+<h3 id="speed">Speed</h3>
+
+<p>The speed of Transd ranges from fast to very fast. See a <a href="https://transd.org/perftest.html">performance test</a>.</p>
 
 </div>
 <div id="footer">
-  <p>&copy; Copyright 2020-2021 <a href='&#109;ail&#116;o&#58;alb%65rger&#64;g%6Dai&#108;&#46;&#37;63o&#109;'>Albert Berger</a> &middot; All Rights Reserved</p>
+  <p>&copy; Copyright 2020-2022 <a href='&#109;ail&#116;o&#58;alb%65rger&#64;g%6Dai&#108;&#46;&#37;63o&#109;'>Albert Berger</a> &middot; All Rights Reserved</p>
 </div>
 </body>
 </html>

@@ -965,6 +965,40 @@ Return type: <code>Vector&lt;TYPE&gt;</code></p>
 <span class="nv">f</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> <span class="p">(</span><span class="nf">lout</span> <span class="p">(</span><span class="nf">sort</span> <span class="nv">Range</span><span class="p">(</span><span class="k">in</span><span class="o">:</span> <span class="nv">v</span> <span class="mi">-0</span> <span class="mi">0</span><span class="p">))))</span> <span class="c1">// [3, 2, 1, 0]</span>
 </code></pre></div>
 
+<h2 id="streams">Streams</h2>
+
+<p>A stream is an object that can function as a generalized input/output (I/O) channel. Various
+stream types support a common interface and can be used in a uniform way for reading or outputting data to and from various sources/destinations.</p>
+
+<p>In Transd there are five stream classes:</p>
+
+<ul>
+<li><code>StringStream</code> - generalized text I/O;</li>
+<li><code>ByteStream</code> - generalized raw bytes I/O;</li>
+<li><code>FileStream</code> - file I/O;</li>
+<li><code>StdIn</code> - standard input stream;</li>
+<li><code>StdOut</code> - standard output stream.</li>
+</ul>
+
+<p>Streams are used for reading/writing files, outputting text to the screen, for buffered I/O, etc.</p>
+
+<h4 id="examples">Examples</h4>
+
+<p><strong>Text output</strong></p>
+
+<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="nf">textout</span> <span class="nv">to</span><span class="o">:</span> <span class="nv">StdOut</span> <span class="s">&quot;Hello!&quot;</span><span class="p">)</span> <span class="c1">// prints to StdOut</span>
+<span class="p">(</span><span class="nf">textout</span> <span class="s">&quot;Hello!&quot;</span><span class="p">)</span> <span class="c1">// same as above, StdOut is the default stream for &#39;(textout)&#39;</span>
+<span class="p">(</span><span class="k">with</span> <span class="nv">fs</span> <span class="nv">FileStream</span><span class="p">()</span> <span class="p">(</span><span class="nf">open</span> <span class="nv">fs</span> <span class="s">&quot;C:/Temp/hello.txt&quot;</span> <span class="s">&quot;w&quot;</span><span class="p">)</span>
+    <span class="p">(</span><span class="nf">textout</span> <span class="nv">to</span><span class="o">:</span> <span class="nv">fs</span> <span class="s">&quot;Hello!&quot;</span><span class="p">))</span> <span class="c1">// prints to a file</span>
+</code></pre></div>
+
+<p><strong>Text input</strong></p>
+
+<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="k">with</span> <span class="nv">str1</span> <span class="nv">String</span><span class="p">()</span> <span class="p">)</span>
+</code></pre></div>
+
+<p><strong>Buffered output</strong></p>
+
 <h3 id="stringstream">StringStream</h3>
 
 <h3 id="bytestream">ByteStream</h3>
