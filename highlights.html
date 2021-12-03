@@ -65,7 +65,7 @@ hr {
   <span class="nv">func2</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> <span class="nv">par</span> <span class="nv">Int</span><span class="p">()</span> <span class="p">(</span><span class="nf">lout</span> <span class="nv">par</span><span class="p">))</span><span class="o">,</span>
   <span class="nv">_start</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> 
       <span class="p">(</span><span class="nf">func1</span> <span class="nv">s</span><span class="p">)</span>        <span class="c1">//&lt;= &quot;abc&quot;</span>
-      <span class="p">(</span><span class="nf">func2</span> <span class="nv">s</span><span class="p">)</span>        <span class="c1">//&lt;= compiler error, replace the argument &#39;s&#39; with &#39;i&#39;</span>
+      <span class="p">(</span><span class="nf">func2</span> <span class="nv">s</span><span class="p">)</span>        <span class="c1">// compiler error, replace the argument &#39;s&#39; with &#39;i&#39;</span>
   <span class="p">)</span>
 <span class="p">}</span>
 </code></pre></div>
@@ -78,14 +78,14 @@ hr {
 
 <div class="codehilite"><pre><span></span><code><span class="o">#</span><span class="nv">lang</span> <span class="nv">transd</span>
 
-<span class="nv">public</span> <span class="nv">module1</span><span class="o">:</span> <span class="p">{</span>
+<span class="nv">public</span> <span class="nv">Module1</span><span class="o">:</span> <span class="p">{</span>
   <span class="nv">i</span><span class="o">:</span> <span class="mi">5</span><span class="o">,</span>
-  <span class="nv">func1</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> <span class="p">(</span><span class="nf">textout</span> <span class="s">&quot;In module1::func1.&quot;</span><span class="p">))</span>
+  <span class="nv">func1</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> <span class="p">(</span><span class="nf">textout</span> <span class="s">&quot;In Module1::func1.&quot;</span><span class="p">))</span>
 <span class="p">}</span>
 
 <span class="nv">MainModule</span><span class="o">:</span> <span class="p">{</span>
-  <span class="nv">import</span><span class="o">:</span> <span class="s">&quot;module1&quot;</span><span class="o">,</span>
-  <span class="nv">_start</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> <span class="p">(</span><span class="nf">textout</span> <span class="nv">i</span> <span class="s">&quot; &quot;</span><span class="p">)</span> <span class="p">(</span><span class="nf">func1</span><span class="p">))</span> <span class="c1">//&lt;= 5 In module1::func1.</span>
+  <span class="nv">import</span><span class="o">:</span> <span class="s">&quot;Module1&quot;</span><span class="o">,</span>
+  <span class="nv">_start</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> <span class="p">(</span><span class="nf">textout</span> <span class="nv">i</span> <span class="s">&quot; &quot;</span><span class="p">)</span> <span class="p">(</span><span class="nf">func1</span><span class="p">))</span> <span class="c1">//&lt;= 5 In Module1::func1.</span>
 <span class="p">}</span>
 </code></pre></div>
 
@@ -122,8 +122,7 @@ hr {
 
 <div class="codehilite"><pre><span></span><code><span class="o">#</span><span class="nv">lang</span> <span class="nv">transd</span>
 <span class="nv">MainModule</span><span class="o">:</span> <span class="p">{</span>
-  <span class="nv">lambd1</span><span class="o">:</span> <span class="nv">Lambda</span><span class="o">&lt;</span><span class="nb">String </span><span class="nv">Null</span><span class="o">&gt;</span><span class="p">(</span><span class="nf">λ</span> <span class="nv">s</span> <span class="nv">String</span><span class="p">()</span> 
-                 <span class="p">(</span><span class="nf">textout</span> <span class="nv">to</span><span class="o">:</span> <span class="nv">ss</span> <span class="s">&quot;Hello, &quot;</span> <span class="nv">s</span> <span class="s">&quot;! &quot;</span><span class="p">)</span> <span class="p">)</span><span class="o">,</span>
+  <span class="nv">lambd1</span><span class="o">:</span> <span class="nv">Lambda</span><span class="o">&lt;</span><span class="nb">String </span><span class="nv">Null</span><span class="o">&gt;</span><span class="p">(</span><span class="nf">λ</span> <span class="nv">s</span> <span class="nv">String</span><span class="p">()</span> <span class="p">(</span><span class="nf">textout</span> <span class="s">&quot;Hello, &quot;</span> <span class="nv">s</span> <span class="s">&quot;! &quot;</span><span class="p">)</span> <span class="p">)</span><span class="o">,</span>
 
   <span class="nv">func</span><span class="o">:</span><span class="p">(</span><span class="nf">λ</span> <span class="nv">lam</span> <span class="nv">Lambda</span><span class="o">&lt;</span><span class="nb">Int Int&gt;</span><span class="p">()</span> 
           <span class="p">(</span><span class="nf">textout</span> <span class="s">&quot;Square of 8 is&quot;</span> <span class="p">(</span><span class="nf">exec</span> <span class="nv">lam</span> <span class="mi">8</span><span class="p">)))</span><span class="o">,</span> 
@@ -178,10 +177,10 @@ data query language, as well as built-in functionality for working with tabular 
                       <span class="nv">sortby</span><span class="o">:</span> <span class="s">&quot;Name&quot;</span><span class="p">)</span>
                   <span class="p">(</span><span class="k">for</span> <span class="nv">row</span> <span class="k">in</span> <span class="nv">rows</span> <span class="k">do</span> <span class="p">(</span><span class="nf">lout</span> <span class="nv">row</span><span class="p">)))</span>
       <span class="p">))</span>
-  <span class="c1">// The output:</span>
-  <span class="c1">// UT[Alice, HR]</span>
-  <span class="c1">// UT[Bob, Marketing]</span>
 <span class="p">}</span>
+<span class="c1">// The output:</span>
+<span class="c1">// UT[Alice, HR]</span>
+<span class="c1">// UT[Bob, Marketing]</span>
 </code></pre></div>
 
 <p>Among other features, Transd has list comprehensions, ranges, exceptions, dynamic module loading/unloading, etc.</p>
