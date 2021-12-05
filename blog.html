@@ -39,27 +39,64 @@ hr {
 <hr style="margin-top: 10px; border: 1px solid #55c; height: 0px;">
 <div class="wrap" style="margin-top: 25px">
 <h2 style="margin-bottom: 50px">The ongoing progress report</h2>
+<h3 id="december-results-so-far">December results (so far)</h3>
+
+<p><strong>Lambdas</strong><br>
+Transd supports anonymous function objects ("lambda" functions), which can be used in a great many of places, for example:</p>
+
+<div class="codehilite"><pre><span></span><code>   <span class="p">(</span><span class="k">with</span> <span class="nv">v</span> <span class="p">[</span><span class="s">&quot;C&quot;</span><span class="o">,</span> <span class="s">&quot;a&quot;</span><span class="o">,</span> <span class="s">&quot;D&quot;</span><span class="o">,</span> <span class="s">&quot;b&quot;</span><span class="o">,</span> <span class="s">&quot;A&quot;</span><span class="p">]</span>
+       <span class="p">(</span><span class="nf">sort</span> <span class="nv">v</span> <span class="p">(</span><span class="k">lambda</span> <span class="nv">l</span> <span class="nv">String</span><span class="p">()</span> <span class="nv">r</span> <span class="nv">String</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nv">Bool</span><span class="p">()</span>
+              <span class="p">(</span><span class="nf">ret</span> <span class="p">(</span><span class="nf">less</span> <span class="p">(</span><span class="nf">tolower</span> <span class="nv">l</span><span class="p">)</span> <span class="p">(</span><span class="nf">tolower</span> <span class="nv">r</span><span class="p">)))))</span>
+       <span class="p">(</span><span class="nf">lout</span> <span class="nv">v</span><span class="p">))</span> <span class="c1">//&lt;= [a, A, b, C, D]</span>
+</code></pre></div>
+
+<p>Now, anonymous lambdas are supplemented with named variables of <code>Lambda</code> type. <code>Lambda</code> objects can be copied, passed as arguments to functions, returned from functions, etc. That is, they are just another data type.</p>
+
+<div class="codehilite"><pre><span></span><code>   <span class="p">(</span><span class="k">with</span> <span class="nv">lam</span> <span class="nv">Lambda</span><span class="o">&lt;</span><span class="nb">String </span><span class="nv">Null</span><span class="o">&gt;</span><span class="p">(</span><span class="nf">λ</span> <span class="nv">s</span> <span class="nv">String</span><span class="p">()</span> 
+         <span class="p">(</span><span class="nf">textout</span> <span class="s">&quot;Hello, &quot;</span> <span class="nv">s</span> <span class="s">&quot;!&quot;</span><span class="p">)</span> <span class="p">)</span>
+
+         <span class="p">(</span><span class="nf">exec</span> <span class="nv">lam</span> <span class="s">&quot;World&quot;</span><span class="p">)</span> <span class="c1">//&lt;= Hello, World!</span>
+   <span class="p">)</span>
+</code></pre></div>
+
+<p><strong>Formatted output</strong><br>
+Formatting capabilities of text streams have been expanded with the following manipulators: <code>fill:, :left, :right, :internal, prec:, :fixed</code>. </p>
+
+<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="k">with</span> <span class="nv">pr1</span> <span class="mf">3.7</span> <span class="nv">pr2</span> <span class="mf">1.5</span>
+    <span class="p">(</span><span class="nf">lout</span> <span class="nv">width</span><span class="o">:</span> <span class="mi">20</span> <span class="nv">fill</span><span class="o">:</span> <span class="s">&quot;.&quot;</span> <span class="o">:</span><span class="nv">left</span> <span class="s">&quot;Fried chicken&quot;</span> 
+             <span class="nv">prec</span><span class="o">:</span> <span class="mi">2</span> <span class="o">:</span><span class="nv">fixed</span> <span class="nv">pr1</span> <span class="s">&quot; USD&quot;</span> <span class="p">)</span>
+    <span class="p">(</span><span class="nf">lout</span> <span class="nv">width</span><span class="o">:</span> <span class="mi">20</span> <span class="s">&quot;Ice-cream&quot;</span> <span class="nv">pr2</span> <span class="s">&quot; USD&quot;</span> <span class="p">)</span>
+    <span class="p">(</span><span class="nf">lout</span> <span class="nv">width</span><span class="o">:</span> <span class="mi">28</span> <span class="nv">fill</span><span class="o">:</span> <span class="s">&quot;-&quot;</span> <span class="p">)</span>
+    <span class="p">(</span><span class="nf">lout</span> <span class="nv">width</span><span class="o">:</span> <span class="mi">20</span> <span class="nv">fill</span><span class="o">:</span> <span class="s">&quot; &quot;</span> <span class="o">:</span><span class="nv">right</span> <span class="s">&quot;Total: &quot;</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">pr1</span> <span class="nv">pr2</span><span class="p">)</span> <span class="s">&quot; USD&quot;</span> <span class="p">)</span>
+ <span class="p">)</span>
+</code></pre></div>
+
+<pre><code>OUTPUT:
+
+Fried chicken.......3.70 USD
+Ice-cream...........1.50 USD
+----------------------------
+             Total: 5.20 USD
+</code></pre>
+
 <h3 id="2021-nov-30-november-results">2021-Nov-30 | November results</h3>
 
-<ul>
-<li><strong>Expanding data processing capabilities</strong><br>
-As the core of Transd has acquired its stable long-term shape, the emphasis of development has shifted to strengthening and expanding specialized parts of the language.</li>
-</ul>
+<p><strong>Expanding data processing capabilities</strong><br>
+As the core of Transd has acquired its stable long-term shape, the emphasis of development has shifted to strengthening and expanding specialized parts of the language.</p>
 
 <p>The data processing section has been supplemented with <code>Table</code> class, and now includes the following classes:</p>
 
 <ol>
 <li><code>Object</code> - represents a text block of name/value pairs, treated as a single object. Such objects in Transd are called "TSD objects" ("TSD" - is short for "Transd Structured Data").</li>
 <li><code>TSDBase</code> - a collection of TSD objects, which can be viewed as an ad-hoc "NoSQL" database, and which supports "SELECT" and "UPDATE" data queries.</li>
-<li><code>Table</code> - a class for working with tabular data (e.g. CSV files). <code>Table</code> objects can be viewed as one-table databases, and they support "SELECT" and "UPDATE" data queries.</li>
-</ol>
+<li><p><code>Table</code> - a class for working with tabular data (e.g. CSV files). <code>Table</code> objects can be viewed as one-table databases, and they support "SELECT" and "UPDATE" data queries.</p>
 
-<ul>
-<li><p><strong>Performance increase</strong><br>
-Some good amount of laborious optimizations and profiling has brought its positive results in the form of considerable performance gains in both low-level and high-level operations of the language. Results can be seen <a href="https://transd.org/perftest.html">here</a>.</p></li>
-<li><p><strong>Portability increase</strong><br>
+<p><strong>Performance increase</strong><br>
+Some good amount of laborious optimizations and profiling has brought its positive results in the form of considerable performance gains in both low-level and high-level operations of the language. Results can be seen <a href="https://transd.org/perftest.html">here</a>.</p>
+
+<p><strong>Portability increase</strong><br>
 With the addition of Clang to the list of building tools with which Transd is built seamlessly, the portability of the language reached its, in fact, ultimate level: on both platforms Transd can be compiled using, basically, the same command:</p></li>
-</ul>
+</ol>
 
 <pre><code>Linux:
 
@@ -72,14 +109,14 @@ PS clang++ -std=c++14 -O3 src/transd.cpp src/main.cpp -DWIN32 -o tree3
 
 <h3 id="2021-oct-31-october-results">2021-Oct-31 | October results</h3>
 
-<ul>
-<li><p><strong>(tsd-query) : UPDATE</strong> <br>
-Data query functionality has been expanded with the "UPDATE" query type. An example of using the UPDATE query can be seen here: <a href="http://rosettacode.org/wiki/Merge_and_aggregate_datasets#Transd">Merge aggregate datasets</a>.</p></li>
-<li><p><strong>DateTime type</strong> <br>
-Another type was added to the type system: <code>DateTime</code>. Among other uses, this type is indispensable in data processing. An example of usage is via the link in the previous paragraph.</p></li>
-<li><p><strong>Example Transd program</strong>
-Audio Flow Combiner, written in Transd, has reached the first level of maturity. It plays smoothly for hours most intricate and interwoven flows. The memory usage is astoundingly low (around 5 Mb of commited memory on Linux).</p></li>
-</ul>
+<p><strong>(tsd-query) : UPDATE</strong> <br>
+Data query functionality has been expanded with the "UPDATE" query type. An example of using the UPDATE query can be seen here: <a href="http://rosettacode.org/wiki/Merge_and_aggregate_datasets#Transd">Merge aggregate datasets</a>.</p>
+
+<p><strong>DateTime type</strong> <br>
+Another type was added to the type system: <code>DateTime</code>. Among other uses, this type is indispensable in data processing. An example of usage is via the link in the previous paragraph.</p>
+
+<p><strong>Example Transd program</strong>
+Audio Flow Combiner, written in Transd, has reached the first level of maturity. It plays smoothly for hours most intricate and interwoven flows. The memory usage is astoundingly low (around 5 Mb of commited memory on Linux).</p>
 
 <h3 id="2021-sep-23-afc-a-program-on-transd">2021-Sep-23 | "AFC": a program on Transd</h3>
 

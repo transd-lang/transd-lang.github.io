@@ -21,13 +21,13 @@ body { margin: 50px 0 0; background: #fff url(../img/bg.jpg) repeat-x; font: 1em
 		#menu a:hover { color: #000; border-bottom: 2px solid #ccc; }
 		#menu .active a { border-bottom: 2px solid #C70012; color: #9D2900;}
 
-#teaser { clear: both; height: 259px; background: #fff url(../img/teaserbg.jpg) repeat-x; font-size: 1.0em;}
-	.box { float: left; padding: 66px 0 0; width: 480px; color: #C7E3EE; }
-	#image { float: right; width: 388px; position: relative; top: 16px; background: url(../img/logotype2.png) no-repeat top right; height: 258px; }
+#teaser { clear: both; height: 199px; background: #fff url(../img/teaserbg.jpg) repeat-x; font-size: 1.0em;}
+	.box { float: left; padding: 46px 0 0; width: 480px; color: #C7E3EE; }
 	
-#bar { height: 40px; margin: 0 0 30px; padding: 8px 0 0 0; background: url(../img/bar.jpg) repeat-x; font-size: .74em;}
-	.step { cursor: pointer; color: #FAFDDD; padding: 4px 0 0 11px; margin: 0 35px 0 0; font-size: 1.4em; float: left; text-align: center; background: url(../img/step.jpg) no-repeat; height: 30px; }
-	.step a { color: #fff; margin: 0 10px 0 0; }
+	
+#bar { height: 40px; margin: 0 0 30px; padding: 10px 0 0px 0px; background: url(../img/bar.jpg) repeat-x; font-size: .74em;}
+	.step { cursor: pointer; color: #FAFDDD; padding: 0px 0 0px 0px; margin: 0 35px 0 0; font-size: 1.4em; float: left; text-align: center;  height: 5px; }
+	.step a { color: #fff; margin: 0px 5px 0px 0; }
 
 #header	h1{ float: left; font-size: 3.2em;}
 #teaser h2{ font-size: 1.8em; color: #FFF2B3; font-weight: normal; margin: 0 0 .5em; }
