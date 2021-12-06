@@ -1,5 +1,5 @@
 *{ margin: 0; padding: 0; }*
-body { margin: 50px 0 0; background: #fff url(../img/bg.jpg) repeat-x; font: 1em "Trebuchet MS", Arial, Sans-Serif; color: #444; }
+body { margin: 25px 0 0; background: #fff url(../img/bg.jpg) repeat-x; font: 1em "Trebuchet MS", Arial, Sans-Serif; color: #444; }
 	h1 { font-size: 3em; font-weight: normal; color: #005b56; font-family: serif;}
 	h1 a { text-decoration: none; }
 	h2 { font-size: 2em; color: #151515; font-weight: normal; margin: 0 0 5px; }
@@ -15,14 +15,14 @@ body { margin: 50px 0 0; background: #fff url(../img/bg.jpg) repeat-x; font: 1em
 .wrap { width: 900px; margin: 0 auto; }
 
 #header { width: 900px; height: 55px; margin: 0 auto; }
-	#menu  { float: right; padding: 20px 0 0 0; list-style: none; }
+	#menu  { float: right; padding: 0px 0 0 0; list-style: none; }
 		#menu li { display: inline; }
-		#menu a { display: block; float: left; margin-left: 30px; padding: 7px; text-decoration: none; font-size: 1em; color: #000000; }
+		#menu a { display: block; float: left; margin-left: 30px; padding: 20px 7px 0 0; text-decoration: none; font-size: 1em; color: #000000; }
 		#menu a:hover { color: #000; border-bottom: 2px solid #ccc; }
 		#menu .active a { border-bottom: 2px solid #C70012; color: #9D2900;}
 
-#teaser { clear: both; height: 199px; background: #fff url(../img/teaserbg.jpg) repeat-x; font-size: 1.0em;}
-	.box { float: left; padding: 46px 0 0; width: 480px; color: #C7E3EE; }
+#teaser { clear: both; height: 166px; background: #fff url(../img/teaserbg.jpg) repeat-x; font-size: 1.0em;}
+	.box { float: left; padding: 26px 0 0; width: 480px; color: #C7E3EE; }
 	
 	
 #bar { height: 40px; margin: 0 0 30px; padding: 10px 0 0px 0px; background: url(../img/bar.jpg) repeat-x; font-size: .74em;}
