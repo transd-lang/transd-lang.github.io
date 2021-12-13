@@ -40,8 +40,7 @@ style="text-decoration: none; color: #447799" target=_top
 <div class="wrap" style="margin-top: 25px">
 <h2 style="margin: 35px 0 20px 0;">Quick survey of Transd</h2>
 <hr width="100%" style="margin:0 0 35px 0;">
-<p>Below is a quick survey of the Transd programming language along with code examples. 
-In the example code the screen output of a code line is shown after the <code>//&lt;=</code> symbols. All <code>λ</code> symbols can be replaced with <code>lambda</code> word. All the examples can be run in the <a href="https://github.com/transd-lang/TREE3">Transd command line interpreter</a>. To run an example:</p>
+<p>Below is a quick survey of the Transd programming language along with code examples. In the example code the screen output of a code line is shown after the <code>//&lt;=</code> symbols. All <code>λ</code> symbols can be replaced with <code>lambda</code> word. All the examples can be run in the <a href="https://github.com/transd-lang/TREE3">Transd command line interpreter</a>. To run an example:</p>
 
 <ol>
 <li>Open an empty text file.</li>
@@ -75,13 +74,14 @@ In the example code the screen output of a code line is shown after the <code>//
 
 <div class="codehilite"><pre><span></span><code><span class="o">#</span><span class="nv">lang</span> <span class="nv">transd</span>
 <span class="nv">MainModule</span><span class="o">:</span> <span class="p">{</span>
-  <span class="nv">i</span><span class="o">:</span> <span class="nv">Int</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span><span class="o">,</span>
-  <span class="nv">s</span><span class="o">:</span> <span class="nv">String</span><span class="p">(</span><span class="s">&quot;abc&quot;</span><span class="p">)</span><span class="o">,</span>
-  <span class="nv">func1</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> <span class="nv">par</span> <span class="nv">String</span><span class="p">()</span> <span class="p">(</span><span class="nf">lout</span> <span class="nv">par</span><span class="p">))</span><span class="o">,</span>
-  <span class="nv">func2</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> <span class="nv">par</span> <span class="nv">Int</span><span class="p">()</span> <span class="p">(</span><span class="nf">lout</span> <span class="nv">par</span><span class="p">))</span><span class="o">,</span>
+  <span class="nv">int1</span><span class="o">:</span> <span class="mi">5</span><span class="o">,</span>
+  <span class="nv">str1</span><span class="o">:</span> <span class="s">&quot;abc&quot;</span><span class="o">,</span>
+  <span class="nv">printStr</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> <span class="nv">par</span> <span class="nv">String</span><span class="p">()</span> <span class="p">(</span><span class="nf">lout</span> <span class="nv">par</span><span class="p">))</span><span class="o">,</span>
+  <span class="nv">printInt</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> <span class="nv">par</span> <span class="nv">Int</span><span class="p">()</span> <span class="p">(</span><span class="nf">lout</span> <span class="nv">par</span><span class="p">))</span><span class="o">,</span>
   <span class="nv">_start</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> 
-      <span class="p">(</span><span class="nf">func1</span> <span class="nv">s</span><span class="p">)</span>        <span class="c1">//&lt;= &quot;abc&quot;</span>
-      <span class="p">(</span><span class="nf">func2</span> <span class="nv">s</span><span class="p">)</span>        <span class="c1">// compiler error, replace the argument &#39;s&#39; with &#39;i&#39;</span>
+      <span class="p">(</span><span class="nf">printStr</span> <span class="nv">str1</span><span class="p">)</span>        <span class="c1">// OK</span>
+      <span class="p">(</span><span class="nf">printInt</span> <span class="nv">int1</span><span class="p">)</span>        <span class="c1">// OK</span>
+      <span class="p">(</span><span class="nf">printStr</span> <span class="nv">int1</span><span class="p">)</span>        <span class="c1">// Type mismatch at compilation stage</span>
   <span class="p">)</span>
 <span class="p">}</span>
 </code></pre></div>
@@ -123,7 +123,7 @@ In the example code the screen output of a code line is shown after the <code>//
   <span class="nv">import</span><span class="o">:</span> <span class="s">&quot;Point&quot;</span><span class="o">,</span>
   <span class="nv">pt1</span><span class="o">:</span> <span class="nv">Point</span><span class="p">(</span> <span class="mf">5.0</span> <span class="mf">6.0</span> <span class="p">)</span><span class="o">,</span>
   <span class="nv">_start</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> 
-    <span class="p">(</span><span class="k">with</span> <span class="nv">pt2</span> <span class="nv">Point</span><span class="p">(</span><span class="mf">2.5</span> <span class="mf">4.5</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">with </span><span class="nv">pt2</span> <span class="nv">Point</span><span class="p">(</span><span class="mf">2.5</span> <span class="mf">4.5</span><span class="p">)</span>
           <span class="nv">pt3</span> <span class="nv">Point</span><span class="p">(</span><span class="mf">15.8</span> <span class="mf">24.3</span><span class="p">)</span>
       <span class="p">(</span><span class="nf">lout</span> <span class="p">(</span><span class="nf">dist</span> <span class="nv">pt1</span> <span class="nv">pt2</span><span class="p">))</span>   <span class="c1">//&lt;= 5.147815</span>
       <span class="p">(</span><span class="nf">lout</span> <span class="p">(</span><span class="nf">dist</span> <span class="nv">pt1</span> <span class="nv">pt3</span><span class="p">))</span>   <span class="c1">//&lt;= 28.984996</span>
@@ -157,10 +157,10 @@ In the example code the screen output of a code line is shown after the <code>//
 <div class="codehilite"><pre><span></span><code><span class="o">#</span><span class="nv">lang</span> <span class="nv">transd</span>
 <span class="nv">MainModule</span><span class="o">:</span> <span class="p">{</span>
     <span class="nv">_start</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> 
-        <span class="p">(</span><span class="k">with</span> <span class="nv">v</span> <span class="nb">Vector&lt;Int&gt;</span><span class="p">([</span><span class="mi">1</span><span class="o">,</span><span class="mi">2</span><span class="o">,</span><span class="mi">3</span><span class="p">])</span>
-            <span class="p">(</span><span class="k">for</span> <span class="nv">i</span> <span class="k">in</span> <span class="nv">v</span> <span class="k">do</span> <span class="p">(</span><span class="nf">textout</span> <span class="p">(</span><span class="nb">* </span><span class="nv">i</span> <span class="mi">2</span><span class="p">)</span> <span class="s">&quot; &quot;</span><span class="p">))</span> <span class="c1">//&lt;= 2 4 6</span>
+        <span class="p">(</span><span class="k">with </span><span class="nv">v</span> <span class="nb">Vector&lt;Int&gt;</span><span class="p">([</span><span class="mi">1</span><span class="o">,</span><span class="mi">2</span><span class="o">,</span><span class="mi">3</span><span class="p">])</span>
+            <span class="p">(</span><span class="k">for </span><span class="nv">i</span> <span class="k">in </span><span class="nv">v</span> <span class="k">do </span><span class="p">(</span><span class="nf">textout</span> <span class="p">(</span><span class="nb">* </span><span class="nv">i</span> <span class="mi">2</span><span class="p">)</span> <span class="s">&quot; &quot;</span><span class="p">))</span> <span class="c1">//&lt;= 2 4 6</span>
         <span class="p">)</span>
-        <span class="p">(</span><span class="k">with</span> <span class="nv">v</span> <span class="nb">Vector&lt;String&gt;</span><span class="p">()</span>
+        <span class="p">(</span><span class="k">with </span><span class="nv">v</span> <span class="nb">Vector&lt;String&gt;</span><span class="p">()</span>
             <span class="p">(</span><span class="nf">append</span> <span class="nv">v</span> <span class="s">&quot;abc&quot;</span><span class="p">)</span> <span class="p">(</span><span class="nf">append</span> <span class="nv">v</span> <span class="s">&quot;def&quot;</span><span class="p">)</span> <span class="p">(</span><span class="nf">append</span> <span class="nv">v</span> <span class="s">&quot;ghi&quot;</span><span class="p">)</span>
             <span class="p">(</span><span class="nf">lout</span> <span class="nv">v</span><span class="p">)</span> <span class="c1">//&lt;= [&quot;abc&quot;, &quot;def&quot;, &quot;ghi&quot;]</span>
         <span class="p">)</span>
@@ -176,7 +176,7 @@ In the example code the screen output of a code line is shown after the <code>//
 
 <span class="nv">MainModule</span><span class="o">:</span> <span class="p">{</span>
     <span class="nv">_start</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> 
-        <span class="p">(</span><span class="k">with</span> <span class="nv">s1</span> <span class="s">&quot;和平&quot;</span>
+        <span class="p">(</span><span class="k">with </span><span class="nv">s1</span> <span class="s">&quot;和平&quot;</span>
               <span class="nv">s2</span> <span class="s">&quot;和平5&quot;</span>
             <span class="p">(</span><span class="nf">lout</span> <span class="s">&quot;size of &quot;</span> <span class="nv">s1</span> <span class="s">&quot; is: &quot;</span> <span class="p">(</span><span class="nf">size</span> <span class="nv">s1</span><span class="p">))</span>
             <span class="p">(</span><span class="nf">lout</span> <span class="s">&quot;second character in &quot;</span> <span class="nv">s2</span> <span class="s">&quot; is: &quot;</span> <span class="p">(</span><span class="nf">subn</span> <span class="nv">s1</span> <span class="mi">1</span><span class="p">))</span>
@@ -210,16 +210,16 @@ data query language, as well as built-in functionality for working with tabular 
 <span class="s">Bob,30000,Marketing&quot;</span><span class="o">,</span>
 
    <span class="nv">_start</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> 
-          <span class="p">(</span><span class="k">with</span> <span class="nv">tabl</span> <span class="nv">Table</span><span class="p">()</span>
+          <span class="p">(</span><span class="k">with </span><span class="nv">tabl</span> <span class="nv">Table</span><span class="p">()</span>
               <span class="p">(</span><span class="nf">load-table</span> <span class="nv">tabl</span> <span class="nv">tabdata</span><span class="p">)</span>
               <span class="p">(</span><span class="nf">build-index</span> <span class="nv">tabl</span> <span class="s">&quot;Salary&quot;</span><span class="p">)</span>
 
-              <span class="p">(</span><span class="k">with</span> <span class="nv">rows</span> <span class="p">(</span><span class="nf">tsd-query</span> <span class="nv">tabl</span> 
+              <span class="p">(</span><span class="k">with </span><span class="nv">rows</span> <span class="p">(</span><span class="nf">tsd-query</span> <span class="nv">tabl</span> 
                       <span class="nv">select</span><span class="o">:</span> <span class="p">[</span><span class="s">&quot;Name&quot;</span><span class="o">,</span> <span class="s">&quot;Department&quot;</span><span class="p">]</span>
                       <span class="nv">as</span><span class="o">:</span> <span class="p">[[</span><span class="nv">String</span><span class="p">()</span><span class="o">,</span><span class="nv">String</span><span class="p">()]]</span>
                       <span class="nv">where</span><span class="o">:</span> <span class="s">&quot;Salary &gt; 20000&quot;</span>
                       <span class="nv">sortby</span><span class="o">:</span> <span class="s">&quot;Name&quot;</span><span class="p">)</span>
-                  <span class="p">(</span><span class="k">for</span> <span class="nv">row</span> <span class="k">in</span> <span class="nv">rows</span> <span class="k">do</span> <span class="p">(</span><span class="nf">lout</span> <span class="nv">row</span><span class="p">)))</span>
+                  <span class="p">(</span><span class="k">for </span><span class="nv">row</span> <span class="k">in </span><span class="nv">rows</span> <span class="k">do </span><span class="p">(</span><span class="nf">lout</span> <span class="nv">row</span><span class="p">)))</span>
       <span class="p">))</span>
 <span class="p">}</span>
 <span class="c1">// The output:</span>
@@ -236,10 +236,10 @@ data query language, as well as built-in functionality for working with tabular 
 <div class="codehilite"><pre><span></span><code><span class="o">#</span><span class="nv">lang</span> <span class="nv">transd</span>
 <span class="nv">MainModule</span><span class="o">:</span> <span class="p">{</span>
     <span class="nv">_start</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> 
-   <span class="p">(</span><span class="k">with</span> <span class="nv">v1</span> <span class="p">[</span><span class="mi">1</span><span class="o">,</span><span class="mi">2</span><span class="o">,</span><span class="mi">3</span><span class="o">,</span><span class="mi">4</span><span class="o">,</span><span class="mi">4</span><span class="o">,</span><span class="mi">5</span><span class="p">]</span> 
+   <span class="p">(</span><span class="k">with </span><span class="nv">v1</span> <span class="p">[</span><span class="mi">1</span><span class="o">,</span><span class="mi">2</span><span class="o">,</span><span class="mi">3</span><span class="o">,</span><span class="mi">4</span><span class="o">,</span><span class="mi">4</span><span class="o">,</span><span class="mi">5</span><span class="p">]</span> 
          <span class="nv">v2</span> <span class="p">[</span><span class="s">&quot;a&quot;</span><span class="o">,</span><span class="s">&quot;b&quot;</span><span class="o">,</span><span class="s">&quot;c&quot;</span><span class="o">,</span><span class="s">&quot;d&quot;</span><span class="o">,</span><span class="s">&quot;d&quot;</span><span class="o">,</span><span class="s">&quot;e&quot;</span><span class="p">]</span>
 
-         <span class="p">(</span><span class="k">with</span> <span class="nv">pos1</span> <span class="p">(</span><span class="nf">find-adjacent</span> <span class="nv">v1</span><span class="p">)</span>
+         <span class="p">(</span><span class="k">with </span><span class="nv">pos1</span> <span class="p">(</span><span class="nf">find-adjacent</span> <span class="nv">v1</span><span class="p">)</span>
                <span class="nv">pos2</span> <span class="p">(</span><span class="nf">find-adjacent</span> <span class="nv">v2</span><span class="p">)</span>
             <span class="p">(</span><span class="nf">lout</span> <span class="p">(</span><span class="nb">+ </span><span class="mi">5</span> <span class="p">(</span><span class="nf">get-el</span> <span class="nv">pos1</span><span class="p">)))</span>
             <span class="p">(</span><span class="nf">lout</span> <span class="p">(</span><span class="nb">+ </span><span class="mi">5</span> <span class="p">(</span><span class="nf">get-el</span> <span class="nv">pos2</span><span class="p">)))</span> <span class="c1">//&lt;= compile time error</span>
