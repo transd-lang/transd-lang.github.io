@@ -2,12 +2,11 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta charset="utf-8">
-<title>TransD Programming Language</title>
+<title>Quick Overview of Transd Programming Language</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <meta http-equiv="content-language" content="en-US">
 <meta name="language" content="English">
-<meta name="description" content="A fast programming language for building scripts and extensions.">
-<meta name="keywords" content="Transd, programming language, C++">
+<meta name="description" content="A fast programming language for scripts and extensions.">
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link href="css/main.css" rel="stylesheet" type="text/css" />
 <link href="css/codehighlight.css" rel="stylesheet" type="text/css" />
@@ -53,7 +52,21 @@ style="text-decoration: none; color: #447799" target=_top
 <pre><code>tree3 &lt;YOUR_FILE_NAME&gt;
 </code></pre>
 
-<h4 style="margin: 50px 0 20px 0;" id="transd-quick-survey"><b>Main features of the Transd programming language:</b></h4>
+<h3 id="contents">Contents:</h3>
+
+<ul>
+<li><a href="#type-safety">Type safety</a></li>
+<li><a href="#modules">Modules</a></li>
+<li><a href="#classes">Classses</a></li>
+<li><a href="#functions-as-data">Functions as data</a></li>
+<li><a href="#generic-collections">Generic collections</a></li>
+<li><a href="#full-unicode-support">Full Unicode support</a></li>
+<li><a href="#data-processing">Data processing</a></li>
+<li><a href="#type-inference">Type inference</a></li>
+<li><a href="#pipeline-order-execution">Pipeline order execution</a></li>
+<li><a href="#size">Size</a></li>
+<li><a href="#speed">Speed</a></li>
+</ul>
 
 <h3 id="type-safety">Type safety</h3>
 
@@ -118,13 +131,13 @@ style="text-decoration: none; color: #447799" target=_top
 <span class="p">}</span>
 </code></pre></div>
 
-<h3 id="functions-as-data-first-class-functions">Functions as data ("first-class" functions)</h3>
+<h3 id="functions-as-data">Functions as data</h3>
 
 <p>A built-in class <code>Lambda</code> plays the role of a function that can be passed to a function as an argument, assigned to a variable, etc.</p>
 
 <div class="codehilite"><pre><span></span><code><span class="o">#</span><span class="nv">lang</span> <span class="nv">transd</span>
 <span class="nv">MainModule</span><span class="o">:</span> <span class="p">{</span>
-  <span class="nv">lambd1</span><span class="o">:</span> <span class="nv">Lambda</span><span class="o">&lt;</span><span class="nb">String </span><span class="nv">Null</span><span class="o">&gt;</span><span class="p">(</span><span class="nf">λ</span> <span class="nv">s</span> <span class="nv">String</span><span class="p">()</span> <span class="p">(</span><span class="nf">textout</span> <span class="s">&quot;Hello, &quot;</span> <span class="nv">s</span> <span class="s">&quot;! &quot;</span><span class="p">)</span> <span class="p">)</span><span class="o">,</span>
+  <span class="nv">lambd1</span><span class="o">:</span> <span class="nv">Lambda</span><span class="o">&lt;</span><span class="nb">String Null&gt;</span><span class="p">(</span><span class="nf">λ</span> <span class="nv">s</span> <span class="nv">String</span><span class="p">()</span> <span class="p">(</span><span class="nf">textout</span> <span class="s">&quot;Hello, &quot;</span> <span class="nv">s</span> <span class="s">&quot;! &quot;</span><span class="p">)</span> <span class="p">)</span><span class="o">,</span>
 
   <span class="nv">func</span><span class="o">:</span><span class="p">(</span><span class="nf">λ</span> <span class="nv">lam</span> <span class="nv">Lambda</span><span class="o">&lt;</span><span class="nb">Int Int&gt;</span><span class="p">()</span> 
           <span class="p">(</span><span class="nf">textout</span> <span class="s">&quot;Square of 8 is&quot;</span> <span class="p">(</span><span class="nf">exec</span> <span class="nv">lam</span> <span class="mi">8</span><span class="p">)))</span><span class="o">,</span> 
@@ -154,14 +167,42 @@ style="text-decoration: none; color: #447799" target=_top
 <span class="p">}</span>
 </code></pre></div>
 
-<h3 id="built-in-data-queries-and-table-processing">Built-in data queries and table processing</h3>
+<h3 id="full-unicode-support">Full Unicode support</h3>
+
+<p>Strings in Transd are implemented as mutable wide character sequences. Characters are encoded in UTF-16 encoding on Windows and in UTF-32 on Linux. Which means that both ASCII and non-ASCII characters are provided with the same level of full support in Transd.</p>
+
+<div class="codehilite"><pre><span></span><code><span class="o">#</span><span class="nv">lang</span> <span class="nv">transd</span>
+
+<span class="nv">MainModule</span><span class="o">:</span> <span class="p">{</span>
+    <span class="nv">_start</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> 
+        <span class="p">(</span><span class="k">with</span> <span class="nv">s1</span> <span class="s">&quot;和平&quot;</span>
+              <span class="nv">s2</span> <span class="s">&quot;和平5&quot;</span>
+            <span class="p">(</span><span class="nf">lout</span> <span class="s">&quot;size of &quot;</span> <span class="nv">s1</span> <span class="s">&quot; is: &quot;</span> <span class="p">(</span><span class="nf">size</span> <span class="nv">s1</span><span class="p">))</span>
+            <span class="p">(</span><span class="nf">lout</span> <span class="s">&quot;second character in &quot;</span> <span class="nv">s2</span> <span class="s">&quot; is: &quot;</span> <span class="p">(</span><span class="nf">subn</span> <span class="nv">s1</span> <span class="mi">1</span><span class="p">))</span>
+            <span class="p">(</span><span class="nf">lout</span> <span class="nv">s1</span> <span class="s">&quot; only contains letters: &quot;</span>
+                <span class="o">:</span><span class="nv">boolalpha</span> <span class="p">(</span><span class="nf">match</span> <span class="nv">s1</span> <span class="s">&quot;[[:alpha:]]+&quot;</span><span class="p">))</span>
+            <span class="p">(</span><span class="nf">lout</span> <span class="nv">s2</span> <span class="s">&quot; only contains letters: &quot;</span>
+                <span class="p">(</span><span class="nf">match</span> <span class="nv">s2</span> <span class="s">&quot;[[:alpha:]]+&quot;</span><span class="p">)))</span>
+    <span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<pre><code>OUTPUT:
+
+size of 和平 is: 2
+second character in 和平5 is: 平
+和平 only contains letters: true
+和平5 only contains letters: false
+</code></pre>
+
+<h3 id="data-processing">Data processing</h3>
 
 <p>Transd has powerful built-in capabilities for data processing. It has an integrated SQL-like
 data query language, as well as built-in functionality for working with tabular data. </p>
 
 <div class="codehilite"><pre><span></span><code><span class="o">#</span><span class="nv">lang</span> <span class="nv">transd</span>
 <span class="nv">MainModule</span><span class="o">:</span> <span class="p">{</span>
-      <span class="nv">tabdata</span><span class="o">:</span>
+  <span class="nv">tabdata</span><span class="o">:</span>
 <span class="s">&quot;Name,Salary:Int,Department</span>
 <span class="s">Tom,10000,Transport</span>
 <span class="s">Alice,25000,HR</span>
@@ -186,6 +227,62 @@ data query language, as well as built-in functionality for working with tabular 
 </code></pre></div>
 
 <p>Among other features, Transd has list comprehensions, ranges, exceptions, dynamic module loading/unloading, etc.</p>
+
+<h3 id="type-inference">Type inference</h3>
+
+<p>Transd is statically and strongly typed. This means that the type of every variable and expression in a Transd program is known at the compilation stage. But in majority of cases there is no need in explicit type annotations since Transd usually can deduce types automatically.</p>
+
+<div class="codehilite"><pre><span></span><code><span class="o">#</span><span class="nv">lang</span> <span class="nv">transd</span>
+<span class="nv">MainModule</span><span class="o">:</span> <span class="p">{</span>
+    <span class="nv">_start</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> 
+   <span class="p">(</span><span class="k">with</span> <span class="nv">v1</span> <span class="p">[</span><span class="mi">1</span><span class="o">,</span><span class="mi">2</span><span class="o">,</span><span class="mi">3</span><span class="o">,</span><span class="mi">4</span><span class="o">,</span><span class="mi">4</span><span class="o">,</span><span class="mi">5</span><span class="p">]</span> 
+         <span class="nv">v2</span> <span class="p">[</span><span class="s">&quot;a&quot;</span><span class="o">,</span><span class="s">&quot;b&quot;</span><span class="o">,</span><span class="s">&quot;c&quot;</span><span class="o">,</span><span class="s">&quot;d&quot;</span><span class="o">,</span><span class="s">&quot;d&quot;</span><span class="o">,</span><span class="s">&quot;e&quot;</span><span class="p">]</span>
+
+         <span class="p">(</span><span class="k">with</span> <span class="nv">pos1</span> <span class="p">(</span><span class="nf">find-adjacent</span> <span class="nv">v1</span><span class="p">)</span>
+               <span class="nv">pos2</span> <span class="p">(</span><span class="nf">find-adjacent</span> <span class="nv">v2</span><span class="p">)</span>
+            <span class="p">(</span><span class="nf">lout</span> <span class="p">(</span><span class="nb">+ </span><span class="mi">5</span> <span class="p">(</span><span class="nf">get-el</span> <span class="nv">pos1</span><span class="p">)))</span>
+            <span class="p">(</span><span class="nf">lout</span> <span class="p">(</span><span class="nb">+ </span><span class="mi">5</span> <span class="p">(</span><span class="nf">get-el</span> <span class="nv">pos2</span><span class="p">)))</span> <span class="c1">//&lt;= compile time error</span>
+    <span class="p">)))</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>While compiling this fragment, Transd deduces the type of <code>v2</code> as <code>Vector&lt;String&gt;</code>,
+<code>pos2</code> receives the type <code>Position&lt;String&gt;</code>, which is the return type of the polymorphic method <code>(find-adjacent &lt;container&gt;)</code> (this method finds the first two adjacent equal elements in a container and returns an iterator to the first one). Then another polymorphic method <code>(get-el &lt;Position&gt;)</code> returns the value of the element at the position. The type of this value in the first call of <code>get-el</code> is <code>Int</code>, in the second - <code>String</code>. The addition operation of <code>Int</code> and <code>String</code> is not defined, and compilator throws an error:</p>
+
+<pre><code>Error:
+ ...
+  while linking '_start' function 
+  while compiling function '(lout (+ 5 (get-el pos2)))'
+      : method is not resolved: Int::sum( String() )
+</code></pre>
+
+<h3 id="pipeline-order-execution">Pipeline order execution</h3>
+
+<p>Pipeline evaluation operator makes it possible to compose functions by concatenating function calls instead of nesting. For example, suppose, we have some string as data and we want to perform a sequence of operations on this data:</p>
+
+<ol>
+<li>Split it to words;</li>
+<li>Sort words in alphabetical order;</li>
+<li>Print sorted words to the screen.</li>
+</ol>
+
+<p>In usual way, this data processing flow can be arranged as follows:</p>
+
+<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="nf">textout</span> 
+  <span class="p">(</span><span class="nf">sort</span> 
+    <span class="p">(</span><span class="nf">split</span> <span class="nv">someStr</span> <span class="s">&quot; &quot;</span><span class="p">)))</span>
+</code></pre></div>
+
+<p>The pipeline operator <code>-|</code> allows us to avoid deep nesting and to write function calls in the same order as operations follow logically:</p>
+
+<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="nb">-| </span><span class="p">(</span><span class="nf">split</span> <span class="nv">someStr</span> <span class="s">&quot; &quot;</span><span class="p">)</span> 
+    <span class="p">(</span><span class="nf">sort</span><span class="p">)</span> 
+    <span class="p">(</span><span class="nf">textout</span><span class="p">))</span>
+</code></pre></div>
+
+<p>The necessary condition for combining function calls in this way is that the return value of a function must be admissible as an argument to the next function.</p>
+
+<p>A more extended example of using the pipeline operator can be found <a href="https://github.com/transd-lang/Tourbillon-test-suite/blob/main/Rosetta/Anagrams.td">here</a></p>
 
 <h3 id="size">Size</h3>
 
