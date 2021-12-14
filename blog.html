@@ -2,11 +2,11 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta charset="utf-8">
-<title>TransD Programming Language</title>
+<title>Transd development progress</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <meta http-equiv="content-language" content="en-US">
 <meta name="language" content="English">
-<meta name="description" content="A fast programming language for building scripts and extensions.">
+<meta name="description" content="Transd development progress.">
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link href="css/main.css" rel="stylesheet" type="text/css" />
 <link href="css/codehighlight.css" rel="stylesheet" type="text/css" />
@@ -42,25 +42,54 @@ hr {
 <p><strong>Lambdas</strong><br>
 Transd supports anonymous function objects ("lambda" functions), which can be used in a great many of places, for example:</p>
 
-<div class="codehilite"><pre><span></span><code>   <span class="p">(</span><span class="k">with</span> <span class="nv">v</span> <span class="p">[</span><span class="s">&quot;C&quot;</span><span class="o">,</span> <span class="s">&quot;a&quot;</span><span class="o">,</span> <span class="s">&quot;D&quot;</span><span class="o">,</span> <span class="s">&quot;b&quot;</span><span class="o">,</span> <span class="s">&quot;A&quot;</span><span class="p">]</span>
-       <span class="p">(</span><span class="nf">sort</span> <span class="nv">v</span> <span class="p">(</span><span class="k">lambda</span> <span class="nv">l</span> <span class="nv">String</span><span class="p">()</span> <span class="nv">r</span> <span class="nv">String</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nv">Bool</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><code>   <span class="p">(</span><span class="k">with </span><span class="nv">v</span> <span class="p">[</span><span class="s">&quot;C&quot;</span><span class="o">,</span> <span class="s">&quot;a&quot;</span><span class="o">,</span> <span class="s">&quot;D&quot;</span><span class="o">,</span> <span class="s">&quot;b&quot;</span><span class="o">,</span> <span class="s">&quot;A&quot;</span><span class="p">]</span>
+       <span class="p">(</span><span class="nf">sort</span> <span class="nv">v</span> <span class="p">(</span><span class="k">lambda </span><span class="nv">l</span> <span class="nv">String</span><span class="p">()</span> <span class="nv">r</span> <span class="nv">String</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nv">Bool</span><span class="p">()</span>
               <span class="p">(</span><span class="nf">ret</span> <span class="p">(</span><span class="nf">less</span> <span class="p">(</span><span class="nf">tolower</span> <span class="nv">l</span><span class="p">)</span> <span class="p">(</span><span class="nf">tolower</span> <span class="nv">r</span><span class="p">)))))</span>
        <span class="p">(</span><span class="nf">lout</span> <span class="nv">v</span><span class="p">))</span> <span class="c1">//&lt;= [a, A, b, C, D]</span>
 </code></pre></div>
 
 <p>Now, anonymous lambdas are supplemented with named variables of <code>Lambda</code> type. <code>Lambda</code> objects can be copied, passed as arguments to functions, returned from functions, etc. That is, they are just another data type.</p>
 
-<div class="codehilite"><pre><span></span><code>   <span class="p">(</span><span class="k">with</span> <span class="nv">lam</span> <span class="nv">Lambda</span><span class="o">&lt;</span><span class="nb">String </span><span class="nv">Null</span><span class="o">&gt;</span><span class="p">(</span><span class="nf">λ</span> <span class="nv">s</span> <span class="nv">String</span><span class="p">()</span> 
+<div class="codehilite"><pre><span></span><code>   <span class="p">(</span><span class="k">with </span><span class="nv">lam</span> <span class="nv">Lambda</span><span class="o">&lt;</span><span class="nb">String Null&gt;</span><span class="p">(</span><span class="nf">λ</span> <span class="nv">s</span> <span class="nv">String</span><span class="p">()</span> 
          <span class="p">(</span><span class="nf">textout</span> <span class="s">&quot;Hello, &quot;</span> <span class="nv">s</span> <span class="s">&quot;!&quot;</span><span class="p">)</span> <span class="p">)</span>
 
          <span class="p">(</span><span class="nf">exec</span> <span class="nv">lam</span> <span class="s">&quot;World&quot;</span><span class="p">)</span> <span class="c1">//&lt;= Hello, World!</span>
    <span class="p">)</span>
 </code></pre></div>
 
-<p><strong>Formatted output</strong><br>
-Formatting capabilities of text streams have been expanded with the following manipulators: <code>fill:, :left, :right, :internal, prec:, :fixed</code>. </p>
+<p><strong>Pipeline calling order</strong><br>
+Pipeline evaluation operator has been added. It makes possible to compose functions by concatenating function calls instead of nesting. For example, suppose, we have some string as data and we want to perform a sequence of operations on this data:</p>
 
-<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="k">with</span> <span class="nv">pr1</span> <span class="mf">3.7</span> <span class="nv">pr2</span> <span class="mf">1.5</span>
+<ol>
+<li>Split it to words;</li>
+<li>Sort words in alphabetical order;</li>
+<li>Print sorted words to the screen.</li>
+</ol>
+
+<p>In usual way, this data processing flow can be arranged as follows:</p>
+
+<pre><code>(textout 
+  (sort 
+    (split someStr " ")))
+</code></pre>
+
+<p>The pipeline operator <code>-|</code> allows us to avoid deep nesting and to write function calls in the same order as operations follow logically:</p>
+
+<pre><code>(-| (split someStr " ") 
+    (sort) 
+    (textout))
+</code></pre>
+
+<p>The necessary condition for combining function calls in this way is that the return value of a function must be admissible as an argument to the next function.</p>
+
+<p>The inclusion of pipeline operator into language constructs, can make parentheses-grouping syntax arguably one of the most clean and clear:</p>
+
+<p><a href="http://rosettacode.org/wiki/Anagrams#Transd">Rosetta task: Anagrams</a></p>
+
+<p><strong>Formatted output</strong><br>
+Formatting capabilities of text streams have been expanded with the following manipulators: <code>fill:, :left, :right, :internal, prec:, :fixed, :boolalpha, :noboolalpha</code>. </p>
+
+<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="k">with </span><span class="nv">pr1</span> <span class="mf">3.7</span> <span class="nv">pr2</span> <span class="mf">1.5</span>
     <span class="p">(</span><span class="nf">lout</span> <span class="nv">width</span><span class="o">:</span> <span class="mi">20</span> <span class="nv">fill</span><span class="o">:</span> <span class="s">&quot;.&quot;</span> <span class="o">:</span><span class="nv">left</span> <span class="s">&quot;Fried chicken&quot;</span> 
              <span class="nv">prec</span><span class="o">:</span> <span class="mi">2</span> <span class="o">:</span><span class="nv">fixed</span> <span class="nv">pr1</span> <span class="s">&quot; USD&quot;</span> <span class="p">)</span>
     <span class="p">(</span><span class="nf">lout</span> <span class="nv">width</span><span class="o">:</span> <span class="mi">20</span> <span class="s">&quot;Ice-cream&quot;</span> <span class="nv">pr2</span> <span class="s">&quot; USD&quot;</span> <span class="p">)</span>
@@ -77,6 +106,14 @@ Ice-cream...........1.50 USD
              Total: 5.20 USD
 </code></pre>
 
+<p><strong>Container methods</strong><br>
+Another method - <code>(coincide)</code> - has been added to generic container methods. It takes two containers and returns the length of their common prefix (or postfix), that is the number of equal elements from the beginning (or the end) of the container.</p>
+
+<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="k">with </span><span class="nv">v1</span> <span class="p">[</span><span class="mi">0</span><span class="o">,</span><span class="mi">1</span><span class="o">,</span><span class="mi">2</span><span class="o">,</span><span class="mi">3</span><span class="o">,</span><span class="mi">4</span><span class="o">,</span><span class="mi">5</span><span class="o">,</span><span class="mi">6</span><span class="o">,</span><span class="mi">7</span><span class="p">]</span> <span class="nv">v2</span> <span class="p">[</span><span class="mi">0</span><span class="o">,</span><span class="mi">1</span><span class="o">,</span><span class="mi">2</span><span class="o">,</span><span class="mi">3</span><span class="o">,</span><span class="mi">4</span><span class="o">,</span><span class="mi">4</span><span class="o">,</span><span class="mi">5</span><span class="o">,</span><span class="mi">6</span><span class="o">,</span><span class="mi">7</span><span class="p">]</span>
+  <span class="p">(</span><span class="nf">textout</span> <span class="p">(</span><span class="nf">coincide</span> <span class="nv">v1</span> <span class="nv">v2</span><span class="p">))</span> <span class="c1">// &lt;= 5</span>
+<span class="p">)</span>
+</code></pre></div>
+
 <h3 id="2021-nov-30-november-results">2021-Nov-30 | November results</h3>
 
 <p><strong>Expanding data processing capabilities</strong><br>
@@ -87,7 +124,7 @@ As the core of Transd has acquired its stable long-term shape, the emphasis of d
 <ol>
 <li><p><code>Object</code> - represents a text block of name/value pairs, treated as a single object. Such objects in Transd are called "TSD objects" ("TSD" - is short for "Transd Structured Data").</p></li>
 <li><p><code>TSDBase</code> - a collection of TSD objects, which can be viewed as an ad-hoc "NoSQL" database, and which supports "SELECT" and "UPDATE" data queries.</p></li>
-<li><p><code>Table</code> - a class for working with tabular data (e.g. CSV files). <code>Table</code> objects can be viewed as one-table databases, and they support "SELECT" and "UPDATE" data queries.</li></p>
+<li><p><code>Table</code> - a class for working with tabular data (e.g. CSV files). <code>Table</code> objects can be viewed as one-table databases, and they support "SELECT" and "UPDATE" data queries.</ol></p>
 
 <p><strong>Performance increase</strong><br>
 Some good amount of laborious optimizations and profiling has brought its positive results in the form of considerable performance gains in both low-level and high-level operations of the language. Results can be seen <a href="https://transd.org/perftest.html">here</a>.</p>
@@ -154,13 +191,13 @@ Audio Flow Combiner, written in Transd, has reached the first level of maturity.
 <div class="codehilite"><pre><span></span><code><span class="nv">class</span> <span class="nv">ClassA</span> <span class="o">:</span> <span class="p">{</span>
     <span class="nv">field1</span><span class="o">:</span> <span class="nv">String</span><span class="p">()</span><span class="o">,</span>
     <span class="nv">field2</span><span class="o">:</span> <span class="nv">Int</span><span class="p">()</span><span class="o">,</span>
-    <span class="nv">meth1</span><span class="o">:</span> <span class="p">(</span><span class="k">lambda</span> <span class="o">...</span> <span class="p">)</span>
+    <span class="nv">meth1</span><span class="o">:</span> <span class="p">(</span><span class="k">lambda </span><span class="o">...</span> <span class="p">)</span>
 <span class="p">}</span>
 
 <span class="nv">class</span> <span class="nv">ClassB</span> <span class="o">:</span> <span class="p">{</span>
     <span class="nv">field1</span><span class="o">:</span> <span class="nv">vector</span><span class="o">&lt;</span><span class="nb">String&gt;</span><span class="p">()</span><span class="o">,</span>
     <span class="nv">field2</span><span class="o">:</span> <span class="nv">Double</span><span class="p">()</span><span class="o">,</span>
-    <span class="nv">meth1</span><span class="o">:</span> <span class="p">(</span><span class="k">lambda</span> <span class="o">...</span> <span class="p">)</span>
+    <span class="nv">meth1</span><span class="o">:</span> <span class="p">(</span><span class="k">lambda </span><span class="o">...</span> <span class="p">)</span>
 <span class="p">}</span>
 
 <span class="nv">MainModule</span><span class="o">:</span> <span class="p">{</span>
@@ -256,7 +293,7 @@ HashIndex&lt;&gt; - generic hash table
 
 <span class="nv">MainModule</span><span class="o">:</span> <span class="p">{</span>
     <span class="nv">_start</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> 
-        <span class="p">(</span><span class="k">with</span> <span class="nv">fs</span> <span class="nv">FileStream</span><span class="p">()</span> <span class="nv">words</span> <span class="nv">String</span><span class="p">()</span>
+        <span class="p">(</span><span class="k">with </span><span class="nv">fs</span> <span class="nv">FileStream</span><span class="p">()</span> <span class="nv">words</span> <span class="nv">String</span><span class="p">()</span>
             <span class="p">(</span><span class="nf">open</span> <span class="nv">fs</span> <span class="s">&quot;/mnt/proj/tmp/unixdict.txt&quot;</span><span class="p">)</span>
             <span class="p">(</span><span class="nf">textin</span> <span class="nv">words</span> <span class="nv">fs</span><span class="p">)</span>
             <span class="p">(</span><span class="nf">textout</span> 
@@ -314,19 +351,19 @@ HashIndex&lt;&gt; - generic hash table
 <div class="codehilite"><pre><span></span><code><span class="o">#</span><span class="nv">lang</span> <span class="nv">transd</span>
 
 <span class="nv">MainModule</span><span class="o">:</span> <span class="p">{</span>
-    <span class="nv">Tuis</span> <span class="o">:</span> <span class="k">typealias</span><span class="p">(</span> <span class="nv">Tuple</span><span class="p">(</span> <span class="nv">Int</span><span class="p">()</span> <span class="nv">String</span><span class="p">()</span> <span class="p">)</span> <span class="p">)</span><span class="o">,</span>
+    <span class="nv">Tuis</span> <span class="o">:</span> <span class="k">typealias(</span> <span class="nv">Tuple</span><span class="p">(</span> <span class="nv">Int</span><span class="p">()</span> <span class="nv">String</span><span class="p">()</span> <span class="p">)</span> <span class="p">)</span><span class="o">,</span>
     <span class="nv">v1</span><span class="o">:</span> <span class="nv">Vector</span><span class="p">(</span> <span class="nv">Tuis</span><span class="p">()</span> <span class="p">)</span><span class="o">,</span>
     <span class="nv">uv1</span><span class="o">:</span> <span class="p">[[</span><span class="mi">6</span><span class="o">,</span> <span class="s">&quot;a&quot;</span><span class="p">]]</span><span class="o">,</span>
     <span class="nv">uv2</span><span class="o">:</span> <span class="p">[[</span><span class="mi">1</span><span class="o">,</span> <span class="s">&quot;c&quot;</span><span class="p">]]</span><span class="o">,</span>
     <span class="nv">uv3</span><span class="o">:</span> <span class="p">[[</span><span class="mi">3</span><span class="o">,</span> <span class="s">&quot;h&quot;</span><span class="p">]]</span><span class="o">,</span>
     <span class="nv">uv4</span><span class="o">:</span> <span class="p">[[</span><span class="mi">2</span><span class="o">,</span> <span class="s">&quot;e&quot;</span><span class="p">]]</span><span class="o">,</span>
-    <span class="nv">_start</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> <span class="p">(</span><span class="k">with</span> <span class="nv">abc</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="nv">_start</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> <span class="p">(</span><span class="k">with </span><span class="nv">abc</span> <span class="mi">1</span><span class="p">)</span>
         <span class="p">(</span><span class="nf">add</span> <span class="nv">v</span> <span class="nv">uv1</span><span class="p">)</span> <span class="p">(</span><span class="nf">add</span> <span class="nv">v</span> <span class="nv">uv2</span><span class="p">)(</span><span class="nf">add</span> <span class="nv">v</span> <span class="nv">uv3</span><span class="p">)(</span><span class="nf">add</span> <span class="nv">v</span> <span class="nv">uv4</span><span class="p">)</span>
         <span class="p">(</span><span class="nf">set</span> <span class="nv">v1</span> <span class="mi">0</span> <span class="nv">uv1</span><span class="p">)</span> <span class="p">(</span><span class="nf">set</span> <span class="nv">v1</span> <span class="mi">1</span> <span class="nv">uv2</span><span class="p">)(</span><span class="nf">set</span> <span class="nv">v1</span> <span class="mi">2</span> <span class="nv">uv3</span><span class="p">)(</span><span class="nf">set</span> <span class="nv">v1</span> <span class="mi">3</span> <span class="nv">uv4</span><span class="p">)</span>
         <span class="p">(</span><span class="nf">textout</span> <span class="s">&quot;v: &quot;</span> <span class="nv">v</span> <span class="s">&quot;\n&quot;</span><span class="p">)</span>
         <span class="p">(</span><span class="nf">textout</span> <span class="s">&quot;v1: &quot;</span> <span class="nv">v1</span> <span class="s">&quot;\n&quot;</span><span class="p">)</span>
         <span class="p">(</span><span class="nf">textout</span> <span class="p">(</span><span class="nf">sort</span> <span class="nv">v</span> <span class="o">:</span><span class="nv">asc</span> 
-            <span class="p">(</span><span class="k">lambda</span> <span class="nv">l</span> <span class="nv">Tuis</span><span class="p">()</span> <span class="nv">r</span> <span class="nv">Tuis</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nv">Bool</span><span class="p">()</span>
+            <span class="p">(</span><span class="k">lambda </span><span class="nv">l</span> <span class="nv">Tuis</span><span class="p">()</span> <span class="nv">r</span> <span class="nv">Tuis</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nv">Bool</span><span class="p">()</span>
                 <span class="p">(</span><span class="nf">ret</span> <span class="p">(</span><span class="nf">less</span><span class="o">&lt;</span><span class="nb">Int&gt;</span> <span class="p">(</span><span class="nf">get</span> <span class="nv">l</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nf">get</span> <span class="nv">r</span> <span class="mi">0</span><span class="p">)))))</span> <span class="s">&quot;\n&quot;</span><span class="p">)</span>
     <span class="p">)</span>
 <span class="p">}</span>

@@ -104,7 +104,7 @@ font-size: 3em; font-weight: normal; color: #005b56; font-family: serif;">Transd
 
 <div class="codehilite"><pre><span></span><code><span class="nv">MainModule</span> <span class="o">:</span> <span class="p">{</span>
   <span class="nv">s</span> <span class="o">:</span> <span class="s">&quot;Hello, world!&quot;</span><span class="o">,</span>
-  <span class="nv">_start</span> <span class="o">:</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">textout</span> <span class="nv">s</span><span class="p">))</span>
+  <span class="nv">_start</span> <span class="o">:</span> <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">textout</span> <span class="nv">s</span><span class="p">))</span>
 <span class="p">}</span>
 </code></pre></div>
 
@@ -114,7 +114,7 @@ font-size: 3em; font-weight: normal; color: #005b56; font-family: serif;">Transd
 
 <div class="codehilite"><pre><span></span><code><span class="nv">Module1</span><span class="o">:</span> <span class="p">{</span>
   <span class="nv">var1</span><span class="o">:</span> <span class="mi">5</span><span class="o">,</span>
-  <span class="nv">func1</span><span class="o">:</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">textout</span> <span class="nv">var1</span><span class="p">))</span>
+  <span class="nv">func1</span><span class="o">:</span> <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">textout</span> <span class="nv">var1</span><span class="p">))</span>
 <span class="p">}</span>
 </code></pre></div>
 
@@ -190,7 +190,7 @@ are only visible inside that construction.</p>
 
 <p>Example:</p>
 
-<div class="codehilite"><pre><span></span><code><span class="nv">someFunc</span> <span class="o">:</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="k">with</span> <span class="nv">a</span> <span class="mi">1</span> <span class="nv">b</span> <span class="mi">2</span> <span class="p">(</span><span class="nf">textout</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">a</span> <span class="nv">b</span><span class="p">))))</span> <span class="c1">// outputs &quot;3&quot;</span>
+<div class="codehilite"><pre><span></span><code><span class="nv">someFunc</span> <span class="o">:</span> <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="k">with </span><span class="nv">a</span> <span class="mi">1</span> <span class="nv">b</span> <span class="mi">2</span> <span class="p">(</span><span class="nf">textout</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">a</span> <span class="nv">b</span><span class="p">))))</span> <span class="c1">// outputs &quot;3&quot;</span>
 </code></pre></div>
 
 <p><br></p>
@@ -226,7 +226,7 @@ are only visible inside that construction.</p>
 
 <p>These two function definitions are equivalent:</p>
 
-<div class="codehilite"><pre><span></span><code><span class="nv">func1</span><span class="o">:</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nf">textout</span> <span class="s">&quot;Hello, world!&quot;</span><span class="p">))</span><span class="o">,</span>
+<div class="codehilite"><pre><span></span><code><span class="nv">func1</span><span class="o">:</span> <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="nf">textout</span> <span class="s">&quot;Hello, world!&quot;</span><span class="p">))</span><span class="o">,</span>
 
 <span class="nv">func2</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> <span class="p">(</span><span class="nf">textout</span> <span class="s">&quot;Hello, world!&quot;</span><span class="p">))</span>
 </code></pre></div>
@@ -308,7 +308,7 @@ are only visible inside that construction.</p>
 <div class="codehilite"><pre><span></span><code><span class="nv">class</span> <span class="nv">Point</span> <span class="o">:</span> <span class="p">{</span>
   <span class="nv">x</span><span class="o">:</span> <span class="nv">Double</span><span class="p">()</span><span class="o">,</span>
   <span class="nv">y</span><span class="o">:</span> <span class="nv">Double</span><span class="p">()</span><span class="o">,</span>
-  <span class="k">in</span><span class="nv">it</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> <span class="nv">x_</span> <span class="nv">Double</span><span class="p">()</span> <span class="nv">y_</span> <span class="nv">Double</span><span class="p">()</span> <span class="p">(</span><span class="nb">= </span><span class="nv">x</span> <span class="nv">x_</span><span class="p">)</span> <span class="p">(</span><span class="nb">= </span><span class="nv">y</span> <span class="nv">y_</span><span class="p">))</span>
+  <span class="nv">init</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> <span class="nv">x_</span> <span class="nv">Double</span><span class="p">()</span> <span class="nv">y_</span> <span class="nv">Double</span><span class="p">()</span> <span class="p">(</span><span class="nb">= </span><span class="nv">x</span> <span class="nv">x_</span><span class="p">)</span> <span class="p">(</span><span class="nb">= </span><span class="nv">y</span> <span class="nv">y_</span><span class="p">))</span>
 <span class="p">}</span>
 
 <span class="nv">pt</span><span class="o">:</span> <span class="nv">Point</span><span class="p">(</span> <span class="mf">2.71</span> <span class="mf">3.14</span> <span class="p">)</span>
@@ -358,11 +358,11 @@ are only visible inside that construction.</p>
 <span class="nv">d</span><span class="o">:</span> <span class="nv">Double</span><span class="p">(</span><span class="mf">5.5</span><span class="p">)</span><span class="o">,</span>
 <span class="nv">s</span><span class="o">:</span> <span class="nv">String</span><span class="p">(</span><span class="s">&quot;5&quot;</span><span class="p">)</span><span class="o">,</span>
 
-<span class="k">in</span><span class="nv">tgr</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> <span class="nv">n</span> <span class="o">:</span><span class="nv">Number</span><span class="p">()</span> <span class="p">(</span><span class="nf">ret</span> <span class="p">(</span><span class="nf">to-Int</span> <span class="nv">n</span><span class="p">)))</span><span class="o">,</span>
+<span class="nv">intgr</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> <span class="nv">n</span> <span class="o">:</span><span class="nv">Number</span><span class="p">()</span> <span class="p">(</span><span class="nf">ret</span> <span class="p">(</span><span class="nf">to-Int</span> <span class="nv">n</span><span class="p">)))</span><span class="o">,</span>
 
-<span class="nv">_start</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> <span class="p">(</span><span class="nf">lout</span> <span class="p">(</span><span class="k">in</span><span class="nv">tgr</span> <span class="nv">i</span><span class="p">))</span> <span class="c1">// =&gt; 5</span>
-           <span class="p">(</span><span class="nf">lout</span> <span class="p">(</span><span class="k">in</span><span class="nv">tgr</span> <span class="nv">d</span><span class="p">))</span> <span class="c1">// =&gt; 5</span>
-           <span class="p">(</span><span class="nf">lout</span> <span class="p">(</span><span class="k">in</span><span class="nv">tgr</span> <span class="nv">s</span><span class="p">))</span> <span class="c1">// compilation error!</span>
+<span class="nv">_start</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> <span class="p">(</span><span class="nf">lout</span> <span class="p">(</span><span class="nf">intgr</span> <span class="nv">i</span><span class="p">))</span> <span class="c1">// =&gt; 5</span>
+           <span class="p">(</span><span class="nf">lout</span> <span class="p">(</span><span class="nf">intgr</span> <span class="nv">d</span><span class="p">))</span> <span class="c1">// =&gt; 5</span>
+           <span class="p">(</span><span class="nf">lout</span> <span class="p">(</span><span class="nf">intgr</span> <span class="nv">s</span><span class="p">))</span> <span class="c1">// compilation error!</span>
 <span class="p">)</span>
 <span class="p">}</span>
 </code></pre></div>
@@ -527,6 +527,20 @@ Return type: <code>Null</code></p>
 
 <p>Returns a <code>Position</code> object for the first character of <em>subj</em>. If <em>subj</em> is empty, the function returns the <code>end</code> position.</p>
 
+<h6 id="coincide">coincide</h6>
+
+<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="nf">coincide</span> <span class="nv">subj</span> <span class="nv">other</span><span class="p">)</span>
+</code></pre></div>
+
+<p>Parameters:<br>
+<em>other</em> : <code>String</code> - string.<br>
+Return type: <code>Int</code></p>
+
+<p>Returns the number of characters from the beginning that are identical in both strings. That is, the length of the prefix, if any, that is common to both strings. A backward Range as one or both of the parameters causes the function to compare characters from the end of that parameter:</p>
+
+<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="nf">coincide</span> <span class="s">&quot;abcpqrs&quot;</span> <span class="nv">Range</span><span class="p">(</span><span class="nf">in</span><span class="o">:</span> <span class="s">&quot;wxyzcba&quot;</span> <span class="mi">-0</span> <span class="mi">0</span><span class="p">))</span> <span class="c1">// returns: 3</span>
+</code></pre></div>
+
 <h6 id="end">end</h6>
 
 <div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="nf">end</span> <span class="nv">subj</span><span class="p">)</span>
@@ -575,7 +589,7 @@ Return type: <code>String</code></p>
 <p>Sorts a string. That is, arranges the string's code points in ascending or descending order according to some comparison function. The default comparison function compares the numeric values of code points. The reversed sorting order is achieved by using a reversed Range as the function's subject:</p>
 
 <div class="codehilite"><pre><span></span><code><span class="nv">s</span><span class="o">:</span> <span class="s">&quot;bcaed&quot;</span><span class="o">,</span>
-<span class="nv">f</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> <span class="p">(</span><span class="nf">lout</span> <span class="p">(</span><span class="nf">sort</span> <span class="nv">Range</span><span class="p">(</span><span class="k">in</span><span class="o">:</span> <span class="nv">s</span> <span class="mi">-0</span> <span class="mi">0</span><span class="p">))))</span> <span class="c1">// &quot;edcba&quot;</span>
+<span class="nv">f</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> <span class="p">(</span><span class="nf">lout</span> <span class="p">(</span><span class="nf">sort</span> <span class="nv">Range</span><span class="p">(</span><span class="nf">in</span><span class="o">:</span> <span class="nv">s</span> <span class="mi">-0</span> <span class="mi">0</span><span class="p">))))</span> <span class="c1">// &quot;edcba&quot;</span>
 </code></pre></div>
 
 <h5 id="string-specific-methods">String specific methods</h5>
@@ -628,13 +642,13 @@ Return type: <code>Bool</code></p>
 
 <p><strong>read</strong></p>
 
-<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="k">with</span> <span class="nv">s</span> <span class="nv">String</span><span class="p">()</span>
+<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="k">with </span><span class="nv">s</span> <span class="nv">String</span><span class="p">()</span>
   <span class="p">(</span><span class="nf">read</span> <span class="nv">s</span><span class="p">)</span> <span class="p">(</span><span class="nf">textout</span> <span class="s">&quot;The input was:&quot;</span> <span class="nv">s</span><span class="p">))</span>
 </code></pre></div>
 
 <p><strong>set</strong>, <em>eq</em></p>
 
-<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="k">with</span> <span class="nv">s</span> <span class="s">&quot;&quot;</span> <span class="nv">s1</span> <span class="s">&quot;&quot;</span> <span class="nv">s2</span> <span class="s">&quot;abcd&quot;</span>
+<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="k">with </span><span class="nv">s</span> <span class="s">&quot;&quot;</span> <span class="nv">s1</span> <span class="s">&quot;&quot;</span> <span class="nv">s2</span> <span class="s">&quot;abcd&quot;</span>
    <span class="p">(</span><span class="nf">set</span> <span class="nv">s</span> <span class="s">&quot;abcd&quot;</span><span class="p">)</span> <span class="p">(</span><span class="nb">= </span><span class="nv">s1</span> <span class="nv">s2</span><span class="p">)</span> <span class="p">(</span><span class="nf">lout</span> <span class="p">(</span><span class="nf">eq</span> <span class="nv">s</span> <span class="nv">s1</span><span class="p">)</span> <span class="p">(</span><span class="nb">== </span><span class="nv">s</span> <span class="nv">s2</span><span class="p">)))</span>
 <span class="c1">// Output: true true</span>
 </code></pre></div>
@@ -791,7 +805,7 @@ Return type: <code>ByteArray</code></p>
 <p>Sorts a byte array. That is, arranges the array's elements in ascending or descending order according to some comparison function. The default comparison function compares the numeric values of byte elements. The reversed sorting order is achieved by using a reversed Range as the function's subject:</p>
 
 <div class="codehilite"><pre><span></span><code><span class="nv">arr</span><span class="o">:</span> <span class="nv">ByteArray</span><span class="p">([</span><span class="mi">2</span><span class="o">,</span><span class="mi">15</span><span class="o">,</span><span class="mi">9</span><span class="o">,</span><span class="mi">11</span><span class="o">,</span><span class="mi">4</span><span class="p">])</span><span class="o">,</span>
-<span class="nv">f</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> <span class="p">(</span><span class="nf">lout</span> <span class="p">(</span><span class="nf">sort</span> <span class="nv">Range</span><span class="p">(</span><span class="k">in</span><span class="o">:</span> <span class="nv">arr</span> <span class="mi">-0</span> <span class="mi">0</span><span class="p">))))</span> <span class="c1">// [15,11,9,4,2]</span>
+<span class="nv">f</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> <span class="p">(</span><span class="nf">lout</span> <span class="p">(</span><span class="nf">sort</span> <span class="nv">Range</span><span class="p">(</span><span class="nf">in</span><span class="o">:</span> <span class="nv">arr</span> <span class="mi">-0</span> <span class="mi">0</span><span class="p">))))</span> <span class="c1">// [15,11,9,4,2]</span>
 </code></pre></div>
 
 <hr />
@@ -962,15 +976,14 @@ Return type: <code>Vector&lt;TYPE&gt;</code></p>
 <p>Sorts a vector. That is, arranges the vector's element sequence in ascending or descending order according to some comparison function. By default, the comparison of elements is done with the "less than" predicate. The reversed sorting order is achieved by using a reversed Range as the function's subject:</p>
 
 <div class="codehilite"><pre><span></span><code><span class="nv">v</span><span class="o">:</span> <span class="p">[</span><span class="mi">2</span><span class="o">,</span><span class="mi">0</span><span class="o">,</span><span class="mi">3</span><span class="o">,</span><span class="mi">1</span><span class="p">]</span><span class="o">,</span>
-<span class="nv">f</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> <span class="p">(</span><span class="nf">lout</span> <span class="p">(</span><span class="nf">sort</span> <span class="nv">Range</span><span class="p">(</span><span class="k">in</span><span class="o">:</span> <span class="nv">v</span> <span class="mi">-0</span> <span class="mi">0</span><span class="p">))))</span> <span class="c1">// [3, 2, 1, 0]</span>
+<span class="nv">f</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> <span class="p">(</span><span class="nf">lout</span> <span class="p">(</span><span class="nf">sort</span> <span class="nv">Range</span><span class="p">(</span><span class="nf">in</span><span class="o">:</span> <span class="nv">v</span> <span class="mi">-0</span> <span class="mi">0</span><span class="p">))))</span> <span class="c1">// [3, 2, 1, 0]</span>
 </code></pre></div>
 
 <h2 id="streams">Streams</h2>
 
-<p>A stream is an object that can function as a generalized input/output (I/O) channel. Various
-stream types support a common interface and can be used in a uniform way for reading or outputting data to and from various sources/destinations.</p>
+<p>A stream is an object that can function as a generalized input/output (I/O) channel. Abstract class <code>Stream</code> implements this generalized IO channel. ٰConcrete stream classes inherit the <code>Stream</code> class and support a common interface for reading or outputting data to and from various sources/destinations in a uniform way.</p>
 
-<p>In Transd there are five stream classes:</p>
+<p>Transd defines five stream classes:</p>
 
 <ul>
 <li><code>StringStream</code> - generalized text I/O;</li>
@@ -986,15 +999,20 @@ stream types support a common interface and can be used in a uniform way for rea
 
 <p><strong>Text output</strong></p>
 
-<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="nf">textout</span> <span class="nv">to</span><span class="o">:</span> <span class="nv">StdOut</span> <span class="s">&quot;Hello!&quot;</span><span class="p">)</span> <span class="c1">// prints to StdOut</span>
+<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="nf">textout</span> <span class="nv">to</span><span class="o">:</span> <span class="nv">StdOut</span> <span class="s">&quot;Hello!&quot;</span><span class="p">)</span> <span class="c1">// print to StdOut stream</span>
 <span class="p">(</span><span class="nf">textout</span> <span class="s">&quot;Hello!&quot;</span><span class="p">)</span> <span class="c1">// same as above, StdOut is the default stream for &#39;(textout)&#39;</span>
-<span class="p">(</span><span class="k">with</span> <span class="nv">fs</span> <span class="nv">FileStream</span><span class="p">()</span> <span class="p">(</span><span class="nf">open</span> <span class="nv">fs</span> <span class="s">&quot;C:/Temp/hello.txt&quot;</span> <span class="s">&quot;w&quot;</span><span class="p">)</span>
-    <span class="p">(</span><span class="nf">textout</span> <span class="nv">to</span><span class="o">:</span> <span class="nv">fs</span> <span class="s">&quot;Hello!&quot;</span><span class="p">))</span> <span class="c1">// prints to a file</span>
+<span class="p">(</span><span class="k">with </span><span class="nv">fs</span> <span class="nv">FileStream</span><span class="p">()</span> <span class="p">(</span><span class="nf">open</span> <span class="nv">fs</span> <span class="s">&quot;C:/Temp/hello.txt&quot;</span> <span class="s">&quot;w&quot;</span><span class="p">)</span>
+    <span class="p">(</span><span class="nf">textout</span> <span class="nv">to</span><span class="o">:</span> <span class="nv">fs</span> <span class="s">&quot;Hello!&quot;</span><span class="p">))</span> <span class="c1">// write text to a file</span>
 </code></pre></div>
 
 <p><strong>Text input</strong></p>
 
-<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="k">with</span> <span class="nv">str1</span> <span class="nv">String</span><span class="p">()</span> <span class="p">)</span>
+<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="k">with </span><span class="nv">str1</span> <span class="nv">String</span><span class="p">()</span> <span class="nv">fs</span> <span class="nv">FileStream</span><span class="p">()</span>
+    <span class="p">(</span><span class="nf">textin</span> <span class="nv">from</span><span class="o">:</span> <span class="nv">StdIn</span> <span class="nv">str1</span><span class="p">)</span> <span class="c1">// read from StdIn to str1</span>
+    <span class="p">(</span><span class="nf">textin</span> <span class="nv">str1</span><span class="p">)</span> <span class="c1">// same as above, StdIn is the default stream for &#39;(textin)&#39;</span>
+    <span class="p">(</span><span class="nf">open</span> <span class="nv">fѕ</span> <span class="s">&quot;D:\\data\\datafile.txt&quot;</span><span class="p">)</span>
+    <span class="p">(</span><span class="nf">textin</span> <span class="nv">from</span><span class="o">:</span> <span class="nv">fs</span> <span class="nv">str1</span><span class="p">)</span> <span class="c1">// read text from a file</span>
+<span class="p">)</span>
 </code></pre></div>
 
 <p><strong>Buffered output</strong></p>
@@ -1024,15 +1042,15 @@ stream types support a common interface and can be used in a uniform way for rea
 
 <p>Examples:</p>
 
-<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="k">with</span> <span class="nv">s</span> <span class="s">&quot;abcde&quot;</span>
+<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="k">with </span><span class="nv">s</span> <span class="s">&quot;abcde&quot;</span>
     <span class="p">(</span><span class="nf">textout</span> <span class="p">(</span><span class="nf">front</span> <span class="nv">s</span><span class="p">)</span> <span class="p">(</span><span class="nf">back</span> <span class="nv">s</span><span class="p">)</span> <span class="p">(</span><span class="nf">clear</span> <span class="nv">s</span><span class="p">)</span> <span class="s">&quot; &quot;</span>
          <span class="p">(</span><span class="nf">eval</span> <span class="s">&quot;(front s)&quot;</span><span class="p">)</span> <span class="s">&quot; &quot;</span> <span class="p">(</span><span class="nf">eval</span> <span class="s">&quot;(back s)&quot;</span><span class="p">))</span>
 <span class="p">)</span>
 <span class="c1">// Output: ae false false</span>
 
-<span class="p">(</span><span class="k">with</span> <span class="nv">s</span> <span class="s">&quot;abcde&quot;</span> <span class="nv">n</span> <span class="mi">10</span>
+<span class="p">(</span><span class="k">with </span><span class="nv">s</span> <span class="s">&quot;abcde&quot;</span> <span class="nv">n</span> <span class="mi">10</span>
     <span class="p">(</span><span class="nf">textout</span> <span class="s">&quot;The length of \&quot;&quot;</span> <span class="nv">s</span> <span class="s">&quot;\&quot; is &quot;</span> 
-        <span class="p">(</span><span class="k">if</span> <span class="p">(</span><span class="o">&gt;</span> <span class="p">(</span><span class="nf">size</span> <span class="nv">s</span><span class="p">)</span> <span class="nv">n</span><span class="p">)</span> <span class="s">&quot;more&quot;</span> <span class="k">else</span> <span class="s">&quot;less&quot;</span><span class="p">)</span> <span class="s">&quot; than &quot;</span> <span class="nv">n</span> <span class="s">&quot; characters&quot;</span><span class="p">)</span>
+        <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="o">&gt;</span> <span class="p">(</span><span class="nf">size</span> <span class="nv">s</span><span class="p">)</span> <span class="nv">n</span><span class="p">)</span> <span class="s">&quot;more&quot;</span> <span class="k">else </span><span class="s">&quot;less&quot;</span><span class="p">)</span> <span class="s">&quot; than &quot;</span> <span class="nv">n</span> <span class="s">&quot; characters&quot;</span><span class="p">)</span>
 <span class="p">)</span>
 <span class="c1">// Output: The length of &quot;abcde&quot; is less than 10 characters.</span>
 </code></pre></div>
