@@ -63,6 +63,7 @@ style="text-decoration: none; color: #447799" target=_top
 <li><a href="#full-unicode-support">Full Unicode support</a></li>
 <li><a href="#data-processing">Data processing</a></li>
 <li><a href="#type-inference">Type inference</a></li>
+<li><a href="#exceptions">Exceptions</a></li>
 <li><a href="#pipeline-order-execution">Pipeline order execution</a></li>
 <li><a href="#size">Size</a></li>
 <li><a href="#speed">Speed</a></li>
@@ -255,6 +256,35 @@ data query language, as well as built-in functionality for working with tabular 
   while linking '_start' function 
   while compiling function '(lout (+ 5 (get-el pos2)))'
       : method is not resolved: Int::sum( String() )
+</code></pre>
+
+<h3 id="exceptions">Exceptions</h3>
+
+<p>The mechanism of exceptions is a powerful means for flow control and communicating between program parts. Transd implements exceptions in a well-known "try-throw-catch" form.</p>
+
+<div class="codehilite"><pre><span></span><code><span class="o">#</span><span class="nv">lang</span> <span class="nv">transd</span>
+<span class="nv">MainModule</span><span class="o">:</span> <span class="p">{</span>
+
+    <span class="nv">_start</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span>  
+   <span class="p">(</span><span class="k">with </span> <span class="nv">vec</span> <span class="p">[</span><span class="mi">2</span><span class="o">,</span><span class="mi">5</span><span class="o">,</span><span class="mi">7</span><span class="o">,</span><span class="mi">1</span><span class="o">,</span><span class="mi">3</span><span class="p">]</span>
+          <span class="nv">vec1</span> <span class="nb">Vector&lt;Int&gt;</span><span class="p">()</span>   <span class="c1">// vec1 is empty vector</span>
+   <span class="p">(</span><span class="k">with </span><span class="nv">pos</span> <span class="p">(</span><span class="nf">max-element</span> <span class="nv">vec</span><span class="p">)</span>
+         <span class="nv">pos1</span> <span class="p">(</span><span class="nf">max-element</span> <span class="nv">vec1</span><span class="p">)</span>
+       <span class="p">(</span><span class="nf">try</span>
+          <span class="p">(</span><span class="nf">textout</span> <span class="s">&quot;element at pos is: &quot;</span><span class="p">)</span>
+          <span class="p">(</span><span class="nf">lout</span> <span class="p">(</span><span class="nf">get-el</span> <span class="nv">pos</span><span class="p">))</span>  
+          <span class="p">(</span><span class="nf">textout</span> <span class="s">&quot;element at pos1 is: &quot;</span><span class="p">)</span>
+          <span class="p">(</span><span class="nf">lout</span> <span class="p">(</span><span class="nf">get-el</span> <span class="nv">pos1</span><span class="p">))</span>  
+       <span class="p">(</span><span class="nf">catch</span> <span class="p">(</span><span class="nf">textout</span> <span class="s">&quot;exception catched \n&quot;</span><span class="p">)))</span> <span class="c1">// catch the exception</span>
+       <span class="p">(</span><span class="nf">textout</span> <span class="s">&quot;pos1 is vec1.end: &quot;</span> <span class="o">:</span><span class="nv">boolalpha</span> <span class="p">(</span><span class="nf">eq</span> <span class="nv">pos1</span> <span class="p">(</span><span class="nf">end</span> <span class="nv">vec1</span><span class="p">))</span> <span class="s">&quot; &quot;</span><span class="p">)</span> <span class="c1">// flow continues</span>
+   <span class="p">)))</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<pre><code>OUTPUT:
+element at pos is: 7
+element at pos1 is: exception catched 
+pos1 is vec1.end: true 
 </code></pre>
 
 <h3 id="pipeline-order-execution">Pipeline order execution</h3>

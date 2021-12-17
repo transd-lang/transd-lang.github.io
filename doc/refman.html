@@ -812,7 +812,7 @@ Return type: <code>ByteArray</code></p>
 
 <h3 id="vector">Vector</h3>
 
-<p>Vector is a container in which elements are stored as a linear sequence. Unlike ByteArray and String containers, which are specialized to store only a single type of elements: bytes and chars respectively, Vector containers can store various types - integers, strings, objects of custom types, etc., - which is why Vector in Transd is termed as a <em>generic</em> container.</p>
+<p>Vector is a container in which elements are stored as a linear sequence. Unlike ByteArray and String containers, which are specialized to store only a single type of elements - bytes and chars respectively, - Vector containers can store various types: integers, strings, objects of custom types, etc., which is why Vector in Transd is termed as a <em>generic</em> container.</p>
 
 <p>Vectors in Transd are strongly typed: all elements in a vector must be of one and the same type. The type of elements which are to be stored in the vector is specified in the vector declaration statement within angle brackets:</p>
 
@@ -945,6 +945,11 @@ Return type: <code>Null</code></p>
 <p>Return type: <em>TYPE</em></p>
 
 <p>Returns the first element of <em>subj</em>. If <em>subj</em> is empty, an exception will be thrown.</p>
+
+<h6 id="max-element">max-element</h6>
+
+<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="nf">max-element</span> <span class="nv">subj</span> <span class="p">[</span><span class="nv">cmpFunc</span><span class="p">])</span>
+</code></pre></div>
 
 <h6 id="reverse-3">reverse</h6>
 
@@ -1079,8 +1084,8 @@ Return type: <code>Null</code></p>
 </code></pre></div>
 
 <p>Parameters:<br>
-<em>rootDir</em> : <code>String</code> - the directory whose contents are to be read;
-<em>filePatt</em>: <code>String</code> - the regular expression with the pattern of file names to include.
+<em>rootDir</em> : <code>String</code> - the directory whose contents are to be read;<br>
+<em>filePatt</em>: <code>String</code> - the regular expression with the pattern of file names to include.<br>
 Return type: <code>Null</code></p>
 
 <p>Recursively reads file and directory names in a directory tree. After that, file and directory names can be retrieved with the methods <code>(files)</code> and <code>(dirs)</code> respectively.</p>
@@ -1099,9 +1104,26 @@ Return type: <code>Null</code></p>
 
 <p>Container functions are functions that operate on more than one container class. That is they are not specific to some particular container class, but can be applyed to various container types (Vector, String, etc.) and they will produce the similar result.</p>
 
+<h3 id="clear-4">clear</h3>
+
+<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="nf">clear</span> <span class="nv">subj</span><span class="p">)</span>
+<span class="o">````</span>
+<span class="nv">Return</span> <span class="nv">type</span><span class="o">:</span> <span class="o">`</span><span class="nv">Null</span><span class="o">`</span>
+
+<span class="nv">Erases</span> <span class="nv">all</span> <span class="nv">elements</span> <span class="nv">from</span> <span class="nv">a</span> <span class="nv">container</span> <span class="nv">and</span> <span class="nv">sets</span> <span class="nv">its</span> <span class="nv">size</span> <span class="nv">to</span> <span class="nv">zero</span><span class="o">.</span>
+
+<span class="o">###</span> <span class="nv">max-element</span>
+</code></pre></div>
+
+<p>(max-element <Container>)
+```</p>
+
 <h3 id="size-4">size</h3>
 
-<p><code>(size subj)</code></p>
+<p>``<code>scheme
+(size subj)
+````
+Return type:</code>Int`</p>
 
 <p>Returns the number of elements in a container.</p>
 
