@@ -32,7 +32,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 .codehilite .kr { color: #008000; font-weight: bold } /* Keyword.Reserved */
 .codehilite .kt { color: #B00040 } /* Keyword.Type */
 .codehilite .m { color: #666666 } /* Literal.Number */
-.codehilite .s { color: #BA2121 } /* Literal.String */
+.codehilite .s { color: #007050 } /* Literal.String */
 .codehilite .na { color: #7D9029 } /* Name.Attribute */
 .codehilite .nb { color: #008000 } /* Name.Builtin */
 .codehilite .nc { color: #0000FF; font-weight: bold } /* Name.Class */

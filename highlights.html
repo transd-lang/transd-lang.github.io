@@ -55,19 +55,64 @@ style="text-decoration: none; color: #447799" target=_top
 <h3 id="contents">Contents:</h3>
 
 <ul>
+<li><a href="#security">Security</a></li>
+<li><a href="#data-processing">Data processing</a></li>
 <li><a href="#type-safety">Type safety</a></li>
+<li><a href="#full-unicode-support">Full Unicode support</a></li>
 <li><a href="#modules">Modules</a></li>
 <li><a href="#classes">Classses</a></li>
 <li><a href="#functions-as-data">Functions as data</a></li>
 <li><a href="#generic-collections">Generic collections</a></li>
-<li><a href="#full-unicode-support">Full Unicode support</a></li>
-<li><a href="#data-processing">Data processing</a></li>
 <li><a href="#type-inference">Type inference</a></li>
 <li><a href="#exceptions">Exceptions</a></li>
 <li><a href="#pipeline-order-execution">Pipeline order execution</a></li>
 <li><a href="#size">Size</a></li>
 <li><a href="#speed">Speed</a></li>
 </ul>
+
+<h3 id="security">Security</h3>
+
+<p>Transd has different features that help to strengthen various aspects of language security both for programmers and for users of Transd programs:</p>
+
+<ul>
+<li><strong>Disabling potentially insecure functions</strong>. Before running a Transd program, the program user has the possibility to restrict in the interpreter the active language subset and disable such sensitive language functionality as file IO, starting external processes, etc.</li>
+<li><strong>Modular program organization</strong> with fully isolated modules. Module members become accessible to other modules only via import mechanism.</li>
+<li><strong>Finely granular access permissions</strong> for module members. Module's data and methods can be made exportable only to certain other modules, specified by names.</li>
+<li><strong>Controlled data mutability</strong>. Any variable or function parameter can be declared as immutable with the help of 'const' keyword.</li>
+<li><strong>Type safety</strong>. Transd is statically typed with only safe (widening) implicit type conversions.</li>
+<li><strong>Memory safety</strong>. All memory management in Transd is done automatically. For memory recycling Transd uses a reference-counting automatic garbage collector. </li>
+</ul>
+
+<h3 id="data-processing">Data processing</h3>
+
+<p>Transd has powerful built-in capabilities for data processing. It has an integrated SQL-like
+data query language, as well as built-in functionality for working with tabular data. </p>
+
+<div class="codehilite"><pre><span></span><code><span class="o">#</span><span class="nv">lang</span> <span class="nv">transd</span>
+<span class="nv">MainModule</span><span class="o">:</span> <span class="p">{</span>
+  <span class="nv">tabdata</span><span class="o">:</span>
+<span class="s">&quot;Name,Salary:Int,Department</span>
+<span class="s">Tom,10000,Transport</span>
+<span class="s">Alice,25000,HR</span>
+<span class="s">Bob,30000,Marketing&quot;</span><span class="o">,</span>
+
+   <span class="nv">_start</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> 
+          <span class="p">(</span><span class="k">with </span><span class="nv">tabl</span> <span class="nv">Table</span><span class="p">()</span>
+              <span class="p">(</span><span class="nf">load-table</span> <span class="nv">tabl</span> <span class="nv">tabdata</span><span class="p">)</span>
+              <span class="p">(</span><span class="nf">build-index</span> <span class="nv">tabl</span> <span class="s">&quot;Salary&quot;</span><span class="p">)</span>
+
+              <span class="p">(</span><span class="k">with </span><span class="nv">rows</span> <span class="p">(</span><span class="nf">tsd-query</span> <span class="nv">tabl</span> 
+                      <span class="nv">select</span><span class="o">:</span> <span class="p">[</span><span class="s">&quot;Name&quot;</span><span class="o">,</span> <span class="s">&quot;Department&quot;</span><span class="p">]</span>
+                      <span class="nv">as</span><span class="o">:</span> <span class="p">[[</span><span class="nv">String</span><span class="p">()</span><span class="o">,</span><span class="nv">String</span><span class="p">()]]</span>
+                      <span class="nv">where</span><span class="o">:</span> <span class="s">&quot;Salary &gt; 20000&quot;</span>
+                      <span class="nv">sortby</span><span class="o">:</span> <span class="s">&quot;Name&quot;</span><span class="p">)</span>
+                  <span class="p">(</span><span class="k">for </span><span class="nv">row</span> <span class="k">in </span><span class="nv">rows</span> <span class="k">do </span><span class="p">(</span><span class="nf">lout</span> <span class="nv">row</span><span class="p">)))</span>
+      <span class="p">))</span>
+<span class="p">}</span>
+<span class="c1">// The output:</span>
+<span class="c1">// UT[Alice, HR]</span>
+<span class="c1">// UT[Bob, Marketing]</span>
+</code></pre></div>
 
 <h3 id="type-safety">Type safety</h3>
 
@@ -88,6 +133,34 @@ style="text-decoration: none; color: #447799" target=_top
 </code></pre></div>
 
 <p>The type system of Transd includes such types as: <code>Bool, Int, Double, Long, ULong, Byte, Char, Object, Position, DateTime, Vector, Tuple, Index, HashIndex, ByteArray, Table, TSDBase, StringStream, ByteStream, FileStream, Lambda, String</code>.</p>
+
+<h3 id="full-unicode-support">Full Unicode support</h3>
+
+<p>Strings in Transd are implemented as mutable wide character sequences. Characters are encoded in UTF-16 encoding on Windows and in UTF-32 on Linux. Which means that both ASCII and non-ASCII characters are provided with the same level of full support in Transd.</p>
+
+<div class="codehilite"><pre><span></span><code><span class="o">#</span><span class="nv">lang</span> <span class="nv">transd</span>
+
+<span class="nv">MainModule</span><span class="o">:</span> <span class="p">{</span>
+    <span class="nv">_start</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> 
+        <span class="p">(</span><span class="k">with </span><span class="nv">s1</span> <span class="s">&quot;和平&quot;</span>
+              <span class="nv">s2</span> <span class="s">&quot;和平5&quot;</span>
+            <span class="p">(</span><span class="nf">lout</span> <span class="s">&quot;size of &quot;</span> <span class="nv">s1</span> <span class="s">&quot; is: &quot;</span> <span class="p">(</span><span class="nf">size</span> <span class="nv">s1</span><span class="p">))</span>
+            <span class="p">(</span><span class="nf">lout</span> <span class="s">&quot;second character in &quot;</span> <span class="nv">s2</span> <span class="s">&quot; is: &quot;</span> <span class="p">(</span><span class="nf">subn</span> <span class="nv">s1</span> <span class="mi">1</span><span class="p">))</span>
+            <span class="p">(</span><span class="nf">lout</span> <span class="nv">s1</span> <span class="s">&quot; only contains letters: &quot;</span>
+                <span class="o">:</span><span class="nv">boolalpha</span> <span class="p">(</span><span class="nf">match</span> <span class="nv">s1</span> <span class="s">&quot;[[:alpha:]]+&quot;</span><span class="p">))</span>
+            <span class="p">(</span><span class="nf">lout</span> <span class="nv">s2</span> <span class="s">&quot; only contains letters: &quot;</span>
+                <span class="p">(</span><span class="nf">match</span> <span class="nv">s2</span> <span class="s">&quot;[[:alpha:]]+&quot;</span><span class="p">)))</span>
+    <span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<pre><code>OUTPUT:
+
+size of 和平 is: 2
+second character in 和平5 is: 平
+和平 only contains letters: true
+和平5 only contains letters: false
+</code></pre>
 
 <h3 id="modules">Modules</h3>
 
@@ -168,67 +241,6 @@ style="text-decoration: none; color: #447799" target=_top
     <span class="p">)</span>
 <span class="p">}</span>
 </code></pre></div>
-
-<h3 id="full-unicode-support">Full Unicode support</h3>
-
-<p>Strings in Transd are implemented as mutable wide character sequences. Characters are encoded in UTF-16 encoding on Windows and in UTF-32 on Linux. Which means that both ASCII and non-ASCII characters are provided with the same level of full support in Transd.</p>
-
-<div class="codehilite"><pre><span></span><code><span class="o">#</span><span class="nv">lang</span> <span class="nv">transd</span>
-
-<span class="nv">MainModule</span><span class="o">:</span> <span class="p">{</span>
-    <span class="nv">_start</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> 
-        <span class="p">(</span><span class="k">with </span><span class="nv">s1</span> <span class="s">&quot;和平&quot;</span>
-              <span class="nv">s2</span> <span class="s">&quot;和平5&quot;</span>
-            <span class="p">(</span><span class="nf">lout</span> <span class="s">&quot;size of &quot;</span> <span class="nv">s1</span> <span class="s">&quot; is: &quot;</span> <span class="p">(</span><span class="nf">size</span> <span class="nv">s1</span><span class="p">))</span>
-            <span class="p">(</span><span class="nf">lout</span> <span class="s">&quot;second character in &quot;</span> <span class="nv">s2</span> <span class="s">&quot; is: &quot;</span> <span class="p">(</span><span class="nf">subn</span> <span class="nv">s1</span> <span class="mi">1</span><span class="p">))</span>
-            <span class="p">(</span><span class="nf">lout</span> <span class="nv">s1</span> <span class="s">&quot; only contains letters: &quot;</span>
-                <span class="o">:</span><span class="nv">boolalpha</span> <span class="p">(</span><span class="nf">match</span> <span class="nv">s1</span> <span class="s">&quot;[[:alpha:]]+&quot;</span><span class="p">))</span>
-            <span class="p">(</span><span class="nf">lout</span> <span class="nv">s2</span> <span class="s">&quot; only contains letters: &quot;</span>
-                <span class="p">(</span><span class="nf">match</span> <span class="nv">s2</span> <span class="s">&quot;[[:alpha:]]+&quot;</span><span class="p">)))</span>
-    <span class="p">)</span>
-<span class="p">}</span>
-</code></pre></div>
-
-<pre><code>OUTPUT:
-
-size of 和平 is: 2
-second character in 和平5 is: 平
-和平 only contains letters: true
-和平5 only contains letters: false
-</code></pre>
-
-<h3 id="data-processing">Data processing</h3>
-
-<p>Transd has powerful built-in capabilities for data processing. It has an integrated SQL-like
-data query language, as well as built-in functionality for working with tabular data. </p>
-
-<div class="codehilite"><pre><span></span><code><span class="o">#</span><span class="nv">lang</span> <span class="nv">transd</span>
-<span class="nv">MainModule</span><span class="o">:</span> <span class="p">{</span>
-  <span class="nv">tabdata</span><span class="o">:</span>
-<span class="s">&quot;Name,Salary:Int,Department</span>
-<span class="s">Tom,10000,Transport</span>
-<span class="s">Alice,25000,HR</span>
-<span class="s">Bob,30000,Marketing&quot;</span><span class="o">,</span>
-
-   <span class="nv">_start</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> 
-          <span class="p">(</span><span class="k">with </span><span class="nv">tabl</span> <span class="nv">Table</span><span class="p">()</span>
-              <span class="p">(</span><span class="nf">load-table</span> <span class="nv">tabl</span> <span class="nv">tabdata</span><span class="p">)</span>
-              <span class="p">(</span><span class="nf">build-index</span> <span class="nv">tabl</span> <span class="s">&quot;Salary&quot;</span><span class="p">)</span>
-
-              <span class="p">(</span><span class="k">with </span><span class="nv">rows</span> <span class="p">(</span><span class="nf">tsd-query</span> <span class="nv">tabl</span> 
-                      <span class="nv">select</span><span class="o">:</span> <span class="p">[</span><span class="s">&quot;Name&quot;</span><span class="o">,</span> <span class="s">&quot;Department&quot;</span><span class="p">]</span>
-                      <span class="nv">as</span><span class="o">:</span> <span class="p">[[</span><span class="nv">String</span><span class="p">()</span><span class="o">,</span><span class="nv">String</span><span class="p">()]]</span>
-                      <span class="nv">where</span><span class="o">:</span> <span class="s">&quot;Salary &gt; 20000&quot;</span>
-                      <span class="nv">sortby</span><span class="o">:</span> <span class="s">&quot;Name&quot;</span><span class="p">)</span>
-                  <span class="p">(</span><span class="k">for </span><span class="nv">row</span> <span class="k">in </span><span class="nv">rows</span> <span class="k">do </span><span class="p">(</span><span class="nf">lout</span> <span class="nv">row</span><span class="p">)))</span>
-      <span class="p">))</span>
-<span class="p">}</span>
-<span class="c1">// The output:</span>
-<span class="c1">// UT[Alice, HR]</span>
-<span class="c1">// UT[Bob, Marketing]</span>
-</code></pre></div>
-
-<p>Among other features, Transd has list comprehensions, ranges, exceptions, dynamic module loading/unloading, etc.</p>
 
 <h3 id="type-inference">Type inference</h3>
 
@@ -314,6 +326,8 @@ pos1 is vec1.end: true
 <p>The necessary condition for combining function calls in this way is that the return value of a function must be admissible as an argument to the next function.</p>
 
 <p>A more extended example of using the pipeline operator can be found <a href="https://github.com/transd-lang/Tourbillon-test-suite/blob/main/Rosetta/Anagrams.td">here</a></p>
+
+<p>Among other features, Transd has list comprehensions, ranges, dynamic module loading/unloading, etc.</p>
 
 <h3 id="size">Size</h3>
 

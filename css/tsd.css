@@ -10,6 +10,7 @@ div.doccol h2{ float:none; margin: 10px 0 10px 20px; font: bold 1.5em;	color: #4
 div.doccol p{ margin: 0 0 1em 25px; line-height: 1.2em;}
 
 ol { padding-left: 50px; margin-top: -10px }
+ul { padding-left: 30px; margin-top: 0px }
 li { margin-bottom: 10px; line-height: 1.5em; }
 
 hr {
