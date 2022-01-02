@@ -88,7 +88,7 @@ data query language, as well as built-in functionality for working with tabular 
               <span class="p">(</span><span class="nf">load-table</span> <span class="nv">tabl</span> <span class="nv">tabdata</span><span class="p">)</span>
               <span class="p">(</span><span class="nf">build-index</span> <span class="nv">tabl</span> <span class="s">&quot;Salary&quot;</span><span class="p">)</span>
 
-              <span class="p">(</span><span class="k">with </span><span class="nv">rows</span> <span class="p">(</span><span class="nf">tsd-query</span> <span class="nv">tabl</span> 
+              <span class="p">(</span><span class="k">with </span><span class="nv">rows</span> <span class="p">(</span><span class="nf">tsd</span> <span class="nv">tabl</span> 
                       <span class="nv">select</span><span class="o">:</span> <span class="p">[</span><span class="s">&quot;Name&quot;</span><span class="o">,</span> <span class="s">&quot;Department&quot;</span><span class="p">]</span>
                       <span class="nv">as</span><span class="o">:</span> <span class="p">[[</span><span class="nv">String</span><span class="p">()</span><span class="o">,</span><span class="nv">String</span><span class="p">()]]</span>
                       <span class="nv">where</span><span class="o">:</span> <span class="s">&quot;Salary &gt; 20000&quot;</span>
