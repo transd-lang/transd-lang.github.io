@@ -120,11 +120,11 @@ _)
 using, basically, the same command: </p>
 <pre><code>Linux:
 
-$ clang++ -std=c++14 -O3 -D__LINUX__ -DNDEBUG src/transd.cpp src/main.cpp -lpthread -o tree3
+$ clang++ -std=c++14 -O3 -D__LINUX__ -DNDEBUG transd.cpp main.cpp -lpthread -o tree3
 
 Windows:
 
-PS clang++ -std=c++14 -O3 -DWIN32  -DNDEBUG src/transd.cpp src/main.cpp -o tree3.exe
+PS clang++ -std=c++14 -O3 -DWIN32 -DNDEBUG transd.cpp main.cpp -o tree3.exe
 </code></pre>
 </div>
 <div class="col1" style=" font: 1.0em sans-serif; color: #555; margin: 15px 0 0 0; line-height: 1.5em;"><a id="fast"> </a><h3 style="color: #077">

@@ -35,9 +35,41 @@ hr {
   </ul>
 </div>
 <div class="wrap" style="margin-top: 25px">
-<h2 style="margin: 25px 0 20px 0;">The ongoing progress report</h2>
+<h2 style="margin: 55px 0 20px 0;">The ongoing progress report</h2>
 <hr width="100%" style="margin:0 0 35px 0;">
-<h3 id="december-results-so-far">December results (so far)</h3>
+<h3 id="january-results-so-far">January results (so far)</h3>
+
+<p><strong>REDUCE data query</strong><br>
+The declarative part of the language has been enriched with the "REDUCE" data query type.</p>
+
+<p><strong>Accurate floating point calculations</strong><br>
+The <code>(incr)</code> and <code>(decr)</code> methods were added to the <code>Double</code> type for enabling
+accurate calculations with interval arithmetic. For more information and for an example of
+using these methods see <a href="http://rosettacode.org/wiki/Safe_addition#Transd">here</a>.</p>
+
+<p><strong>Built-in functions</strong>
+A new function <code>(first)</code> takes any number of similarly typed arguments and returns the
+first argument evaluating to an equivalent of 'true'.</p>
+
+<div class="codehilite"><pre><span></span><code><span class="nv">MainModule</span><span class="o">:</span> <span class="p">{</span>
+    <span class="nv">_start</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> 
+        <span class="p">(</span><span class="k">with </span><span class="nv">s</span> <span class="s">&quot;abcd&quot;</span>
+            <span class="p">(</span><span class="nf">lout</span> <span class="p">(</span><span class="nf">or</span>    <span class="p">(</span><span class="nf">substr</span> <span class="nv">s</span> <span class="s">&quot;e&quot;</span><span class="p">)</span> <span class="p">(</span><span class="nf">substr</span> <span class="nv">s</span> <span class="s">&quot;b&quot;</span><span class="p">)))</span>
+            <span class="p">(</span><span class="nf">lout</span> <span class="p">(</span><span class="nf">first</span> <span class="p">(</span><span class="nf">substr</span> <span class="nv">s</span> <span class="s">&quot;e&quot;</span><span class="p">)</span> <span class="p">(</span><span class="nf">substr</span> <span class="nv">s</span> <span class="s">&quot;b&quot;</span><span class="p">)))</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<pre><code>OUTPUT:
+
+1
+bcd
+</code></pre>
+
+<p>An example of using this function can be seen <a href="http://rosettacode.org/wiki/Sum_digits_of_an_integer#Transd">here</a>.</p>
+
+<h3 id="2021-dec-31-december-results">2021-Dec-31 | December results</h3>
 
 <p><strong>Lambdas</strong><br>
 Transd supports anonymous function objects ("lambda" functions), which can be used in a great many of places, for example:</p>
