@@ -47,27 +47,23 @@ The <code>(incr)</code> and <code>(decr)</code> methods were added to the <code>
 accurate calculations with interval arithmetic. For more information and for an example of
 using these methods see <a href="http://rosettacode.org/wiki/Safe_addition#Transd">here</a>.</p>
 
-<p><strong>Built-in functions</strong>
-A new function <code>(first)</code> takes any number of similarly typed arguments and returns the
-first argument evaluating to an equivalent of 'true'.</p>
+<p><strong>Built-in functions</strong><br>
+Several built-in functions have been added into the core language.</p>
 
-<div class="codehilite"><pre><span></span><code><span class="nv">MainModule</span><span class="o">:</span> <span class="p">{</span>
-    <span class="nv">_start</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> 
-        <span class="p">(</span><span class="k">with </span><span class="nv">s</span> <span class="s">&quot;abcd&quot;</span>
-            <span class="p">(</span><span class="nf">lout</span> <span class="p">(</span><span class="nf">or</span>    <span class="p">(</span><span class="nf">substr</span> <span class="nv">s</span> <span class="s">&quot;e&quot;</span><span class="p">)</span> <span class="p">(</span><span class="nf">substr</span> <span class="nv">s</span> <span class="s">&quot;b&quot;</span><span class="p">)))</span>
-            <span class="p">(</span><span class="nf">lout</span> <span class="p">(</span><span class="nf">first</span> <span class="p">(</span><span class="nf">substr</span> <span class="nv">s</span> <span class="s">&quot;e&quot;</span><span class="p">)</span> <span class="p">(</span><span class="nf">substr</span> <span class="nv">s</span> <span class="s">&quot;b&quot;</span><span class="p">)))</span>
-        <span class="p">)</span>
-    <span class="p">)</span>
-<span class="p">}</span>
-</code></pre></div>
+<ul>
+<li><p><code>(first)</code> takes any number of similarly typed arguments and returns the
+first argument evaluating to an equivalent of 'true'.</p></li>
+<li><p>A number method <code>(within)</code> takes two numeric arguments and returns boolean value
+depending on whether the subject is in the interval bounded by the arguments or not.</p></li>
+<li><p>A container method <code>(is-subset)</code> takes another container and returns boolean value
+depending on whether that container is a subset of the subject (that is whether each
+element of the argument has an identical counterpart in the subject, sorting ignored).</p></li>
+</ul>
 
-<pre><code>OUTPUT:
+<p>Examples of using these functions can be seen <a href="http://rosettacode.org/wiki/Sum_digits_of_an_integer#Transd">here</a> and <a href="http://rosettacode.org/wiki/Word_wheel#Transd">here</a>. Or, as usually, they can be found in the test suit with the command:</p>
 
-1
-bcd
+<pre><code>grep -r &lt;FUNC_NAME&gt; &lt;TEST_SUIT_DIRECTORY&gt;
 </code></pre>
-
-<p>An example of using this function can be seen <a href="http://rosettacode.org/wiki/Sum_digits_of_an_integer#Transd">here</a>.</p>
 
 <h3 id="2021-dec-31-december-results">2021-Dec-31 | December results</h3>
 
