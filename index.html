@@ -75,8 +75,8 @@ semi-structured records — with the help of three data queries: "select", "upda
     <span class="nv">v</span><span class="o">:</span> <span class="p">[</span><span class="s">&quot;apple&quot;</span><span class="o">,</span> <span class="s">&quot;orange&quot;</span><span class="o">,</span> <span class="s">&quot;avocado&quot;</span><span class="o">,</span> <span class="s">&quot;peach&quot;</span><span class="p">]</span><span class="o">,</span>
     <span class="nv">tabdata</span><span class="o">:</span>
         <span class="s">&quot;Name,Salary:Int,Department</span>
-<span class="s">         Tom,10000,Transport</span>
-<span class="s">         Alice,25000,HR</span>
+<span class="s">         Alice,10000,IT</span>
+<span class="s">         Susan,25000,HR</span>
 <span class="s">         Bob,30000,Marketing&quot;</span><span class="o">,</span>
     <span class="nv">n</span><span class="o">:</span> <span class="mi">0</span><span class="o">,</span>
 
@@ -93,8 +93,8 @@ semi-structured records — with the help of three data queries: "select", "upda
 
              <span class="p">(</span><span class="k">for </span><span class="nv">row</span> <span class="k">in </span><span class="nv">rows</span> <span class="k">do </span><span class="p">(</span><span class="nf">lout</span> <span class="nv">row</span><span class="p">)))</span>
              <span class="c1">// OUTPUT:</span>
-             <span class="c1">// &lt;= [&quot;Alice&quot;, &quot;HR&quot;]</span>
              <span class="c1">// &lt;= [&quot;Bob&quot;, &quot;Marketing&quot;]</span>
+             <span class="c1">// &lt;= [&quot;Susan&quot;, &quot;HR&quot;]</span>
     <span class="p">)</span><span class="o">,</span>
 
     <span class="p">(</span><span class="nf">lout</span> <span class="p">(</span><span class="nf">tsd</span> <span class="nv">v</span> <span class="k">:select satisfying: </span><span class="p">(</span><span class="nf">λ</span> <span class="nv">s</span> <span class="nv">String</span><span class="p">()</span> <span class="p">(</span><span class="nf">starts-with</span> <span class="nv">s</span> <span class="s">&quot;a&quot;</span><span class="p">))))</span>
