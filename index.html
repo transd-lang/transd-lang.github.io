@@ -60,13 +60,12 @@ bottom-border: solid 1px ;height: 0px; text-align: center;">
 <span class="p">}</span>
 
 <span class="nv">MainModule</span><span class="o">:</span> <span class="p">{</span>
-     <span class="nv">greeter</span><span class="o">:</span> <span class="nv">Lambda</span><span class="o">&lt;</span><span class="nb">String String&gt;</span><span class="p">(</span><span class="nf">λ</span> <span class="nv">s</span> <span class="nv">String</span><span class="p">()</span> <span class="p">(</span><span class="nf">ret</span> <span class="p">(</span><span class="nb">+ </span><span class="s">&quot;Hello, &quot;</span> <span class="nv">s</span> <span class="s">&quot;!&quot;</span><span class="p">)))</span><span class="o">,</span>
+    <span class="nv">greeter</span><span class="o">:</span> <span class="nv">Lambda</span><span class="o">&lt;</span><span class="nb">String String&gt;</span><span class="p">(</span><span class="nf">λ</span> <span class="nv">s</span> <span class="nv">String</span><span class="p">()</span> <span class="p">(</span><span class="nf">ret</span> <span class="p">(</span><span class="nb">+ </span><span class="s">&quot;Hello, &quot;</span> <span class="nv">s</span> <span class="s">&quot;!&quot;</span><span class="p">)))</span><span class="o">,</span>
 
     <span class="nv">_start</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> 
         <span class="p">(</span><span class="k">with </span><span class="nv">sp</span> <span class="nv">Speaker</span><span class="p">(</span> <span class="nv">greeter</span> <span class="p">)</span>
             <span class="p">(</span><span class="nf">textout</span> <span class="p">(</span><span class="nf">call</span> <span class="nv">sp</span> <span class="s">&quot;World&quot;</span><span class="p">))</span>
-        <span class="p">)</span>
-    <span class="p">)</span>
+    <span class="p">)</span>   <span class="p">)</span>
 <span class="p">}</span>
 <span class="c1">// Output: Hello, World!</span></code></pre></div></div>
 <div class="col1" style=" font: 1.0em sans-serif; color: #555; margin: 15px 0 35px 0; line-height: 1.5em;">
