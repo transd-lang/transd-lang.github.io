@@ -606,6 +606,18 @@ Return type: <code>Int</code></p>
 
 <p>Returns the index of the first character in <em>subj</em>, not contained in <em>str</em>. If no such character was found, the returned value is -1.</p>
 
+<h6 id="match">match</h6>
+
+<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="nf">match</span> <span class="nv">subj</span> <span class="nv">patt</span><span class="p">)</span>
+</code></pre></div>
+
+<p>Parameters:<br>
+<em>patt</em> : <code>String</code> - a regular expression to match.<br></p>
+
+<p>Matches the <em>subj</em> to the regular expression pattern <em>patt</em>. Returns <code>true</code> if <em>subj</em>
+matches the pattern, otherwise, returns <code>false</code>. The regular expression should be in
+<a href="https://262.ecma-international.org/5.1/#sec-15.10">ECMAScript</a> grammar.</p>
+
 <h6 id="read">read</h6>
 
 <div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="nf">read</span> <span class="nv">subj</span><span class="p">)</span>
@@ -623,6 +635,35 @@ Return type: <code>Int</code></p>
 Return type: <code>Bool</code></p>
 
 <p>Returns <code>true</code> if <em>subj</em> contains <em>str</em> as a substring starting from the first character. Otherwise, returns <code>false</code>.</p>
+
+<h6 id="strip">strip</h6>
+
+<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="nf">strip</span> <span class="nv">subj</span> <span class="nv">str</span><span class="p">)</span>
+ <span class="nv">or</span>
+<span class="p">(</span><span class="nf">strip</span> <span class="nv">subj</span> <span class="nv">str1</span> <span class="nv">str2</span><span class="p">)</span>
+</code></pre></div>
+
+<p>Parameters:<br>
+<em>str, str1, str2</em> : <code>String</code><br>
+Return type: <code>Null</code></p>
+
+<p>Removes from the ends of <em>subj</em> the characters specified in <em>str</em>. The first form removes
+from both ends the characters in <em>str</em>. The second form removes from the left end the
+characters in <em>str1</em>, from the right end - the characters in <em>str2</em>. If no <em>str</em> 
+is passed, the default behaviour is to remove from both ends whitespace characters:
+<space>, '\r', '\n', '\t'. </p>
+
+<h6 id="subn">subn</h6>
+
+<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="nf">subn</span> <span class="nv">subj</span> <span class="nv">start</span> <span class="p">[</span><span class="nv">count</span><span class="p">])</span>
+</code></pre></div>
+
+<p>Parameters:<br>
+<em>start</em> : <code>Int</code> - start position of substring;<br>
+<em>count</em> : <code>Int</code> - (default: 1) count of characters to include to substring.
+Return type: <code>String</code></p>
+
+<p>Retuns a copy of substring of <em>subj</em> starting from <em>start</em> position and having <em>count</em> length.</p>
 
 <h6 id="tolower">tolower</h6>
 
@@ -1102,7 +1143,7 @@ Return type: <code>Null</code></p>
 
 <h2 id="container-functions">Container functions</h2>
 
-<p>Container functions are functions that operate on more than one container class. That is they are not specific to some particular container class, but can be applyed to various container types (Vector, String, etc.) and they will produce the similar result.</p>
+<p>Container functions are functions that operate on more than one container class. That is, they are not specific to some particular container class, but can be applyed to various container types (Vector, String, etc.) and they will produce similar results.</p>
 
 <h3 id="clear-4">clear</h3>
 
