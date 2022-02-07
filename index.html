@@ -69,52 +69,16 @@ bottom-border: solid 1px ;height: 0px; text-align: center;">
 <span class="p">}</span>
 <span class="c1">// Output: Hello, World!</span></code></pre></div></div>
 <div class="col1" style=" font: 1.0em sans-serif; color: #555; margin: 15px 0 35px 0; line-height: 1.5em;">
-<a id="declar"> </a><h3 style="color: #077">Data processing</h3><p>
-<p>In addition to traditional control flow structures, such as "for", "while" and "if", Transd
-makes it possible to uniformly manipulate data — from list to multi-column table to collection of
-semi-structured records — with the help of three data queries: "select", "update" and "reduce".
+<a id="declar"> </a><h3 style="color: #077">Working with data</h3><p>
+<p>Transd is a general purpose language with an emphasis on working with datasets of various 
+types. It has built-in capabilities for working in a structured, database-like fashion with 
+tables, sets of data records and free form data collections.</p> <p>
+
+Transd works with data by organizing it internally into the "Transd Structured Data" (TSD)
+format, which makes possible further working with this data in a concise and efficient way
+with the help of the TSD query sublanguage.     
 </p>
-<div class="codehilite"><pre><span></span><code><span class="o">#</span><span class="nv">lang</span> <span class="nv">transd</span>
 
-<span class="nv">MainModule</span><span class="o">:</span> <span class="p">{</span>
-    <span class="nv">v</span><span class="o">:</span> <span class="p">[</span><span class="s">&quot;apple&quot;</span><span class="o">,</span> <span class="s">&quot;orange&quot;</span><span class="o">,</span> <span class="s">&quot;avocado&quot;</span><span class="o">,</span> <span class="s">&quot;peach&quot;</span><span class="p">]</span><span class="o">,</span>
-    <span class="nv">tabdata</span><span class="o">:</span>
-        <span class="s">&quot;Name,Salary:Int,Department</span>
-<span class="s">         Alice,10000,IT</span>
-<span class="s">         Susan,25000,HR</span>
-<span class="s">         Bob,30000,Marketing&quot;</span><span class="o">,</span>
-    <span class="nv">n</span><span class="o">:</span> <span class="mi">0</span><span class="o">,</span>
-
-    <span class="nv">_start</span><span class="o">:</span> <span class="p">(</span><span class="nf">lambda</span>
-    <span class="p">(</span><span class="k">with </span><span class="nv">tabl</span> <span class="nv">Table</span><span class="p">()</span>
-        <span class="p">(</span><span class="nf">load-table</span> <span class="nv">tabl</span> <span class="nv">tabdata</span><span class="p">)</span>
-        <span class="p">(</span><span class="nf">build-index</span> <span class="nv">tabl</span> <span class="s">&quot;Salary&quot;</span><span class="p">)</span>
-
-        <span class="p">(</span><span class="k">with </span><span class="nv">rows</span> <span class="p">(</span><span class="nf">tsd</span> <span class="nv">tabl</span> 
-                  <span class="k">select: </span><span class="p">[</span><span class="s">&quot;Name&quot;</span><span class="o">,</span> <span class="s">&quot;Department&quot;</span><span class="p">]</span>
-                  <span class="k">as: </span><span class="p">[[</span><span class="nv">String</span><span class="p">()</span><span class="o">,</span><span class="nv">String</span><span class="p">()]]</span>
-                  <span class="k">where: </span><span class="s">&quot;Salary &gt; 20000&quot;</span>
-                  <span class="k">sortby: </span><span class="s">&quot;Name&quot;</span><span class="p">)</span>
-
-             <span class="p">(</span><span class="k">for </span><span class="nv">row</span> <span class="k">in </span><span class="nv">rows</span> <span class="k">do </span><span class="p">(</span><span class="nf">lout</span> <span class="nv">row</span><span class="p">)))</span>
-             <span class="c1">// OUTPUT:</span>
-             <span class="c1">// &lt;= [&quot;Bob&quot;, &quot;Marketing&quot;]</span>
-             <span class="c1">// &lt;= [&quot;Susan&quot;, &quot;HR&quot;]</span>
-    <span class="p">)</span><span class="o">,</span>
-
-    <span class="p">(</span><span class="nf">lout</span> <span class="p">(</span><span class="nf">tsd</span> <span class="nv">v</span> <span class="k">:select satisfying: </span><span class="p">(</span><span class="nf">λ</span> <span class="nv">s</span> <span class="nv">String</span><span class="p">()</span> <span class="p">(</span><span class="nf">starts-with</span> <span class="nv">s</span> <span class="s">&quot;a&quot;</span><span class="p">))))</span>
-    <span class="c1">// &lt;= [[&quot;apple&quot;], [&quot;avocado&quot;]]</span>
-
-    <span class="p">(</span><span class="nf">tsd</span> <span class="nv">v</span> <span class="k">:update set: </span><span class="p">(</span><span class="nf">λ</span> <span class="nv">s</span> <span class="nv">String</span><span class="p">()</span> <span class="p">(</span><span class="nf">reverse</span> <span class="nv">s</span><span class="p">)))</span>
-    <span class="p">(</span><span class="nf">lout</span> <span class="nv">v</span><span class="p">)</span>
-    <span class="c1">// &lt;= [&quot;elppa&quot;, &quot;egnaro&quot;, &quot;odacova&quot;, &quot;hcaep&quot;]</span>
-
-    <span class="p">(</span><span class="nf">tsd</span> <span class="nv">v</span> <span class="k">reduce: </span><span class="p">[</span><span class="s">&quot;(size col1)&quot;</span><span class="p">]</span> <span class="k">using: </span><span class="p">(</span><span class="nf">λ</span> <span class="nv">i</span> <span class="nv">Int</span><span class="p">()</span> <span class="p">(</span><span class="nb">+= </span><span class="nv">n</span> <span class="nv">i</span><span class="p">)))</span>
-    <span class="p">(</span><span class="nf">lout</span> <span class="nv">n</span><span class="p">)</span>
-    <span class="c1">// &lt;= 23</span>
-    <span class="p">)</span>
-<span class="p">}</span>
-</code></pre></div>
 <div class="col1" style=" font: 1.0em sans-serif; color: #555; margin: 15px 0 35px 0; line-height: 1.5em;">
 <a id="compact"> </a><h3 style="color: #077">Size</h3>
 <p><i>"We do not consider it as good engineering practice to consume a resource lavishly just 
