@@ -1,0 +1,128 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8">
+<title>Working with data</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta http-equiv="content-language" content="en-US">
+<meta name="language" content="English">
+<meta name="description" content="Working with data">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link href="../../css/main.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="header">
+  <p style="font: 3.0em serif; color: #447799; display: inline;">
+  <a href="../../index.html" 
+style="text-decoration: none; color: #447799" target=_top
+>Transd</a></p>
+  <ul id="menu">
+    <li><a href="../../index.html">home</a></li>
+    <li><a href="../../download.html">download</a></li>
+    <li><a href="../index.html">documentation</a></li>    
+    <li><a href="../../dev.html">development</a></li>
+    <li><a href="../../contact.html">contact</a></li>
+  </ul>
+</div>
+<div class="wrap">
+<h2 style="margin-top: 55px;color: #777">Using Transd for working with data</h2>
+<hr width="100%" style="margin:0 0 35px 0;">
+<p>The data related functionality in Transd subdivides into two areas: 
+<ol style="margin: -5px 0 15px 25px;line-height: 2em">
+<li>Data processing</li>
+<li>Data importing</li>
+</ol>
+<p>
+<i>Data processing</i> means the tasks where Transd is used as a tool for
+querying and modifying an external dataset. 
+</p>
+<p><i>Data importing</i> means the cases where data is imported into
+a Transd program and becomes an active part of the program.</p>
+
+<p>This page after a short introduction describes three practical examples of using Transd for 
+working with data: two examples for data processing and one for data importing.</p>
+
+<h3>Data processing</h3>
+<p>Transd can be used for working with various types of datasets. These types can be
+classified into three categories: </p> 
+<ol style="margin: -5px 0 5px 25px;line-height: 2em">
+<li>Tables</li>
+<li>Collections of records</li>
+<li>Loosely organized data aggregates</li>
+</ol>
+<h4>Tables</h4>
+<p>Tables is the most structured dataset type. All values in table datasets are logically
+grouped into rows and columns. Transd defines the <code>Table</code> type, which
+represents the table data structure. Rows in a <code>Table</code> object can have differently
+typed fields. Fields of different records are combined into named columns. Each column can contain
+values of one of the following types: 
+<code>String</code>, <code>Int</code>, <code>Double</code>, <code>DateTime</code>.</p> 
+<p>Transd can read and load table datasets stored in one of the several variations of
+CSV format. Other formats, with some conversions, can be used too.
+</p>
+
+<h4>Collections of records</h4>
+<p>A record is a structured description of some object. A record, can have differently
+typed named fields, describing individual properies of the object. A collection of records is 
+represented in Transd by the <code>TSDBase</code> data type. The difference of the 
+<code>TSDBase</code> class from <code>Table</code> class is that records in a <code>TSDBase</code>
+object, unlike rows in a table, can have different sets of fields.</p>
+<p>A dataset with a collection of records can be stored as a set of TSD objects, that is
+chunks of data in TSD format (TSD is short for "Transd Structured Data"). TSD format resembles
+JSON with some additions, such as distinguishing between floating and integer numbers,
+including arrays as object members, etc. (The source code of any Transd program is precisely
+a collection of records, with program modules being records in TSD format.) </p>
+
+<h4>Data aggregates</h4>
+<p>A data aggregate is an assembly of loosely structured data, whose individual data chunks
+(entries) have some classifiers, headers or tags (meta data), allowing to group these chunks
+or connect them with each other into a hierarchical structure.</p>
+<p>If the meta data in individual entries allows to connect them into a single logical
+structure, then big collections of seemingly assorted data entries can organized into a TSDBase 
+database and queried in a regular way.</p>
+<p>This way of handling data is suited for working with knowledge databases, personal
+notes, assorted ideas, etc.</p>
+
+<h4>TSD Query Language</h4>
+<p>
+The central part of data processing in Transd is TSD query language - <b>TQL</b> (pronounced
+'tee-quel'). All data processing tasks can be grouped into three main types:
+</p>
+<ol style="margin: -5px 0 15px 25px;line-height: 2em">
+<li>Selecting data</li>
+<li>Modifying data</li>
+<li>Doing calculations on data</li>
+</ol>
+<p>TQL defines for these types of tasks three types of queries:</p>
+
+<ol style="margin: -5px 0 15px 25px;line-height: 2em">
+<li>SELECT</li>
+<li>UPDATE</li>
+<li>REDUCE</li>
+</ol>
+
+<p>TQL queries are performed uniformly on any kind of supported data structure. That is, a table,
+a TSD database, or even a vector of values, can be queried using the same syntax of queries.</p>
+
+<p>Example of a TQL 'select' query:</p>
+
+<pre><code>
+(tql table1 
+    select: ["Book_title", "Price"]
+    as: [[String(), Double()]]
+    where: "Price < 50"
+    satisfying: (lambda Author String() (match Author ".*Lovecraft.*"))
+    sortby: "Price" :ascending
+    limit: 5 
+)
+</code></pre>
+
+
+
+<hr width="100%" style="margin:100px 0 0 0;">
+</div>
+<div id="footer">
+  <p>&copy; Copyright 2020-2022 <a href='&#109;ail&#116;o&#58;alb%65rger&#64;g%6Dai&#108;&#46;&#37;63o&#109;'>Albert Berger</a> &middot; All Rights Reserved</p>
+</div>
+</body>
+</html>
