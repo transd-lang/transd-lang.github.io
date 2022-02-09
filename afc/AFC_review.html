@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8">
+<title>Data importing</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta http-equiv="content-language" content="en-US">
+<meta name="language" content="English">
+<meta name="description" content="Data importing">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link href="../css/main.css" rel="stylesheet" type="text/css" />
+<link href="../css/codehighlight.css" rel="stylesheet" type="text/css" />
+<link href="../css/tsd.css" rel="stylesheet" type="text/css" />
+<style type="text/css">
+article{ padding-top: 10px;}
+pre{ background-color: #efefef; font: 1em "Courier New", monospace; }
+p{line-height: 1.5em;}
+hr {
+  border-top: 1px solid #eee;
+  width: 75%;
+  margin: 40px auto 20px auto;
+  color: #bbb;
+}
+</style>
+</head>
+<body>
+<div id="header">
+  <h1>TransD</h1>
+  <ul id="menu">
+    <li><a href="../index.html">home</a></li>
+    <li><a href="../download.html">download</a></li>
+    <li><a href="../doc/index.html">documentation</a></li>    
+    <li><a href="../dev.html">development</a></li>
+    <li><a href="../about.html">about</a></li>
+    <li><a href="../contact.html">contact</a></li>
+  </ul>
+</div>
+
+<div class="wrap">
+<h2 style="margin-top: 55px;color: #777">Data importing</h2>
+<hr width="100%" style="margin:0 0 35px 0;">
+
+<h3 id="introduction">Introduction</h3>
+
+<p>Data importing is a mechanism, which factors out the program's code performing the translation of input data into the program's state, that is, storing the input data in program's variables, objects, etc. Those programming tasks, that need to handle static external data, be it program's configuration parameters or data representing a state of some external object or process, can benefit if programmed in OOP paradigm and then use the data importing.</p>
+
+<p>Data importing helps to make programs smaller by removing the need in the code, implementing the logic of initialization objects with external data. Importing - means not only initializing objects, declared in the program code, with values, but that the whole hierarchy of objects used in a particular program run can be defined in an external data file without declaring these objects in the program code.</p>
+
+<p>The mechanism of data importing in Transd is based on <strong>"Transd Structured Data"</strong> (TSD) data format.</p>
+
+<p>TSD is a textual format for unified representation of various kinds of data. It represents data in the form of named blocks of name/value pairs (such blocks are called <em>TSD objects</em>):</p>
+
+<div class="codehilite"><pre><span></span><code><span class="s">&quot;someObject_1&quot;</span> <span class="o">:</span> <span class="p">{</span>
+    <span class="nv">someString</span><span class="o">:</span> <span class="s">&quot;string1&quot;</span><span class="o">,</span>
+    <span class="nv">someInteger</span><span class="o">:</span> <span class="mi">25</span><span class="o">,</span>
+    <span class="nv">someFloat</span><span class="o">:</span> <span class="mf">1.23</span><span class="o">,</span>
+    <span class="nv">someStrings</span><span class="o">:</span> <span class="p">[</span><span class="s">&quot;string2&quot;</span><span class="o">,</span> <span class="s">&quot;string3&quot;</span><span class="o">,</span> <span class="s">&quot;string4&quot;</span><span class="p">]</span><span class="o">,</span>
+    <span class="nv">someIntegers</span><span class="o">:</span> <span class="p">[</span><span class="mi">30</span><span class="o">,</span> <span class="mi">40</span><span class="o">,</span> <span class="mi">50</span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Transd has built-in support for quick assimilating the data from textual TSD objects into the program state.</p>
+
+<p>Data importing works most efficiently when the task, performed by program, is described in terms of a hierarchy of objects. The "hierarchy" here means not the inheritance relations between object classes, where one class is a subclass of another, but a <em>containment hierarchy</em>, where one object is part of another object, whereas the classes of objects may be unrelated. When objects are composed into a hierarchy, it's sufficient to declare in the program only the top object of the hierarchy, and all the lower levels of contained objects will be instantiated automatically as needed.</p>
+
+<h3 id="example">Example</h3>
+
+<p>AFC (short for "Audio Flow Combiner") is an example of using a hierarchy of objects for performing the program task and transferring a state, defined in an external data file, into a program at runtime. The source code of the program can be found <a href="https://github.com/al-berger/AFC">here</a>. The program's manual is located <a href="AFC.html">here</a>.</p>
+
+<p>"Audio Flow Combiner" is an audio file player, which plays files by serially combining their fragments into one audio flow. E.g., if <code>An</code> is a fragment of file <code>A</code>, <code>Bn</code> - fragment of file <code>B</code>, <code>X</code> - silence (pause), then AFC can produce an audio flow which looks like: <code>A1 X B1 X A2 X B2 ...</code>. The flow can be customized by several parameters: the number of files, the fragment length for each file, the frequency of appearing fragments in the flow, audio parameters (pitch, speed, volume, audio effects), etc. AFC uses the "SoX" program as the audio back-end.</p>
+
+<p>The whole running of the program is organized as interaction of hierarchically related objects. The top object (<code>Flow</code> class) represents the whole flow. It contains one more stream objects (<code>Stream</code> class), each stream representing an audio file. A stream contains a reference to the object containing the description of how the file should be divided to fragments (<code>Fragment</code> class). The <code>Fragment</code> class is separated from <code>Stream</code> class for code reusing: different Stream objects can use the same Fragment object (or define their own). Each Fragment object contains references to one or more play objects (<code>Play</code> class) which contain audio parameters for playing a fragment, such as volume, playback speed, etc.</p>
+
+<p>The program source code containes class definitions for objects in the hierarchy, some startup code, and the declaration of the top Flow object. The hierarchy of program objects is wholly defined in an external data file ("flowlist" file).</p>
+
+<p>The transferring of the hierarchy of program objects from the data file into the program is done as follows. First, the whole data file is read in with the <code>(read-tsd-file)</code> built-in Transd function. This function reads TSD objects contained in the data file and returns a list with these objects (call it - flowlist). Then this flowlist is passed into the <code>(init)</code> method of the top Flow object. The top object finds its definition in the flowlist, inititalizes its data members from this definition with the help of <code>(load-from-object)</code> built-in function, including the list of Stream objects, instantiates a new Stream object for each element in this list, and then calls the <code>(init)</code> method of each newly instantiated Stream object, passing the reference to the flowlist as the argument. This process recursively repeats for each level of the hierarchy until the whole hierarchy is constructed.</p>
+
+<p>After the construction is done, the hierarchy is started to function by calling the <code>(play)</code> method of the top Flow object.</p>
+
+<p>In the conclusion it can be noted, that this particular program has resulted to be six times smaller in the source code size than its analog written some time ago in another high level language. If a program is designed from scratch using the OOP paradigm, then the data importing technic can bring big gains in reducing the code size and, occasionally, leveraging external tools in preparing the input dataset, thus creating a pipeline of data processing.</p>
+
+
+<hr width="100%" style="margin:100px 0 0 0;">
+</div>	
+<div id="footer">
+  <p>&copy; Copyright 2020-2022 <a href='&#109;ail&#116;o&#58;alb%65rger&#64;g%6Dai&#108;&#46;&#37;63o&#109;'>Albert Berger</a> &middot; All Rights Reserved</p>
+</div>
+</body>
+</html>

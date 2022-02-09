@@ -25,7 +25,7 @@ style="text-decoration: none; color: #447799" target=_top
   </ul>
 </div>
 <div class="wrap">
-<h2 style="margin-top: 55px;color: #777">Using Transd for working with data</h2>
+<h2 style="margin-top: 55px;color: #777">Using Transd for Working with Data</h2>
 <hr width="100%" style="margin:0 0 35px 0;">
 <p>The data related functionality in Transd subdivides into two areas: 
 <ol style="margin: -5px 0 15px 25px;line-height: 2em">
@@ -117,8 +117,30 @@ a TSD database, or even a vector of values, can be queried using the same syntax
 )
 </code></pre>
 
+<h3>Data importing</h3>
+<p>Data importing means here converting external data into program objects. Data importing is
+a powerful mechanism making it possible to outsource data related functionality from the program
+to external means, and, using some universal data exchange format, to transfer and incorporate 
+data objects, defined externally, directly into the program state at runtime.</p>
 
+<p>Data importing can help both to reduce considerably the program size, as well as to use
+for handling data specialized tools most appropriate for the task.</p>
 
+<p>In Transd data importing is implemented on the basis of TSD data format, which is supported
+at deep levels of the language.</p>
+
+<h3>Examples</h3>
+
+<h4>Data processing</h4>
+
+<p><b>Tables</b><br>
+A basic example of using Transd for working with tables can be found <a href="https://transd.org/perftest.html">here</a>.</p>
+<p><b>Assorted data aggregation</b><br>
+An example program "Knorg" (Knowledge Organizer) works with loosely organized data.</p>
+
+<h4>Data importing</h4>
+<p>An example program <a href="../../afc/AFC_review.html">"AFC" (Audio Flow Combiner)</a> uses data importing for factoring out the
+data handling code from the program.</p>
 <hr width="100%" style="margin:100px 0 0 0;">
 </div>
 <div id="footer">
