@@ -1,4 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta charset="utf-8">
@@ -25,84 +25,44 @@ style="text-decoration: none; color: #447799" target=_top
   </ul>
 </div>
 <div class="wrap">
-<h2 style="margin-top: 55px;color: #777">Using Transd for Working with Data</h2>
+<h2 style="margin-top: 55px;color: #777">Using Transd for working with data</h2>
 <hr width="100%" style="margin:0 0 35px 0;">
-<p>The data related functionality in Transd subdivides into two areas: 
-<ol style="margin: -5px 0 15px 25px;line-height: 2em">
-<li>Data processing</li>
-<li>Data importing</li>
-</ol>
+<p>Transd's data processing capabilities include a built-in <b>data query language</b> (TQL)
+for working with datasets in a database way, and <b>data deserializing</b> functionality which
+makes it possible to create program objects and initialize them with data directly
+from text data files.
+
+<h3>Transd Query Language</h3>
 <p>
-<i>Data processing</i> means the tasks where Transd is used as a tool for
-querying and modifying an external dataset. 
-</p>
-<p><i>Data importing</i> means the cases where data is imported into
-a Transd program and becomes an active part of the program.</p>
-
-<p>This page after a short introduction describes three practical examples of using Transd for 
-working with data: two examples for data processing and one for data importing.</p>
-
-<h3>Data processing</h3>
-<p>Transd can be used for working with various types of datasets. These types can be
-classified into three categories: </p> 
+Transd Query Language (TQL) is a built-in tool in Transd for working with datasets of various
+types by making database-like queries for selecting and updating data. TQL can be used for
+working with the following dataset types: </p> 
 <ol style="margin: -5px 0 5px 25px;line-height: 2em">
-<li>Tables</li>
-<li>Collections of records</li>
-<li>Loosely organized data aggregates</li>
+<li><b>Tables</b> - tabular data with values organized into rows and named columns, such as 
+data in CSV format, etc.:
+<code><pre>
+  ID        Name       Salary 
+ 234   Edward Smith     60000
+ 235   Harriet Willers  70000
+</pre></code>
+</li>
+<li><b>Collections of records</b> - data with values organized into records: groups of named
+fields:
+<code><pre>
+Device: Tablet
+Screen: 10.1
+Weight: 350
+
+Device:   Notebook
+RAM (Gb): 16
+HD (Tb):  3 
+</pre></code>
+
+</li>
+<li><b>Weakly structured data</b> - a collection of text entries (documents) that have
+some header or tags attached.   
+</li>
 </ol>
-<h4>Tables</h4>
-<p>Tables is the most structured dataset type. All values in table datasets are logically
-grouped into rows and columns. Transd defines the <code>Table</code> type, which
-represents the table data structure. Rows in a <code>Table</code> object can have differently
-typed fields. Fields of different records are combined into named columns. Each column can contain
-values of one of the following types: 
-<code>String</code>, <code>Int</code>, <code>Double</code>, <code>DateTime</code>.</p> 
-<p>Transd can read and load table datasets stored in one of the several variations of
-CSV format. Other formats, with some conversions, can be used too.
-</p>
-
-<h4>Collections of records</h4>
-<p>A record is a structured description of some object. A record, can have differently
-typed named fields, describing individual properies of the object. A collection of records is 
-represented in Transd by the <code>TSDBase</code> data type. The difference of the 
-<code>TSDBase</code> class from <code>Table</code> class is that records in a <code>TSDBase</code>
-object, unlike rows in a table, can have different sets of fields.</p>
-<p>A dataset with a collection of records can be stored as a set of TSD objects, that is
-chunks of data in TSD format (TSD is short for "Transd Structured Data"). TSD format resembles
-JSON with some additions, such as distinguishing between floating and integer numbers,
-including arrays as object members, etc. (The source code of any Transd program is precisely
-a collection of records, with program modules being records in TSD format.) </p>
-
-<h4>Data aggregates</h4>
-<p>A data aggregate is an assembly of loosely structured data, whose individual data chunks
-(entries) have some classifiers, headers or tags (meta data), allowing to group these chunks
-or connect them with each other into a hierarchical structure.</p>
-<p>If the meta data in individual entries allows to connect them into a single logical
-structure, then big collections of seemingly assorted data entries can organized into a TSDBase 
-database and queried in a regular way.</p>
-<p>This way of handling data is suited for working with knowledge databases, personal
-notes, assorted ideas, etc.</p>
-
-<h4>TSD Query Language</h4>
-<p>
-The central part of data processing in Transd is TSD query language - <b>TQL</b> (pronounced
-'tee-quel'). All data processing tasks can be grouped into three main types:
-</p>
-<ol style="margin: -5px 0 15px 25px;line-height: 2em">
-<li>Selecting data</li>
-<li>Modifying data</li>
-<li>Doing calculations on data</li>
-</ol>
-<p>TQL defines for these types of tasks three types of queries:</p>
-
-<ol style="margin: -5px 0 15px 25px;line-height: 2em">
-<li>SELECT</li>
-<li>UPDATE</li>
-<li>REDUCE</li>
-</ol>
-
-<p>TQL queries are performed uniformly on any kind of supported data structure. That is, a table,
-a TSD database, or even a vector of values, can be queried using the same syntax of queries.</p>
 
 <p>Example of a TQL 'select' query:</p>
 
@@ -117,17 +77,14 @@ a TSD database, or even a vector of values, can be queried using the same syntax
 )
 </code></pre>
 
-<h3>Data importing</h3>
-<p>Data importing means here converting external data into program objects. Data importing is
-a powerful mechanism making it possible to outsource data related functionality from the program
-to external means, and, using some universal data exchange format, to transfer and incorporate 
-data objects, defined externally, directly into the program state at runtime.</p>
-
-<p>Data importing can help both to reduce considerably the program size, as well as to use
-for handling data specialized tools most appropriate for the task.</p>
-
-<p>In Transd data importing is implemented on the basis of TSD data format, which is supported
-at deep levels of the language.</p>
+<h3>Data deserializing</h3>
+<p>
+Data deserializing in Transd is a mechanism of initializing the program state using data and configuration parameters
+    provided in a text string (e.g. from a file). This mechanism is similar to the deserializing of JSON data into program 
+    objects in such languages as Java, JavaScript, C#, etc. In Transd data deserizalizing offers additional essential features 
+    such as the ability to use variables as field values, that refer to objects in the same data file, the ability to have objects
+    of other classes as field values, and so on. In Transd for data deserializing the Transd Structured Data (TSD) format
+    is used, which resembles JSON, but has a number of differences.
 
 <h3>Examples</h3>
 

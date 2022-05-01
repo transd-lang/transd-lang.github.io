@@ -29,8 +29,8 @@
   <div class="wrap">
     <div id="image"></div>
     <div class="box">
-      <p style="font: 2.0em serif; color: #dddddd; margin: 0 0 15px;">Transformation and Analysis of Structured Data</p>
-      <p style="font: 1.2em sans-serif; color: #15CCCC;">Language for organizing data</p>
+      <p style="font: 2.0em serif; color: #dddddd; margin: 0 0 15px;">Language for working with data</p>
+      <p style="font: 1.2em sans-serif; color: #15CCCC;">Compact and dependency-free</p>
     </div>
   </div>
 </div>
@@ -70,34 +70,50 @@ bottom-border: solid 1px ;height: 0px; text-align: center;">
 <span class="c1">// Output: Hello, World!</span></code></pre></div></div>
 <div class="col1" style=" font: 1.0em sans-serif; color: #555; margin: 15px 0 35px 0; line-height: 1.5em;">
 <a id="declar"> </a><h3 style="color: #077">Working with data</h3><p>
-<p>Transd is a general purpose language with an emphasis on working with datasets of various 
-types. It has built-in capabilities for working in a structured, database-like fashion with 
-tables, sets of data records and free form data collections.</p> <p>
-
-Transd works with data by organizing it internally into the "Transd Structured Data" (TSD)
-format, which makes possible further working with this data in a concise and efficient way
-with the help of the TSD query sublanguage. <a href="doc/articles/working_with_data.html">Read more</a> about processing data with Transd.
+<p>Transd is a general purpose language with extended capabilities for working with 
+    small to medium sized datasets of various types. These capabilities include:
+	<ul style="padding-left: 25px; line-height: 2.0em">
+	<li>
+		Built-in data related datatypes such as <code>Table</code>, <code>DataBase</code>, etc.
+	</li>
+	<li>
+		Built-in data query language - TQL, - for performing database-like queries on data
+		related types.
+	</li>
+	<li>
+		Transd Structured Data (TSD) data format provides for data interchange (e.g. direct
+		converting text data into program objects), which resembles JSON, but with several
+		essential enhancements.  
+	</li>
+	</ul>
+</p>
+<p>
+<a href="doc/articles/working_with_data.html">Read more</a> about processing data with Transd.
 </p>
 <div class="col1" style=" font: 1.0em sans-serif; color: #555; margin: 15px 0 35px 0; line-height: 1.5em;">
-<a id="compact"> </a><h3 style="color: #077">Size</h3>
-<p>
-</p>
-<p>With the special attention that code and binary don't 
-contain any overhead, Transd is made both small in physical size and simple to build on both 
-platforms.</p> <p>
-Building the Transd interpreter <a href="https://github.com/transd-lang/TREE3">TREE3</a> on Linux:
+    <a id="compact"> </a><h3 style="color: #077">Size</h3>
+    <p>
+    </p>
+    <p>
+        Easy embeddability of Transd is one of the design goals, and the language is made both small in physical size
+        and easy to build on both platforms.
+    </p> <p>
+        Building the Transd interpreter <a href="https://github.com/transd-lang/TREE3">TREE3</a> on Linux:
 <pre><code>$ cd transd/tree3/src
 $ g++ -O3 -std=c++14 transd.cpp main.cpp -D__LINUX__ -DNDEBUG -lpthread -o tree3
 $ ls --size --human-readable
-total 3.0M
-8.0K main.cpp  448K transd.cpp  176K transd.hpp  2.3M tree3
+total 3.3M
+8.0K main.cpp  504K transd.cpp  182K transd.hpp  2.5M tree3
 $ ./tree3
 _) (textout "Hello, Transd!")
 Hello, Transd!
 _)
-</code></pre></p>
-<p>The whole language compiles on Windows and Linux with Clang, without any prerequisites, 
-using, basically, the same command: </p>
+</code></pre>
+    </p>
+    <p>
+        The whole language compiles on Windows and Linux with Clang, without any prerequisites,
+        using, basically, the same command:
+    </p>
 <pre><code>Linux:
 
 $ clang++ -std=c++14 -O3 -D__LINUX__ -DNDEBUG transd.cpp main.cpp -lpthread -o tree3
@@ -106,20 +122,7 @@ Windows:
 
 PS clang++ -std=c++14 -O3 -DWIN32 -DNDEBUG transd.cpp main.cpp -o tree3.exe
 </code></pre>
-</div>
-<div class="col1" style=" font: 1.0em sans-serif; color: #555; margin: 15px 0 0 0; line-height: 1.5em;"><a id="fast"> </a><h3 style="color: #077">
-Speed</h3>
-<p >
-Various parts of Transd have performance which currently varies from that of the fastest 
-interpretive languages not using binary Just-In-Time compilation to the speed comparable 
-or even close to native. For example, a SELECT query on a table with 100,000 records is performed
-in fractions of seconds: <a href="perftest.html"><b>performance test</b></a>.</p>
-<p>Transd doesn't use Just-In-Time compilation to machine code, and already in beta version has
-a quite good performance. Which seems a sufficient reason for estimating that with passage of time
-it's performance will be between the native speed and the traditional interpretive model with
-virtual machines executing byte code. 
-</p>
-<h3 style="margin: 50px 0 50px 0;"><a href="highlights.html">Quick Survey of Transd Programming Language</a></h4>
+<h3 style="margin: 50px 0 50px 0;"><a href="highlights.html">Quick Survey of Transd Programming Language</a></h3>
 </div>
 <div class="col1" style="margin: 10px 0 10px 0;">  
   <hr style="width: 50%;  margin-left: 230px; color: #ccc; margin-bottom: 20px;  
