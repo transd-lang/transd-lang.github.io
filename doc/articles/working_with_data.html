@@ -28,7 +28,7 @@ style="text-decoration: none; color: #447799" target=_top
 </div>
 <div class="wrap">
 <h2 style="margin-top: 55px;color: #777">Using Transd for working with data</h2>
-<hr width="10%" style="margin:0 0 35px 0;">
+<hr width="100%" style="margin:0 0 35px 0;">
 <p>Transd's data processing capabilities include a built-in <strong>data query language</strong> (TQL)
 for working with datasets in a database way, and <strong>data deserializing</strong> functionality which
 makes it possible to create program objects and initialize them with data directly
@@ -82,35 +82,107 @@ some header or tags attached. <br />
 <span class="p">)</span>
 </code></pre></div>
 
-<h3 id="data-deserializing">Data deserializing</h3>
+<h3 id="data-importing">Data importing</h3>
 
-<p>Data deserializing in Transd is a mechanism of initializing the program state using data
-and configuration parameters provided in a text string (e.g. from a file). This mechanism
-is similar to the deserializing of JSON data into program objects in such languages as
-Java, JavaScript, C#, etc. In Transd data deserizalizing offers additional essential
+<p>The idea of data importing (deserializing) is that objects of custom classes in the
+program can be created and initialized using data in some more simple or more universal
+format. It can be said that data is converted into objects. An example of such conversion
+is the deserializing of JSON data into program objects in such languages as Java,
+JavaScript, C#, etc.</p>
+
+<p>Transd can help to make this conversion more automatic and reduce the amount of code for
+handling such coversions. In Transd data deserizalizing offers additional essential
 features such as the ability to use variables as field values, that refer to objects in
 the same data file, the ability to have objects of other classes as field values, and so
-on. In Transd for data deserializing the Transd Structured Data (TSD) format is used,
-which resembles JSON, but has a number of differences.</p>
+on. For data deserializing Transd uses the Transd Structured Data (TSD) format, which
+resembles JSON, but has a number of differences.</p>
 
 <h3 id="examples">Examples</h3>
 
 <h4 id="data-processing">Data processing</h4>
 
 <p><strong>Tables</strong> <br>
-A basic example of using Transd for working with tables can be found <a href="https://transd.org/perftest.html">here</a>.</p>
+In the scenario for this example we have a file with tabular data (in CSV format) and we
+want to make some queries on this data. In the Transd program for this task the data is
+read into a table, and then we use TQL query language to select the needed information.</p>
 
-<p><strong>Assorted data aggregation</strong> <br>
-An example program <a href="https://github.com/al-berger/knorg">"Knorg" (Knowledge Organizer)</a> works with loosely organized data.</p>
+<p>The data file contains data records with information about employees: name, ID, salary,
+department. We want to select two employees with highest salary for each department.</p>
 
-<h4 id="data-importing">Data importing</h4>
+<p><em>data file: data.csv</em></p>
 
-<p>The idea of data importing (deserializing) is that objects of custom classes in the
-program can be created and initialized using data in some more simple or more universal
-format. It can be said that data is converted into objects. Transd can help to make this
-conversion more automatic and reduce the amount of code for handling such coversions.</p>
+<pre><code>EmployeeName,EmployeeID,Salary:Int,Department
+Tyler Bennett,  E10297,32000,D101
+John Rappl,     E21437,47000,D050
+George Woltman, E00127,53500,D101
+Adam Smith,     E63535,18000,D202
+Claire Buckman, E39876,27800,D202
+David McClellan,E04242,41500,D101
+Rich Holcomb,   E01234,49500,D202
+Nathan Adams,   E41298,21900,D050
+Richard Potter, E43128,15900,D101
+David Motsinger,E27002,19250,D202
+Tim Sampair,    E03033,27000,D101
+Kim Arlich,     E10001,57000,D190
+Timothy Grove,  E16398,29900,D190
+</code></pre>
 
-<h5 id="basic-example">Basic example</h5>
+<p><em>program file</em></p>
+
+<div class="codehilite"><pre><span></span><code><span class="o">#</span><span class="nv">lang</span> <span class="nv">transd</span>
+
+<span class="nv">MainModule</span><span class="o">:</span> <span class="p">{</span>
+
+<span class="nv">tabfile</span><span class="o">:</span> <span class="s">&quot;data.csv&quot;</span><span class="o">,</span>
+<span class="nv">tabstr</span><span class="o">:</span> <span class="s">&quot;&quot;</span><span class="o">,</span>
+
+<span class="nv">_start</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> 
+  <span class="p">(</span><span class="k">with </span><span class="nv">fs</span> <span class="nv">FileStream</span><span class="p">()</span>
+     <span class="p">(</span><span class="nf">open-r</span> <span class="nv">fs</span> <span class="nv">tabfile</span><span class="p">)</span> <span class="p">(</span><span class="nf">textin</span> <span class="nv">from</span><span class="o">:</span> <span class="nv">fs</span> <span class="nv">tabstr</span><span class="p">)</span>
+  <span class="p">)</span>
+
+  <span class="p">(</span><span class="k">with </span><span class="nv">tabl</span> <span class="nv">Table</span><span class="p">()</span>
+            <span class="p">(</span><span class="nf">load-table</span> <span class="nv">tabl</span> <span class="nv">tabstr</span> <span class="o">:</span><span class="nv">firstRowColNames</span><span class="p">)</span>
+      <span class="p">(</span><span class="nf">build-index</span> <span class="nv">tabl</span> <span class="s">&quot;Department&quot;</span><span class="p">)</span>
+            <span class="p">(</span><span class="k">with </span><span class="nv">rows</span> <span class="p">(</span><span class="nf">tql</span> <span class="nv">tabl</span> 
+          <span class="k">select: </span><span class="p">[</span><span class="s">&quot;Department&quot;</span><span class="p">]</span> 
+              <span class="k">as: </span><span class="p">[[</span><span class="nv">String</span><span class="p">()]]</span> 
+        <span class="o">:</span><span class="nv">distinct</span> 
+          <span class="k">sortby: </span><span class="s">&quot;Department&quot;</span> <span class="p">)</span>
+
+                   <span class="p">(</span><span class="k">for </span><span class="nv">row</span> <span class="k">in </span><span class="nv">rows</span> <span class="nv">do</span>
+                <span class="p">(</span><span class="k">with </span><span class="nv">recs</span> <span class="p">(</span><span class="nf">tql</span> <span class="nv">tabl</span> 
+         <span class="k">select: </span><span class="nv">all</span> 
+             <span class="k">as: </span><span class="p">[[</span><span class="nv">String</span><span class="p">()</span><span class="o">,</span> <span class="nv">String</span><span class="p">()</span><span class="o">,</span> <span class="nv">Int</span><span class="p">()</span><span class="o">,</span> <span class="nv">String</span><span class="p">()]]</span>
+     <span class="k">satisfying: </span><span class="p">(</span><span class="k">lambda </span><span class="nv">Department</span> <span class="nv">String</span><span class="p">()</span> <span class="p">(</span><span class="nf">eq</span> <span class="nv">Department</span> <span class="p">(</span><span class="nf">get</span> <span class="nv">row</span> <span class="mi">0</span><span class="p">)))</span> 
+         <span class="k">sortby: </span><span class="s">&quot;Salary&quot;</span> <span class="o">:</span><span class="nv">desc</span> 
+          <span class="nv">limit</span><span class="o">:</span> <span class="mi">2</span><span class="p">)</span>
+
+               <span class="p">(</span><span class="k">for </span><span class="nv">rec</span> <span class="k">in </span><span class="nv">recs</span> <span class="k">do </span><span class="p">(</span><span class="nf">textout</span> <span class="nv">rec</span> <span class="s">&quot;\n&quot;</span><span class="p">))</span>
+        <span class="p">)))))</span>
+<span class="p">}</span>
+
+<span class="c1">//OUTPUT:</span>
+
+<span class="c1">//[&quot;John Rappl&quot;, &quot;E21437&quot;, 47000, &quot;D050&quot;]</span>
+<span class="c1">//[&quot;Nathan Adams&quot;, &quot;E41298&quot;, 21900, &quot;D050&quot;]</span>
+<span class="c1">//[&quot;George Woltman&quot;, &quot;E00127&quot;, 53500, &quot;D101&quot;]</span>
+<span class="c1">//[&quot;David McClellan&quot;, &quot;E04242&quot;, 41500, &quot;D101&quot;]</span>
+<span class="c1">//[&quot;Kim Arlich&quot;, &quot;E10001&quot;, 57000, &quot;D190&quot;]</span>
+<span class="c1">//[&quot;Timothy Grove&quot;, &quot;E16398&quot;, 29900, &quot;D190&quot;]</span>
+<span class="c1">//[&quot;Rich Holcomb&quot;, &quot;E01234&quot;, 49500, &quot;D202&quot;]</span>
+<span class="c1">//[&quot;Claire Buckman&quot;, &quot;E39876&quot;, 27800, &quot;D202&quot;]</span>
+</code></pre></div>
+
+<p>The code works as follows. First, the datafile is read into <code>tabstr</code> string. Then
+<code>tabl</code> object of <code>Table</code> class is created and is loaded with data from <code>tabstr</code>
+string with <code>(load-table)</code> method. After that, we build database index for the
+column we will use as the selection criterium: "Department". Finally, we accomplish
+the task by querying the table with TQL query language.</p>
+
+<h4 id="data-importing-2">Data importing</h4>
+
+<p><strong>Basic example</strong></p>
 
 <p>In this example we have a custom class <code>Point</code> and we create and initialize a vector of
 <code>Point</code> objects, using a vector of raw data.</p>
@@ -123,7 +195,6 @@ conversion more automatic and reduce the amount of code for handling such covers
     <span class="nv">@init</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> <span class="nv">v</span> <span class="nb">Vector&lt;Double&gt;</span><span class="p">()</span> <span class="p">(</span><span class="nb">= </span><span class="nv">x</span> <span class="p">(</span><span class="nf">get</span> <span class="nv">v</span> <span class="mi">0</span><span class="p">))</span> <span class="p">(</span><span class="nb">= </span><span class="nv">y</span> <span class="p">(</span><span class="nf">get</span> <span class="nv">v</span> <span class="mi">1</span><span class="p">)))</span><span class="o">,</span>
     <span class="nv">print</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> <span class="p">(</span><span class="nf">textout</span> <span class="s">&quot;Point(&quot;</span> <span class="nv">x</span> <span class="s">&quot;; &quot;</span> <span class="nv">y</span> <span class="s">&quot;)&quot;</span> <span class="p">))</span>
 <span class="p">}</span>
-
 
 <span class="nv">MainModule</span><span class="o">:</span> <span class="p">{</span>
     <span class="nv">v_</span><span class="o">:</span> <span class="p">[[</span><span class="mf">1.0</span><span class="o">,</span> <span class="mf">2.0</span><span class="p">]</span><span class="o">,</span> <span class="p">[</span><span class="mf">3.0</span><span class="o">,</span> <span class="mf">4.0</span><span class="p">]]</span><span class="o">,</span>
@@ -139,9 +210,88 @@ conversion more automatic and reduce the amount of code for handling such covers
 <span class="c1">// Point(3; 4)</span>
 </code></pre></div>
 
-<h5 id="basic-example-2">Basic example #2</h5>
+<p><strong>Importing TSD objects</strong></p>
 
-<p>An example program <a href="../../afc/AFC_review.html">"AFC" (Audio Flow Combiner)</a> uses data deserializing for importing an hierarchy of program objects created outside the program.</p>
+<p>This example expands the previous one and gives the idea of using an external file with data in TSD format for data deserializing. In this example an object of <code>Square</code> class has as data members a string, and a vector of <code>Point</code> objects. Also, it has <code>draw</code> method.</p>
+
+<p>TSD format, in general, is a list of name/value pairs, and in this it resembles JSON, but
+in other aspects it has a number of differences. In this example a TSD file contains a
+description of an object of <code>Square</code> class:</p>
+
+<p><em>data file: data.tsd</em></p>
+
+<pre><code>"square1" : {
+class: "Square",
+color: "green",
+sideLen: 5.0,
+coors: [[1.0, 2.0], [3.0, 4.0]]
+}
+</code></pre>
+
+<p><em>program file</em></p>
+
+<div class="codehilite"><pre><span></span><code><span class="o">#</span><span class="nv">lang</span> <span class="nv">transd</span>
+
+<span class="nv">class</span> <span class="nv">Point</span> <span class="o">:</span> <span class="p">{</span>
+    <span class="nv">x</span><span class="o">:</span> <span class="nv">Double</span><span class="p">()</span><span class="o">,</span>
+    <span class="nv">y</span><span class="o">:</span> <span class="nv">Double</span><span class="p">()</span><span class="o">,</span>
+    <span class="nv">@init</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> <span class="nv">v</span> <span class="nb">Vector&lt;Double&gt;</span><span class="p">()</span> <span class="p">(</span><span class="nb">= </span><span class="nv">x</span> <span class="p">(</span><span class="nf">get</span> <span class="nv">v</span> <span class="mi">0</span><span class="p">))</span> <span class="p">(</span><span class="nb">= </span><span class="nv">y</span> <span class="p">(</span><span class="nf">get</span> <span class="nv">v</span> <span class="mi">1</span><span class="p">)))</span><span class="o">,</span>
+    <span class="nv">print</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> <span class="p">(</span><span class="nf">textout</span> <span class="s">&quot;Point(&quot;</span> <span class="nv">x</span> <span class="s">&quot;; &quot;</span> <span class="nv">y</span> <span class="s">&quot;)&quot;</span> <span class="p">))</span>
+<span class="p">}</span>
+
+<span class="nv">class</span> <span class="nv">Square</span> <span class="o">:</span> <span class="p">{</span>
+    <span class="nv">coors</span><span class="o">:</span> <span class="nb">Vector&lt;</span><span class="nv">Point</span><span class="o">&gt;</span><span class="p">()</span><span class="o">,</span>
+    <span class="nv">sideLen</span><span class="o">:</span> <span class="nv">Double</span><span class="p">()</span><span class="o">,</span>
+    <span class="nv">color</span><span class="o">:</span> <span class="nv">String</span><span class="p">()</span><span class="o">,</span>
+
+    <span class="nv">draw</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> <span class="p">(</span><span class="nf">lout</span> <span class="s">&quot;(Square::draw): \nColor: &quot;</span> <span class="nv">color</span><span class="p">)</span> 
+            <span class="p">(</span><span class="nf">textout</span> <span class="s">&quot;Side: &quot;</span> <span class="nv">sideLen</span> <span class="s">&quot;\nCoors: &quot;</span><span class="p">)</span>
+            <span class="p">(</span><span class="k">for </span><span class="nv">pt</span> <span class="k">in </span><span class="nv">points</span> <span class="k">do </span><span class="p">(</span><span class="nf">print</span> <span class="nv">pt</span><span class="p">)</span> <span class="p">(</span><span class="nf">textout</span> <span class="s">&quot; &quot;</span> <span class="p">)))</span>
+<span class="p">}</span>
+
+<span class="nv">MainModule</span><span class="o">:</span> <span class="p">{</span>
+
+<span class="nv">objFile</span><span class="o">:</span> <span class="s">&quot;data.tsd&quot;</span><span class="o">,</span>
+<span class="nv">squareName</span><span class="o">:</span> <span class="s">&quot;square1&quot;</span><span class="o">,</span>
+<span class="nv">squareObj</span><span class="o">:</span> <span class="nv">Square</span><span class="p">()</span><span class="o">,</span>
+<span class="nv">objs</span><span class="o">:</span> <span class="nb">Index&lt;String Vector&lt;Object&gt;</span><span class="o">&gt;</span><span class="p">()</span><span class="o">,</span>
+
+<span class="nv">_start</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> 
+    <span class="p">(</span><span class="nf">rebind</span> <span class="nv">objs</span> <span class="p">(</span><span class="nf">group-by</span> 
+                   <span class="p">(</span><span class="nf">read-tsd-file</span> <span class="nv">objFile</span><span class="p">)</span> 
+                   <span class="p">(</span><span class="nf">λ</span> <span class="nv">ob</span> <span class="nv">Object</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nv">String</span><span class="p">()</span> 
+                     <span class="p">(</span><span class="nf">get-String</span> <span class="nv">ob</span> <span class="s">&quot;name&quot;</span><span class="p">))))</span>
+    <span class="p">(</span><span class="nf">load-from-object</span> <span class="nv">squareObj</span> <span class="p">(</span><span class="nf">get</span> <span class="p">(</span><span class="nf">snd</span> <span class="p">(</span><span class="nf">get</span> <span class="nv">objs</span> <span class="nv">squareName</span><span class="p">))</span> <span class="mi">0</span><span class="p">))</span>
+    <span class="p">(</span><span class="nf">draw</span> <span class="nv">squareObj</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="p">}</span>
+
+<span class="c1">// Output:</span>
+<span class="c1">// (Square::draw): </span>
+<span class="c1">// Color: green</span>
+<span class="c1">// Side: 5</span>
+<span class="c1">// Coors: Point(1; 2) Point(3; 4)</span>
+</code></pre></div>
+
+<p>The code works as follows. The contents of TSD file are read with the <code>(read-tsd-file)</code>
+function into a vector of TSD objects. Then the <code>group-by</code> method is called on this vector,
+which returns an index (Index is the name for associative arrays in Transd) of TSD
+objects indexed by their names. This index is assigned to <code>objs</code> variable.</p>
+
+<p>Then the <code>Square</code> object <code>squareObj</code> gets initialized from a TSD object with the
+<code>(load-from-object)</code> function: the object named "square1" (the name is hold in the
+<code>squareName</code> variable) is retrieved from <code>objs</code> index and passed to the function
+along with <code>squareObj</code>.</p>
+
+<p>After initialization of <code>squareObj</code>, the <code>(draw)</code> method is called on it.</p>
+
+<h4 id="further-examples">Further examples</h4>
+
+<p>An example program <a href="../../afc/AFC_review.html">"AFC" (Audio Flow Combiner)</a> uses data deserializing for importing an hierarchy of program objects from a configuration file.</p>
+
+<p>An example of using Transd for working with 100,000-row table can be found <a href="https://transd.org/perftest.html">here</a>.</p>
+
+<p>An example program <a href="https://github.com/al-berger/knorg">"Knorg" (Knowledge Organizer)</a> works with loosely organized data.</p>
 
 
 <hr width="100%" style="margin:100px 0 0 0;">
