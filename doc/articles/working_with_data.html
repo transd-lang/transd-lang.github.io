@@ -8,6 +8,8 @@
 <meta name="language" content="English">
 <meta name="description" content="Working with data">
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link href="../../css/codehighlight.css" rel="stylesheet" type="text/css" />
+<link href="../../css/tsd.css" rel="stylesheet" type="text/css" />
 <link href="../../css/main.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -26,78 +28,122 @@ style="text-decoration: none; color: #447799" target=_top
 </div>
 <div class="wrap">
 <h2 style="margin-top: 55px;color: #777">Using Transd for working with data</h2>
-<hr width="100%" style="margin:0 0 35px 0;">
-<p>Transd's data processing capabilities include a built-in <b>data query language</b> (TQL)
-for working with datasets in a database way, and <b>data deserializing</b> functionality which
+<hr width="10%" style="margin:0 0 35px 0;">
+<p>Transd's data processing capabilities include a built-in <strong>data query language</strong> (TQL)
+for working with datasets in a database way, and <strong>data deserializing</strong> functionality which
 makes it possible to create program objects and initialize them with data directly
-from text data files.
+from text data files.</p>
 
-<h3>Transd Query Language</h3>
-<p>
-Transd Query Language (TQL) is a built-in tool in Transd for working with datasets of various
+<h3 id="transd-query-language">Transd Query Language</h3>
+
+<p>Transd Query Language (TQL) is a built-in tool in Transd for working with datasets of various
 types by making database-like queries for selecting and updating data. TQL can be used for
-working with the following dataset types: </p> 
-<ol style="margin: -5px 0 5px 25px;line-height: 2em">
-<li><b>Tables</b> - tabular data with values organized into rows and named columns, such as 
-data in CSV format, etc.:
-<code><pre>
-  ID        Name       Salary 
+working with the following dataset types:</p>
+
+<ul>
+<li><strong>Tables</strong> - tabular data with values organized into rows and named columns, such as 
+data in CSV format, etc.:</li>
+</ul>
+
+<pre><code>  ID        Name       Salary 
  234   Edward Smith     60000
  235   Harriet Willers  70000
-</pre></code>
-</li>
-<li><b>Collections of records</b> - data with values organized into records: groups of named
-fields:
-<code><pre>
-Device: Tablet
+</code></pre>
+
+<ul>
+<li><strong>Collections of records</strong> - data with values organized into records: groups of named
+fields:</li>
+</ul>
+
+<pre><code>Device: Tablet
 Screen: 10.1
 Weight: 350
 
 Device:   Notebook
 RAM (Gb): 16
 HD (Tb):  3 
-</pre></code>
+</code></pre>
 
-</li>
-<li><b>Weakly structured data</b> - a collection of text entries (documents) that have
-some header or tags attached.   
-</li>
-</ol>
+<ul>
+<li><strong>Weakly structured data</strong> - a collection of text entries (documents) that have
+some header or tags attached. <br />
+</ol></li>
+</ul>
 
 <p>Example of a TQL 'select' query:</p>
 
-<pre><code>
-(tql table1 
-    select: ["Book_title", "Price"]
-    as: [[String(), Double()]]
-    where: "Price < 50"
-    satisfying: (lambda Author String() (match Author ".*Lovecraft.*"))
-    sortby: "Price" :ascending
-    limit: 5 
-)
-</code></pre>
+<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="nf">tql</span> <span class="nv">table1</span> 
+    <span class="k">select: </span><span class="p">[</span><span class="s">&quot;Book_title&quot;</span><span class="o">,</span> <span class="s">&quot;Price&quot;</span><span class="p">]</span>
+    <span class="k">as: </span><span class="p">[[</span><span class="nv">String</span><span class="p">()</span><span class="o">,</span> <span class="nv">Double</span><span class="p">()]]</span>
+    <span class="k">where: </span><span class="s">&quot;Price &lt; 50&quot;</span>
+    <span class="k">satisfying: </span><span class="p">(</span><span class="k">lambda </span><span class="nv">Author</span> <span class="nv">String</span><span class="p">()</span> <span class="p">(</span><span class="nf">match</span> <span class="nv">Author</span> <span class="s">&quot;.*Lovecraft.*&quot;</span><span class="p">))</span>
+    <span class="k">sortby: </span><span class="s">&quot;Price&quot;</span> <span class="o">:</span><span class="nv">ascending</span>
+    <span class="nv">limit</span><span class="o">:</span> <span class="mi">5</span> 
+<span class="p">)</span>
+</code></pre></div>
 
-<h3>Data deserializing</h3>
-<p>
-Data deserializing in Transd is a mechanism of initializing the program state using data and configuration parameters
-    provided in a text string (e.g. from a file). This mechanism is similar to the deserializing of JSON data into program 
-    objects in such languages as Java, JavaScript, C#, etc. In Transd data deserizalizing offers additional essential features 
-    such as the ability to use variables as field values, that refer to objects in the same data file, the ability to have objects
-    of other classes as field values, and so on. In Transd for data deserializing the Transd Structured Data (TSD) format
-    is used, which resembles JSON, but has a number of differences.
+<h3 id="data-deserializing">Data deserializing</h3>
 
-<h3>Examples</h3>
+<p>Data deserializing in Transd is a mechanism of initializing the program state using data
+and configuration parameters provided in a text string (e.g. from a file). This mechanism
+is similar to the deserializing of JSON data into program objects in such languages as
+Java, JavaScript, C#, etc. In Transd data deserizalizing offers additional essential
+features such as the ability to use variables as field values, that refer to objects in
+the same data file, the ability to have objects of other classes as field values, and so
+on. In Transd for data deserializing the Transd Structured Data (TSD) format is used,
+which resembles JSON, but has a number of differences.</p>
 
-<h4>Data processing</h4>
+<h3 id="examples">Examples</h3>
 
-<p><b>Tables</b><br>
+<h4 id="data-processing">Data processing</h4>
+
+<p><strong>Tables</strong> <br>
 A basic example of using Transd for working with tables can be found <a href="https://transd.org/perftest.html">here</a>.</p>
-<p><b>Assorted data aggregation</b><br>
+
+<p><strong>Assorted data aggregation</strong> <br>
 An example program <a href="https://github.com/al-berger/knorg">"Knorg" (Knowledge Organizer)</a> works with loosely organized data.</p>
 
-<h4>Data importing</h4>
-<p>An example program <a href="../../afc/AFC_review.html">"AFC" (Audio Flow Combiner)</a> uses data importing for factoring out the
-data handling code from the program.</p>
+<h4 id="data-importing">Data importing</h4>
+
+<p>The idea of data importing (deserializing) is that objects of custom classes in the
+program can be created and initialized using data in some more simple or more universal
+format. It can be said that data is converted into objects. Transd can help to make this
+conversion more automatic and reduce the amount of code for handling such coversions.</p>
+
+<h5 id="basic-example">Basic example</h5>
+
+<p>In this example we have a custom class <code>Point</code> and we create and initialize a vector of
+<code>Point</code> objects, using a vector of raw data.</p>
+
+<div class="codehilite"><pre><span></span><code><span class="o">#</span><span class="nv">lang</span> <span class="nv">transd</span>
+
+<span class="nv">class</span> <span class="nv">Point</span> <span class="o">:</span> <span class="p">{</span>
+    <span class="nv">x</span><span class="o">:</span> <span class="nv">Double</span><span class="p">()</span><span class="o">,</span>
+    <span class="nv">y</span><span class="o">:</span> <span class="nv">Double</span><span class="p">()</span><span class="o">,</span>
+    <span class="nv">@init</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> <span class="nv">v</span> <span class="nb">Vector&lt;Double&gt;</span><span class="p">()</span> <span class="p">(</span><span class="nb">= </span><span class="nv">x</span> <span class="p">(</span><span class="nf">get</span> <span class="nv">v</span> <span class="mi">0</span><span class="p">))</span> <span class="p">(</span><span class="nb">= </span><span class="nv">y</span> <span class="p">(</span><span class="nf">get</span> <span class="nv">v</span> <span class="mi">1</span><span class="p">)))</span><span class="o">,</span>
+    <span class="nv">print</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> <span class="p">(</span><span class="nf">textout</span> <span class="s">&quot;Point(&quot;</span> <span class="nv">x</span> <span class="s">&quot;; &quot;</span> <span class="nv">y</span> <span class="s">&quot;)&quot;</span> <span class="p">))</span>
+<span class="p">}</span>
+
+
+<span class="nv">MainModule</span><span class="o">:</span> <span class="p">{</span>
+    <span class="nv">v_</span><span class="o">:</span> <span class="p">[[</span><span class="mf">1.0</span><span class="o">,</span> <span class="mf">2.0</span><span class="p">]</span><span class="o">,</span> <span class="p">[</span><span class="mf">3.0</span><span class="o">,</span> <span class="mf">4.0</span><span class="p">]]</span><span class="o">,</span>
+
+    <span class="nv">_start</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> 
+        <span class="p">(</span><span class="k">with </span><span class="nv">v</span> <span class="nb">Vector&lt;</span><span class="nv">Point</span><span class="o">&gt;</span><span class="p">(</span><span class="nf">v_</span><span class="p">)</span>
+          <span class="p">(</span><span class="k">for </span><span class="nv">p</span> <span class="k">in </span><span class="nv">v</span> <span class="k">do </span><span class="p">(</span><span class="nf">print</span> <span class="nv">p</span><span class="p">)</span> <span class="p">(</span><span class="nf">lout</span> <span class="s">&quot;&quot;</span><span class="p">))</span>
+    <span class="p">)</span>   <span class="p">)</span>
+<span class="p">}</span>
+
+<span class="c1">//Output:</span>
+<span class="c1">// Point(1; 2)</span>
+<span class="c1">// Point(3; 4)</span>
+</code></pre></div>
+
+<h5 id="basic-example-2">Basic example #2</h5>
+
+<p>An example program <a href="../../afc/AFC_review.html">"AFC" (Audio Flow Combiner)</a> uses data deserializing for importing an hierarchy of program objects created outside the program.</p>
+
+
 <hr width="100%" style="margin:100px 0 0 0;">
 </div>
 <div id="footer">
