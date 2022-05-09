@@ -56,6 +56,7 @@ style="text-decoration: none; color: #447799" target=_top
 
 <ul>
 <li><a href="#data-processing">Data processing</a></li>
+<li><a href="#data-importing">Data importing</a></li>
 <li><a href="#type-safety">Type safety</a></li>
 <li><a href="#full-unicode-support">Full Unicode support</a></li>
 <li><a href="#security">Security</a></li>
@@ -72,8 +73,10 @@ style="text-decoration: none; color: #447799" target=_top
 
 <h3 id="data-processing">Data processing</h3>
 
-<p>Transd has powerful built-in capabilities for data processing. It has an integrated SQL-like
-data query language, as well as built-in functionality for working with tabular data. </p>
+<p>Transd provides built-in tools for working with various types of data in a uniform
+database-like way. These tools include data types for working with data (<code>Table</code>,
+<code>DataBase</code>), support of tabular data formats (CSV and the like) and built-in data query
+language (TQL).</p>
 
 <div class="codehilite"><pre><span></span><code><span class="o">#</span><span class="nv">lang</span> <span class="nv">transd</span>
 <span class="nv">MainModule</span><span class="o">:</span> <span class="p">{</span>
@@ -89,10 +92,10 @@ data query language, as well as built-in functionality for working with tabular 
               <span class="p">(</span><span class="nf">build-index</span> <span class="nv">tabl</span> <span class="s">&quot;Salary&quot;</span><span class="p">)</span>
 
               <span class="p">(</span><span class="k">with </span><span class="nv">rows</span> <span class="p">(</span><span class="nf">tsd</span> <span class="nv">tabl</span> 
-                      <span class="nv">select</span><span class="o">:</span> <span class="p">[</span><span class="s">&quot;Name&quot;</span><span class="o">,</span> <span class="s">&quot;Department&quot;</span><span class="p">]</span>
-                      <span class="nv">as</span><span class="o">:</span> <span class="p">[[</span><span class="nv">String</span><span class="p">()</span><span class="o">,</span><span class="nv">String</span><span class="p">()]]</span>
-                      <span class="nv">where</span><span class="o">:</span> <span class="s">&quot;Salary &gt; 20000&quot;</span>
-                      <span class="nv">sortby</span><span class="o">:</span> <span class="s">&quot;Name&quot;</span><span class="p">)</span>
+                      <span class="k">select: </span><span class="p">[</span><span class="s">&quot;Name&quot;</span><span class="o">,</span> <span class="s">&quot;Department&quot;</span><span class="p">]</span>
+                      <span class="k">as: </span><span class="p">[[</span><span class="nv">String</span><span class="p">()</span><span class="o">,</span><span class="nv">String</span><span class="p">()]]</span>
+                      <span class="k">where: </span><span class="s">&quot;Salary &gt; 20000&quot;</span>
+                      <span class="k">sortby: </span><span class="s">&quot;Name&quot;</span><span class="p">)</span>
                   <span class="p">(</span><span class="k">for </span><span class="nv">row</span> <span class="k">in </span><span class="nv">rows</span> <span class="k">do </span><span class="p">(</span><span class="nf">lout</span> <span class="nv">row</span><span class="p">)))</span>
       <span class="p">))</span>
 <span class="p">}</span>
@@ -101,9 +104,15 @@ data query language, as well as built-in functionality for working with tabular 
 <span class="c1">// [Susan, HR]</span>
 </code></pre></div>
 
+<h3 id="data-importing">Data importing</h3>
+
+<p>Data importing (or object deserializing) allows quick creation and initialization of program objects of custom classes using external textual data. An example of this feature is deserializing data in JSON format into custom class objects in some languages.</p>
+
+<p>Data importing in Transd is similar to JSON object deserializng, but enhanced with some essential features, so that whole hierarchies of custom objects with complex structure can be loaded into the program from data files with minimal coding.</p>
+
 <h3 id="type-safety">Type safety</h3>
 
-<p>Transd is statically typed: the types of all expressions and variables in a Transd program are known before the run-time phase begins. This greatly increases the robustness of programs, helps in the early detection of bugs, and improves the language performance.</p>
+<p>Transd is statically typed: the types of all expressions and variables in a Transd program are known before the run-time phase begins. This increases the robustness of programs, helps in the early detection of bugs, and improves the language performance.</p>
 
 <div class="codehilite"><pre><span></span><code><span class="o">#</span><span class="nv">lang</span> <span class="nv">transd</span>
 <span class="nv">MainModule</span><span class="o">:</span> <span class="p">{</span>
@@ -151,17 +160,16 @@ second character in 和平5 is: 平
 
 <h3 id="security">Security</h3>
 
-<p>Transd has different features that help strengthen various aspects of language security both for programmers and for users of Transd programs:</p>
+<p>Transd offers features that help strengthen various aspects of language security both for programmers and for users of Transd programs:</p>
 
 <ul>
-<li><strong>Disabling potentially insecure functions</strong>. Before running a Transd program, the program user has the possibility to restrict in the interpreter the active language subset and disable such sensitive language functionality as file IO, starting external processes, etc.</li>
-<li><strong>Modular program organization</strong> with fully isolated modules. Module members become accessible to other modules only via import mechanism.</li>
+<li><strong>Modular program organization</strong> with fully isolated modules. Module members become accessible to other modules only via explicit import mechanism.</li>
 <li><strong>Finely granular access permissions</strong> for module members. Module's data and methods can be made exportable only to certain other modules, specified by names.</li>
+<li><strong>Disabling certain functions</strong>. Before running a third-party program from untrusted source, the program user has the possibility to restrict in the interpreter the active language subset and disable such sensitive language functionality as file IO, starting external processes, etc.</li>
 <li><strong>Controlled data mutability</strong>. Any variable or function parameter can be declared as immutable with the help of 'const' keyword.</li>
 <li><strong>Type safety</strong>. Transd is statically typed with only safe (widening) implicit type conversions.</li>
 <li><strong>Memory safety</strong>. All memory management in Transd is done automatically. For memory recycling Transd uses a reference-counting automatic garbage collector. </li>
 </ul>
-
 
 <h3 id="modules">Modules</h3>
 

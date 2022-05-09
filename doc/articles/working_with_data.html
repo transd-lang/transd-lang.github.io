@@ -142,15 +142,15 @@ Timothy Grove,  E16398,29900,D190
   <span class="p">)</span>
 
   <span class="p">(</span><span class="k">with </span><span class="nv">tabl</span> <span class="nv">Table</span><span class="p">()</span>
-            <span class="p">(</span><span class="nf">load-table</span> <span class="nv">tabl</span> <span class="nv">tabstr</span> <span class="o">:</span><span class="nv">firstRowColNames</span><span class="p">)</span>
+      <span class="p">(</span><span class="nf">load-table</span> <span class="nv">tabl</span> <span class="nv">tabstr</span> <span class="o">:</span><span class="nv">firstRowColNames</span><span class="p">)</span>
       <span class="p">(</span><span class="nf">build-index</span> <span class="nv">tabl</span> <span class="s">&quot;Department&quot;</span><span class="p">)</span>
-            <span class="p">(</span><span class="k">with </span><span class="nv">rows</span> <span class="p">(</span><span class="nf">tql</span> <span class="nv">tabl</span> 
+      <span class="p">(</span><span class="k">with </span><span class="nv">rows</span> <span class="p">(</span><span class="nf">tql</span> <span class="nv">tabl</span> 
           <span class="k">select: </span><span class="p">[</span><span class="s">&quot;Department&quot;</span><span class="p">]</span> 
               <span class="k">as: </span><span class="p">[[</span><span class="nv">String</span><span class="p">()]]</span> 
         <span class="o">:</span><span class="nv">distinct</span> 
           <span class="k">sortby: </span><span class="s">&quot;Department&quot;</span> <span class="p">)</span>
 
-                   <span class="p">(</span><span class="k">for </span><span class="nv">row</span> <span class="k">in </span><span class="nv">rows</span> <span class="nv">do</span>
+          <span class="p">(</span><span class="k">for </span><span class="nv">row</span> <span class="k">in </span><span class="nv">rows</span> <span class="nv">do</span>
                 <span class="p">(</span><span class="k">with </span><span class="nv">recs</span> <span class="p">(</span><span class="nf">tql</span> <span class="nv">tabl</span> 
          <span class="k">select: </span><span class="nv">all</span> 
              <span class="k">as: </span><span class="p">[[</span><span class="nv">String</span><span class="p">()</span><span class="o">,</span> <span class="nv">String</span><span class="p">()</span><span class="o">,</span> <span class="nv">Int</span><span class="p">()</span><span class="o">,</span> <span class="nv">String</span><span class="p">()]]</span>
@@ -159,7 +159,7 @@ Timothy Grove,  E16398,29900,D190
           <span class="nv">limit</span><span class="o">:</span> <span class="mi">2</span><span class="p">)</span>
 
                <span class="p">(</span><span class="k">for </span><span class="nv">rec</span> <span class="k">in </span><span class="nv">recs</span> <span class="k">do </span><span class="p">(</span><span class="nf">textout</span> <span class="nv">rec</span> <span class="s">&quot;\n&quot;</span><span class="p">))</span>
-        <span class="p">)))))</span>
+  <span class="p">)))))</span>
 <span class="p">}</span>
 
 <span class="c1">//OUTPUT:</span>
@@ -287,9 +287,9 @@ along with <code>squareObj</code>.</p>
 
 <h4 id="further-examples">Further examples</h4>
 
-<p>An example program <a href="../../afc/AFC_review.html">"AFC" (Audio Flow Combiner)</a> uses data deserializing for importing an hierarchy of program objects from a configuration file.</p>
+<p>Using Transd for working with 3.7 million values table: <a href="https://transd.org/perftest.html">https://transd.org/perftest.html</a>.</p>
 
-<p>An example of using Transd for working with 100,000-row table can be found <a href="https://transd.org/perftest.html">here</a>.</p>
+<p>A demo program <a href="../../afc/AFC_review.html">"AFC" (Audio Flow Combiner)</a> uses data deserializing for importing an hierarchy of program objects from a configuration file.</p>
 
 <p>An example program <a href="https://github.com/al-berger/knorg">"Knorg" (Knowledge Organizer)</a> works with loosely organized data.</p>
 
