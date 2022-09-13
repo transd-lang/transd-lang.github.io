@@ -37,10 +37,39 @@ hr {
 <div class="wrap" style="margin-top: 25px">
 <h2 style="margin: 55px 0 20px 0;">The ongoing progress report</h2>
 <hr width="100%" style="margin:0 0 35px 0;">
+<h3 id="2022-september">2022 September</h3>
+
+<p><strong>Beta release</strong><br>
+After months of intensive testing and debugging the <a href="https://github.com/transd-lang/TREE3/releases">beta-version of Transd - v0.5</a> is out.</p>
+
+<p><strong>Chess engine in Transd</strong><br>
+As part of testing and debugging of the language a <a href="https://github.com/al-berger/SFTD">chess engine</a> was implemented in Transd and tested.</p>
+
+<h3 id="2022-jun-30-june-results">2022-Jun-30 | June results</h3>
+
+<p><strong>Containers</strong><br>
+A yet another container type was added: <code>HashSet</code>. The total list of generic container types supported in Transd now is:</p>
+
+<pre><code>Vector
+Index
+Set
+HashIndex
+HashSet
+</code></pre>
+
 <h3 id="2022-may-31-may-results">2022-May-31 | May results</h3>
 
 <p><strong>Containers</strong><br>
 Two new container types have been added: <code>Set</code> and <code>HashIndex</code>. </p>
+
+<p><strong>yield</strong><br>
+<code>yield</code> keyword was added, whose functionality is similar to Python's 'yield', but has some differences. In Python the 'yield' keyword makes the function where it's used a generator object, which can be used only through the iterator protocol and cannot be called as normal function. In Transd the function using 'yield' remains normal function and you have full control over its behaviour.</p>
+
+<p>Test files:</p>
+
+<p><a href="https://github.com/transd-lang/Reference-Test-Suite/blob/main/suite/tests/Control/yield.td">yield.td</a></p>
+
+<p><a href="https://github.com/transd-lang/Reference-Test-Suite/blob/main/suite/tests/Control/yield1.td">yield1.td</a></p>
 
 <hr />
 
