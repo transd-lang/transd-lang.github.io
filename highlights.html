@@ -58,6 +58,7 @@ style="text-decoration: none; color: #447799" target=_top
 <li><a href="#data-processing">Data processing</a></li>
 <li><a href="#data-importing">Data importing</a></li>
 <li><a href="#type-safety">Type safety</a></li>
+<li><a href="#regular-expressions">Regular expressions</a></li>
 <li><a href="#full-unicode-support">Full Unicode support</a></li>
 <li><a href="#security">Security</a></li>
 <li><a href="#modules">Modules</a></li>
@@ -130,6 +131,41 @@ language (TQL).</p>
 
 <p>The type system of Transd includes such types as: <code>Bool, Int, Double, Long, ULong, Byte, Char, Object, Position, DateTime, Vector, Tuple, Index, HashIndex, ByteArray, Table, TSDBase, StringStream, ByteStream, FileStream, Lambda, String</code>.</p>
 
+<h3 id="regular-expressions">Regular expressions</h3>
+
+<p>Regular expressions are supported in various parts of Transd.</p>
+
+<div class="codehilite"><pre><span></span><code><span class="o">#</span><span class="nv">lang</span> <span class="nv">transd</span>
+
+<span class="nv">MainModule</span> <span class="o">:</span> <span class="p">{</span>
+<span class="nv">_start</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> 
+    <span class="p">(</span><span class="k">with </span><span class="nv">s</span> <span class="s">&quot;abcdefi&quot;</span>
+        <span class="p">(</span><span class="nf">lout</span> <span class="p">(</span><span class="nf">replace</span> <span class="nv">s</span> <span class="s">&quot;(a|e|i)&quot;</span> <span class="s">&quot;&quot;</span><span class="p">)))</span>
+    <span class="p">(</span><span class="k">with </span><span class="nv">s</span> <span class="s">&quot;1 apple, 20 pears, 123 plumes&quot;</span>
+        <span class="p">(</span><span class="nf">lout</span> <span class="p">(</span><span class="nf">replace</span> <span class="nv">s</span> <span class="s">&quot;[[:digit:]]+&quot;</span> <span class="s">&quot;N&quot;</span><span class="p">)))</span>
+    <span class="p">(</span><span class="k">with </span><span class="nv">s1</span> <span class="s">&quot;ab12&quot;</span> <span class="nv">s2</span> <span class="s">&quot;ab12.&quot;</span>
+        <span class="p">(</span><span class="nf">lout</span> <span class="s">&quot;s1: &quot;</span> <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nf">match</span> <span class="nv">s1</span> <span class="s">&quot;[[:alnum:]]+&quot;</span><span class="p">)</span> <span class="s">&quot;alpha-numeric&quot;</span>
+                      <span class="k">else </span><span class="s">&quot;not alpha-numeric&quot;</span><span class="p">))</span>
+        <span class="p">(</span><span class="nf">lout</span> <span class="s">&quot;s2: &quot;</span> <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nf">match</span> <span class="nv">s2</span> <span class="s">&quot;[[:alnum:]]+&quot;</span><span class="p">)</span> <span class="s">&quot;alpha-numeric&quot;</span>
+                      <span class="k">else </span><span class="s">&quot;not alpha-numeric&quot;</span><span class="p">)))</span>
+    <span class="c1">// reading file names in a directory</span>
+    <span class="p">(</span><span class="k">with </span><span class="nv">dir</span> <span class="nv">Directory</span><span class="p">()</span>
+           <span class="p">(</span><span class="nf">read</span> <span class="nv">dir</span> <span class="s">&quot;/mnt/books&quot;</span> <span class="s">&quot;(W|P).*\.txt&quot;</span><span class="p">)</span>
+                 <span class="p">(</span><span class="k">for </span><span class="nv">file</span> <span class="k">in </span><span class="p">(</span><span class="nf">files</span> <span class="nv">dir</span><span class="p">)</span> <span class="k">do </span>
+            <span class="p">(</span><span class="nf">textout</span> <span class="p">(</span><span class="nf">substr</span> <span class="nv">file</span> <span class="nv">from</span><span class="o">:</span> <span class="nv">after</span><span class="o">:</span> <span class="nv">last</span><span class="o">:</span> <span class="s">&quot;/&quot;</span><span class="p">)</span> <span class="s">&quot;, &quot;</span><span class="p">)))</span>
+<span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<pre><code>OUTPUT:
+
+bcdf
+N apple, N pears, N plumes
+s1: alpha-numeric
+s2: not alpha-numeric
+Pattern recognition.txt, Pride and prejudice.txt, War and peace.txt,
+</code></pre>
+
 <h3 id="full-unicode-support">Full Unicode support</h3>
 
 <p>Strings in Transd are implemented as mutable wide character sequences. Characters are encoded in UTF-16 encoding on Windows and in UTF-32 on Linux. Which means that both ASCII and non-ASCII characters are provided with the same level of full support in Transd.</p>
@@ -157,19 +193,6 @@ second character in 和平5 is: 平
 和平 only contains letters: true
 和平5 only contains letters: false
 </code></pre>
-
-<h3 id="security">Security</h3>
-
-<p>Transd offers features that help strengthen various aspects of language security both for programmers and for users of Transd programs:</p>
-
-<ul>
-<li><strong>Modular program organization</strong> with fully isolated modules. Module members become accessible to other modules only via explicit import mechanism.</li>
-<li><strong>Finely granular access permissions</strong> for module members. Module's data and methods can be made exportable only to certain other modules, specified by names.</li>
-<li><strong>Disabling certain functions</strong>. Before running a third-party program from untrusted source, the program user has the possibility to restrict in the interpreter the active language subset and disable such sensitive language functionality as file IO, starting external processes, etc.</li>
-<li><strong>Controlled data mutability</strong>. Any variable or function parameter can be declared as immutable with the help of 'const' keyword.</li>
-<li><strong>Type safety</strong>. Transd is statically typed with only safe (widening) implicit type conversions.</li>
-<li><strong>Memory safety</strong>. All memory management in Transd is done automatically. For memory recycling Transd uses a reference-counting automatic garbage collector. </li>
-</ul>
 
 <h3 id="modules">Modules</h3>
 
@@ -250,6 +273,19 @@ second character in 和平5 is: 平
     <span class="p">)</span>
 <span class="p">}</span>
 </code></pre></div>
+
+<h3 id="security">Security</h3>
+
+<p>Transd offers features that help strengthen various aspects of language security both for programmers and for users of Transd programs:</p>
+
+<ul>
+<li><strong>Modular program organization</strong> with fully isolated modules. Module members become accessible to other modules only via explicit import mechanism.</li>
+<li><strong>Finely granular access permissions</strong> for module members. Module's data and methods can be made exportable only to certain other modules, specified by names.</li>
+<li><strong>Disabling certain functions</strong>. Before running a third-party program from untrusted source, the program user has the possibility to restrict in the interpreter the active language subset and disable such sensitive language functionality as file IO, starting external processes, etc.</li>
+<li><strong>Controlled data mutability</strong>. Any variable or function parameter can be declared as immutable with the help of 'const' keyword.</li>
+<li><strong>Type safety</strong>. Transd is statically typed with only safe (widening) implicit type conversions.</li>
+<li><strong>Memory safety</strong>. All memory management in Transd is done automatically. For memory recycling Transd uses a reference-counting automatic garbage collector. </li>
+</ul>
 
 <h3 id="type-inference">Type inference</h3>
 
