@@ -37,6 +37,35 @@ hr {
 <div class="wrap" style="margin-top: 25px">
 <h2 style="margin: 55px 0 20px 0;">The ongoing progress report</h2>
 <hr width="100%" style="margin:0 0 35px 0;">
+<h3 id="2022-october">2022 October</h3>
+
+<p><strong>Type system enhancement</strong><br>
+In addition to the already present type traits, a more powerful feature - type definitions based on predicates - was added.</p>
+
+<p>Type traits is a means to group types into more general types and use them to avoid overloading functions for several different parameter types. Built-in types have different traits, describing their "capabilities", and we can use these traits as function parameter types in order to accept all types that have these traits. E.g. we can replace function that receives a Double:</p>
+
+<pre><code>func: (lambda d Double() (ret (* 10.0 d)))
+</code></pre>
+
+<p>with a function that accepts any number type (Double, Int, Long, ULong, Byte) by using the ":Number" trait:</p>
+
+<pre><code>func: (lambda n :Number() (ret (* 10.0 n)))
+</code></pre>
+
+<p>Similarly, we can use the ":IterableRand" trait for accepting all containers with random access: Vector<T>, String, ByteArray. And the like.</p>
+
+<p>What was recently added, is predicate based type definitions. This feature lets using custom functions for determining whether an object belongs to some type or not, thus allowing much more flexible definitions of a type. For example, we can define a type that consists of integers with certain charateristics (even, prime, power of two, etc.), or a type of strings in a certain format or with a certain content(telephon number, country name, etc.)</p>
+
+<p>As an example, here is a definition of a type that narrows ":IterableRand" trait only to Vector iterables (Vector<Int>, Vector<String>, etc.): </p>
+
+<pre><code>Vec: typedef(Lambda&lt;Bool&gt;(λ d :IterableRand() 
+        (starts-with (_META_type d) "Vector&lt;") )),
+</code></pre>
+
+<p>A code example with using 'typedef' can be seen on <a href="https://rosettacode.org/wiki/Knuth_shuffle#Transd">Rosetta</a>.</p>
+
+<hr />
+
 <h3 id="2022-september">2022 September</h3>
 
 <p><strong>Beta release</strong><br>
@@ -45,7 +74,9 @@ After months of intensive testing and debugging the <a href="https://github.com/
 <p><strong>Chess engine in Transd</strong><br>
 As part of testing and debugging of the language a <a href="https://github.com/al-berger/SFTD">chess engine</a> was implemented in Transd and tested.</p>
 
-<h3 id="2022-jun-30-june-results">2022-Jun-30 | June results</h3>
+<hr />
+
+<h3 id="2022-june">2022 June</h3>
 
 <p><strong>Containers</strong><br>
 A yet another container type was added: <code>HashSet</code>. The total list of generic container types supported in Transd now is:</p>
@@ -57,13 +88,15 @@ HashIndex
 HashSet
 </code></pre>
 
-<h3 id="2022-may-31-may-results">2022-May-31 | May results</h3>
+<hr />
+
+<h3 id="2022-may">2022 May</h3>
 
 <p><strong>Containers</strong><br>
 Two new container types have been added: <code>Set</code> and <code>HashIndex</code>. </p>
 
 <p><strong>yield</strong><br>
-<code>yield</code> keyword was added, whose functionality is similar to Python's 'yield', but has some differences. In Python the 'yield' keyword makes the function where it's used a generator object, which can be used only through the iterator protocol and cannot be called as normal function. In Transd the function using 'yield' remains normal function and you have full control over its behaviour.</p>
+<code>yield</code> keyword was added, whose functionality is similar to Python's 'yield', but has some differences. In Python 'yield' keyword turns the function where it's used into a generator object, which can be used only through the iterator protocol and cannot be called as normal function. In Transd the function using 'yield' remains normal function and you have full control over its behaviour.</p>
 
 <p>Test files:</p>
 
@@ -73,7 +106,7 @@ Two new container types have been added: <code>Set</code> and <code>HashIndex</c
 
 <hr />
 
-<h3 id="2022-apr-30-april-results">2022-Apr-30 | April results</h3>
+<h3 id="2022-april">2022 April</h3>
 
 <p><strong>Data importing</strong><br>
 Data importing functionality has been added. Data importing (or object deserializing) allows quick creation and initialization of program objects of custom classes using external textual data. An example of this feature is deserializing data in JSON format into custom class objects in some languages.</p>
@@ -82,7 +115,7 @@ Data importing functionality has been added. Data importing (or object deseriali
 
 <hr />
 
-<h3 id="2022-feb-28-february-results">2022-Feb-28 | February results</h3>
+<h3 id="2022-february">2022 February</h3>
 
 <p><strong>'locals:' keyword</strong><br>
 The keyword <code>locals:</code> placed just after the function signature in the lambda declaration introduces local function variables, whose scope is the function body.</p>
@@ -166,7 +199,7 @@ element of the argument has an identical counterpart in the subject, sorting ign
 
 <p><br></p>
 
-<h3 id="2021-dec-31-december-results">2021-Dec-31 | December results</h3>
+<h3 id="2021-december">2021 December</h3>
 
 <p><strong>Lambdas</strong><br>
 Transd supports anonymous function objects ("lambda" functions), which can be used in a great many of places, for example:</p>
