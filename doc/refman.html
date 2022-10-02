@@ -43,9 +43,16 @@ font-size: 3em; font-weight: normal; color: #005b56; font-family: serif;">Transd
 
 <h1 id="transd-programming-language">Transd programming language</h1>
 
-<p>Transd is a general purpose programming language, statically typed, multi-paradigm, with meta-compilation execution model. Its defining features are its novel execution model, which doesn't require the compilation to machine code, but at the same time is considerably faster than traditional interpretation technics, and, secondly, the ultimate compactness of implementation, which makes it an ideal choice for embeddable or extension language.</p>
+<p>Transd is a general purpose programming language, statically typed, multi-paradigm, with meta-compilation execution model. Its defining features are its novel execution model, which doesn't require the compilation to machine code, but at the same time is considerably faster than traditional interpretation technics, and, secondly, the ultimate compactness of implementation: in one executable file or in a two-file source code library you get a modern language with a number of powerful features.</p>
 
-<p><br><br></p>
+<p>Transd is based on the idea of <strong>modular programming</strong> - "a software design technique that emphasizes separating the functionality of a program into independent, interchangeable modules, such that each contains everything necessary to execute only one aspect of the desired functionality". Modules are the top-level building blocks in Transd programs.</p>
+
+<p>Transd syntax is based on the fully parenthesized prefix notation and thus naturally supports the <strong>functional programming</strong> style - "a declarative programming paradigm in which function definitions are trees of expressions that map values to other values, rather than a sequence of imperative statements which update the running state of the program".</p>
+
+<p>Transd has classes and facilitates the <strong>object-oriented programming</strong> style with a powerful <em>data importing</em> feature, which allows the definition of program objects outside of the program in text format, and then importing them into the program. If the program's logic is expressed via objects (as it normally is in OOP), then a large part of the program's behaviour can be defined in text files and loaded into the program at runtime.</p>
+
+<p>Transd has built-in data types for working with structured text data (table, dataset, database) and includes elements of <strong>declarative programming</strong> in the form of built-in data query language for performing simple database-like queries on medium-sized datasets.
+<br><br></p>
 
 <h1 id="lexical-conventions">Lexical conventions</h1>
 
@@ -90,11 +97,17 @@ font-size: 3em; font-weight: normal; color: #005b56; font-family: serif;">Transd
 
 <h1 id="modules">Modules</h1>
 
-<p>The top syntax unit in Transd is a module. A Transd program consists of one or more modules. Module is an arbitrary block of grouped together functions and data variables, which are called <em>module members</em>. All module members within one module are visible and accessible to each other. </p>
+<p>Modular programming is a software design technique that emphasizes separating the functionality of a program into independent, interchangeable modules, such that each contains everything necessary to execute only one aspect of the desired functionality.</p>
 
-<p>A source file can contain several modules. Conversely, a definition of a large module can be contained in several source files. Each module in the program should have a unique name.</p>
+<p>When creating a modular system, instead of creating a monolithic application, several smaller modules are written separately so when they are composed together, they construct the executable application program. </p>
 
-<p>The grammar of a module:</p>
+<p>A module in Transd is a logical part of the program. The program is partitioned into modules as it sees fit by the programmer. A Transd program can be wholly contained in one module, or its functionality can be distributed between several modules.</p>
+
+<p>Programmatically, a module is an arbitrary block of grouped together data variables and functions, which are collectively called <em>module members</em>. All module members within one module are visible and accessible to each other. </p>
+
+<p>One source file can contain several modules. Also, a definition of a large module can be contained in several source files. Each module in the program should have a unique name.</p>
+
+<p>The grammar of a module definition:</p>
 
 <pre><code>    module := MODULE_NAME ": {" [member] ("," member)* "}"
     member := NAME ":" declarator
@@ -128,29 +141,20 @@ font-size: 3em; font-weight: normal; color: #005b56; font-family: serif;">Transd
 
 <h1 id="variables">Variables</h1>
 
-<p>A variable in Transd is a named reference to an object in memory. When a variable is declared, it receives a type, and it can only refer to objects of that type.</p>
+<p>A variable in Transd is a named reference to an object in memory. When a variable is declared, it receives a type, and it can only refer to values of that type.</p>
 
-<p>By their lifetime variables in Transd are divided into two kinds:</p>
+<p>Variables can be declared in several ways, which determine their scope and lifetime:</p>
 
-<ol>
-<li>Module members (<em>fields</em>). </li>
-<li>Function local (<em>scoped</em>) variables.</li>
-</ol>
+<ul>
+<li>Module members (<em>fields</em>);</li>
+<li>Function <em>local</em> variables;</li>
+<li><em>Scoped</em> variables.</li>
+</ul>
 
-<h2 id="module-fields">Module fields</h2>
+<h3 id="module-fields">Module fields</h3>
 
-<h3 id="declaration">Declaration</h3>
-
-<p>Module fields are declared as a part of module definition:</p>
-
-<p>The declaration of a field can in certain cases be used as a place for the field's initialization (that is for assigning a value to the field). These cases are limited to the following:</p>
-
-<ol>
-<li>Initializing the field with a literal value.</li>
-<li>Initializing the field with a special type constructor, which performs initialization without using references to other functions or variables outside of it.</li>
-</ol>
-
-<p>The syntax for a module field declaration is as follows:</p>
+<p>Module fields are declared within a module as a part of module definition.
+The syntax for a module field declaration is as follows:</p>
 
 <pre><code>    field := NAME ":" (type_constructor | value_initializer)
 </code></pre>
@@ -172,25 +176,60 @@ font-size: 3em; font-weight: normal; color: #005b56; font-family: serif;">Transd
 <p>Example:</p>
 
 <div class="codehilite"><pre><span></span><code><span class="nv">Module1</span><span class="o">:</span> <span class="p">{</span>
-  <span class="nv">s1</span><span class="o">:</span> <span class="s">&quot;some string&quot;</span><span class="o">,</span> <span class="c1">// &#39;s1&#39; becomes a String with &quot;some string&quot; value</span>
-  <span class="nv">v1</span><span class="o">:</span> <span class="p">[</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="p">]</span>  <span class="c1">// &#39;v&#39; becomes a Vector&lt;Int&gt; filled with &#39;1&#39;, &#39;2&#39;, &#39;3&#39; integers.</span>
+  <span class="nv">s1</span><span class="o">:</span> <span class="s">&quot;some string&quot;</span><span class="o">,</span> 
+  <span class="nv">v1</span><span class="o">:</span> <span class="p">[</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="p">]</span>
 <span class="p">}</span>
 </code></pre></div>
 
-<h3 id="visibility-and-access">Visibility and access</h3>
+<p><code>s1</code> here becomes a String with "some string" value. <code>v</code> - becomes a Vector<Int> filled with '1', '2', '3' integers.</p>
 
 <p>Module fields by default are only visible within the module in which the field is defined. For allowing access to a field from other modules, that field must be declared as public.</p>
 
-<h3 id="life-time">Life time</h3>
+<p>Fields are created at the program's start and continue their existence until the end of the program.</p>
 
-<h2 id="local-variables">Local variables</h2>
+<h3 id="local-variables">Local variables</h3>
 
-<p>Local variables in functions are introduced with the <code>(with ...)</code> construction. They
-are only visible inside that construction.</p>
+<p>Functions' local variables are declared at the beginning of function declaration. They are visible only within that function and remain valid until the return from the function.</p>
 
-<p>Example:</p>
+<p>Local variables are introduced with the <code>locals:</code> keyword just after the function signature:</p>
 
-<div class="codehilite"><pre><span></span><code><span class="nv">someFunc</span> <span class="o">:</span> <span class="p">(</span><span class="k">lambda </span><span class="p">(</span><span class="k">with </span><span class="nv">a</span> <span class="mi">1</span> <span class="nv">b</span> <span class="mi">2</span> <span class="p">(</span><span class="nf">textout</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">a</span> <span class="nv">b</span><span class="p">))))</span> <span class="c1">// outputs &quot;3&quot;</span>
+<div class="codehilite"><pre><span></span><code><span class="nv">func</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> <span class="nv">par</span> <span class="nv">Int</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nv">Bool</span><span class="p">()</span> 
+         <span class="nv">locals</span><span class="o">:</span> <span class="nv">b</span> <span class="nv">Bool</span><span class="p">(</span><span class="nf">True</span><span class="p">)</span>
+         <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="o">&lt;</span> <span class="nv">par</span> <span class="mi">0</span><span class="p">)</span> <span class="p">(</span><span class="nb">= </span><span class="nv">b</span> <span class="nv">false</span><span class="p">))</span>
+         <span class="p">(</span><span class="nf">ret</span> <span class="nv">b</span><span class="p">))</span>
+<span class="nv">func1</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> <span class="nv">a</span> <span class="nv">Int</span><span class="p">()</span> <span class="nv">b</span> <span class="nv">Int</span><span class="p">()</span>
+         <span class="nv">locals</span><span class="o">:</span> <span class="nv">c</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">a</span> <span class="mi">10</span><span class="p">)</span> <span class="nv">d</span> <span class="p">(</span><span class="nb">* </span><span class="nv">b</span> <span class="mi">5</span><span class="p">)</span>
+         <span class="p">(</span><span class="nf">ret</span> <span class="p">(</span><span class="nb">* </span><span class="nv">c</span> <span class="nv">d</span><span class="p">)))</span>
+<span class="nv">func2</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> <span class="nv">locals</span><span class="o">:</span> <span class="nv">s1</span> <span class="s">&quot;Hello, &quot;</span> <span class="nv">s2</span> <span class="s">&quot;world!&quot;</span>
+         <span class="p">(</span><span class="nf">ret</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">s1</span> <span class="nv">s2</span><span class="p">)))</span>
+<span class="nv">func4</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> <span class="nv">v</span> <span class="nb">Vector&lt;Int&gt;</span><span class="p">()</span> <span class="nv">locals</span><span class="o">:</span> <span class="nv">v1</span> <span class="p">[</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="p">]</span>
+         <span class="p">(</span><span class="nf">ret</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">v</span> <span class="nv">v1</span><span class="p">)))</span>
+</code></pre></div>
+
+<p>The grammar for declaration of local variables is as follows:</p>
+
+<pre><code>    local_var := NAME " " (type_constructor | value_initializer | expression)
+</code></pre>
+
+<p>The rules for initialization of local variables are the same as for module fields, and additionally include the initialization with an expression: in the example above, the locals <code>c</code> and <code>d</code> in <code>func1</code> are initialized with expressions.</p>
+
+<h3 id="scoped-variables">Scoped variables</h3>
+
+<p>The <code>(with ...)</code> scoping operator allows creating of variables whose visibility and lifetime are limited to that scoping operator's body. Scoped variables are declared and remain valid within the scoping operator block.</p>
+
+<p>Initialization rules for scoped variables are the same as for function's local variables.</p>
+
+<div class="codehilite"><pre><span></span><code><span class="nv">MainModule</span><span class="o">:</span> <span class="p">{</span>
+  <span class="nv">a</span><span class="o">:</span> <span class="mi">5</span><span class="o">,</span>
+  <span class="nv">_start</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span>
+    <span class="p">(</span><span class="nf">lout</span> <span class="s">&quot;a is &quot;</span> <span class="nv">a</span><span class="p">)</span>        <span class="c1">//&lt;= a is 5</span>
+    <span class="p">(</span><span class="k">with </span><span class="nv">a</span> <span class="mi">25</span> <span class="nv">b</span> <span class="mi">40</span>
+        <span class="p">(</span><span class="nf">lout</span> <span class="nv">a</span> <span class="s">&quot; &quot;</span> <span class="nv">b</span><span class="p">)</span>      <span class="c1">//&lt;= 25 40</span>
+    <span class="p">)</span>
+    <span class="p">(</span><span class="nf">lout</span> <span class="s">&quot;a is &quot;</span> <span class="nv">a</span><span class="p">)</span>        <span class="c1">//&lt;= a is 5</span>
+    <span class="p">(</span><span class="nf">lout</span> <span class="s">&quot;b is &quot;</span> <span class="nv">b</span><span class="p">)</span>        <span class="c1">//&lt;= ERROR: undefined variable</span>
+  <span class="p">)</span>
+<span class="p">}</span>
 </code></pre></div>
 
 <p><br></p>
@@ -494,9 +533,9 @@ Return type: <code>Bool</code></p>
 
 <p>Parameters:<br>
 <em>str</em> : <code>String</code><br>
-Return type: <code>Null</code></p>
+Return type: <code>String</code></p>
 
-<p>Assigns the value <em>str</em> to <em>subj</em>.</p>
+<p>Assigns the value <em>str</em> to <em>subj</em> and returns the reference to <em>subj</em>.</p>
 
 <h6 id="size">size</h6>
 
@@ -645,13 +684,13 @@ Return type: <code>Bool</code></p>
 
 <p>Parameters:<br>
 <em>str, str1, str2</em> : <code>String</code><br>
-Return type: <code>Null</code></p>
+Return type: <code>String</code></p>
 
-<p>Removes from the ends of <em>subj</em> the characters specified in <em>str</em>. The first form removes
-from both ends the characters in <em>str</em>. The second form removes from the left end the
-characters in <em>str1</em>, from the right end - the characters in <em>str2</em>. If no <em>str</em> 
-is passed, the default behaviour is to remove from both ends whitespace characters:
-<space>, '\r', '\n', '\t'. </p>
+<p>Removes from the ends of <em>subj</em> the characters specified in <em>str</em> and returns the
+reference to <em>subj</em>. The first form removes from the both ends the characters in <em>str</em>.
+The second form removes from the left end the characters in <em>str1</em>, from the right
+end - the characters in <em>str2</em>. If no <em>str</em> is passed, the default behaviour is to
+remove from the both ends whitespace characters: <space>, '\r', '\n', '\t'. </p>
 
 <h6 id="subn">subn</h6>
 
@@ -1064,6 +1103,9 @@ Return type: <code>Vector&lt;TYPE&gt;</code></p>
 <p><strong>Buffered output</strong></p>
 
 <h3 id="stringstream">StringStream</h3>
+
+<p><code>StringStream</code> is a class that enables using a string as a source or destination of
+input-output operations.</p>
 
 <h3 id="bytestream">ByteStream</h3>
 
