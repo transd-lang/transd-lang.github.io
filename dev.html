@@ -48,9 +48,22 @@ from the current source code in repo.
 Transd reference test suite, which represents the current state of the language. All new
 language features and syntax variants appear first in the test suite.  
 </p>
+<h4>Contribution</h4>
+<p>Transd's development is currently driven by an established set of goals and design
+decisions of its authors. Source code of the language implementation is currently 
+<a href="https://github.com/transd-lang/TREE3/tree/main/src">available</a> only
+in the form of minimized embeddable library.
+Contribution is welcomed in the form of bug reporting, spreading the word, and ideas about
+additional features of the language.
+</p>
 <h3>Current tasks:</h3>
 <section style="display: block; align-items: left; flex-wrap: nowrap;">
 <article style="padding-top: 10px">
+<h4>Arbitrary precision numeric types</h4>
+<p>In addition to the existing fixed precision numeric types - <code>Double, Int, Long,
+ULong</code> - largest of which is 64-bit wide, a new integer type <code>BigLong</code> is currently
+programmed, which will have arbitrary precision. As a more distant goal - the arbitrary 
+precisioned rational number type is planned.</p>
 <h4>Release of version 1.0</h4>
 <p>After testing and debugging the beta-version, the release of production-ready
 version 1.0 of Transd is planned.<br>
