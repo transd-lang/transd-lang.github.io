@@ -39,6 +39,34 @@ hr {
 <hr width="100%" style="margin:0 0 35px 0;">
 <h3 id="2022-october">2022 October</h3>
 
+<p><strong>Arbitrary-precision numbers</strong><br>
+Fixed-width numeric types of Transd type system such as <code>Double</code>, <code>Int</code>, <code>Long</code>, <code>ULong</code>, the largest of which have 64-bit width, have been supplied with a numeric integer type having an unlimited precision - <code>BigLong</code>. The code below calculates the value of <code>5^4^3^2</code> expression.</p>
+
+<div class="codehilite"><pre><span></span><code><span class="o">#</span><span class="nv">lang</span> <span class="nv">transd</span>
+<span class="nv">MainModule</span><span class="o">:</span> <span class="p">{</span>
+    <span class="nv">a</span><span class="o">:</span> <span class="nv">BigLong</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span><span class="o">,</span>
+    <span class="nv">ss</span><span class="o">:</span> <span class="nv">StringStream</span><span class="p">()</span><span class="o">,</span>
+    <span class="nv">s</span><span class="o">:</span> <span class="s">&quot;&quot;</span><span class="o">,</span>
+
+    <span class="nv">_start</span><span class="o">:</span><span class="p">(</span><span class="nf">λ</span> 
+        <span class="p">(</span><span class="nf">textout</span> <span class="nv">to</span><span class="o">:</span> <span class="nv">ss</span> <span class="p">(</span><span class="nf">pow</span> <span class="nv">a</span> <span class="p">(</span><span class="nf">pow</span> <span class="mi">4</span> <span class="p">(</span><span class="nf">pow</span> <span class="mi">3</span> <span class="mi">2</span><span class="p">))))</span>
+        <span class="p">(</span><span class="nb">= </span><span class="nv">s</span> <span class="p">(</span><span class="nf">str</span> <span class="nv">ss</span><span class="p">))</span>
+        <span class="p">(</span><span class="k">with </span><span class="nv">len</span> <span class="p">(</span><span class="nf">size</span> <span class="nv">s</span><span class="p">)</span>
+            <span class="p">(</span><span class="nf">lout</span> <span class="s">&quot;The number of digits in the number: &quot;</span> <span class="nv">len</span><span class="p">)</span>
+            <span class="p">(</span><span class="nf">lout</span> <span class="s">&quot;The first 20 and last 20 digits are: &quot;</span><span class="p">)</span>
+            <span class="p">(</span><span class="nf">lout</span> <span class="p">(</span><span class="nf">sub</span> <span class="nv">s</span> <span class="mi">0</span> <span class="mi">20</span><span class="p">)</span> <span class="s">&quot;...&quot;</span> <span class="p">(</span><span class="nf">sub</span> <span class="nv">s</span> <span class="p">(</span><span class="nb">- </span><span class="nv">len</span> <span class="mi">20</span><span class="p">))))</span>
+    <span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<pre><code>OUTPUT:
+The number of digits in the number: 183231
+The first 20 and last 20 digits are:
+62060698786608744707...892256259918212890625
+</code></pre>
+
+<p><br></p>
+
 <p><strong>Type system enhancement</strong><br>
 In addition to the already present type traits, a more powerful feature - type definitions based on predicates - was added.</p>
 

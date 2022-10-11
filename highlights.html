@@ -64,6 +64,7 @@ style="text-decoration: none; color: #447799" target=_top
 <li><a href="#classes">Classses</a></li>
 <li><a href="#functions-as-data">Functions as data</a></li>
 <li><a href="#generic-collections">Generic collections</a></li>
+<li><a href="#arbitrary-precision-numbers">Arbitrary-precision numbers</a></li>
 <li><a href="#security">Security</a></li>
 <li><a href="#type-inference">Type inference</a></li>
 <li><a href="#exceptions">Exceptions</a></li>
@@ -129,7 +130,7 @@ language (TQL).</p>
 <span class="p">}</span>
 </code></pre></div>
 
-<p>The type system of Transd includes such types as: <code>Bool, Int, Double, Long, ULong, Byte, Char, Object, Position, DateTime, Vector, Tuple, Index, HashIndex, ByteArray, Table, TSDBase, StringStream, ByteStream, FileStream, Lambda, String</code>.</p>
+<p>The type system of Transd includes such types as: <code>Bool, Int, Double, Long, ULong, BigLong, Byte, Char, Object, Position, DateTime, Vector, Tuple, Index, Set, HashIndex, HashSet, ByteArray, Table, TSDBase, StringStream, ByteStream, FileStream, Lambda, String</code>.</p>
 
 <h3 id="regular-expressions">Regular expressions</h3>
 
@@ -273,6 +274,33 @@ second character in 和平5 is: 平
     <span class="p">)</span>
 <span class="p">}</span>
 </code></pre></div>
+
+<h3 id="arbitrary-precision-numbers">Arbitrary-precision numbers</h3>
+
+<p>In addition to the fixed-width numeric types such as <code>Double</code>, <code>Int</code>, <code>Long</code>, <code>ULong</code>, the largest of which have 64-bit width, a numeric integer type having an unlimited precision - <code>BigLong</code> - has been included into the Transd type system. The code below calculates the value of <code>5^4^3^2</code> expression.</p>
+
+<div class="codehilite"><pre><span></span><code><span class="o">#</span><span class="nv">lang</span> <span class="nv">transd</span>
+<span class="nv">MainModule</span><span class="o">:</span> <span class="p">{</span>
+    <span class="nv">a</span><span class="o">:</span> <span class="nv">BigLong</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span><span class="o">,</span>
+    <span class="nv">ss</span><span class="o">:</span> <span class="nv">StringStream</span><span class="p">()</span><span class="o">,</span>
+    <span class="nv">s</span><span class="o">:</span> <span class="s">&quot;&quot;</span><span class="o">,</span>
+
+    <span class="nv">_start</span><span class="o">:</span><span class="p">(</span><span class="nf">λ</span> 
+        <span class="p">(</span><span class="nf">textout</span> <span class="nv">to</span><span class="o">:</span> <span class="nv">ss</span> <span class="p">(</span><span class="nf">pow</span> <span class="nv">a</span> <span class="p">(</span><span class="nf">pow</span> <span class="mi">4</span> <span class="p">(</span><span class="nf">pow</span> <span class="mi">3</span> <span class="mi">2</span><span class="p">))))</span>
+        <span class="p">(</span><span class="nb">= </span><span class="nv">s</span> <span class="p">(</span><span class="nf">str</span> <span class="nv">ss</span><span class="p">))</span>
+        <span class="p">(</span><span class="k">with </span><span class="nv">len</span> <span class="p">(</span><span class="nf">size</span> <span class="nv">s</span><span class="p">)</span>
+            <span class="p">(</span><span class="nf">lout</span> <span class="s">&quot;The number of digits in the number: &quot;</span> <span class="nv">len</span><span class="p">)</span>
+            <span class="p">(</span><span class="nf">lout</span> <span class="s">&quot;The first 20 and last 20 digits are: &quot;</span><span class="p">)</span>
+            <span class="p">(</span><span class="nf">lout</span> <span class="p">(</span><span class="nf">sub</span> <span class="nv">s</span> <span class="mi">0</span> <span class="mi">20</span><span class="p">)</span> <span class="s">&quot;...&quot;</span> <span class="p">(</span><span class="nf">sub</span> <span class="nv">s</span> <span class="p">(</span><span class="nb">- </span><span class="nv">len</span> <span class="mi">20</span><span class="p">))))</span>
+    <span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<pre><code>OUTPUT:
+The number of digits in the number: 183231
+The first 20 and last 20 digits are:
+62060698786608744707...892256259918212890625
+</code></pre>
 
 <h3 id="security">Security</h3>
 
