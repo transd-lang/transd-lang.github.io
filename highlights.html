@@ -277,7 +277,7 @@ second character in 和平5 is: 平
 
 <h3 id="arbitrary-precision-numbers">Arbitrary-precision numbers</h3>
 
-<p>In addition to the fixed-width numeric types such as <code>Double</code>, <code>Int</code>, <code>Long</code>, <code>ULong</code>, the largest of which have 64-bit width, a numeric integer type having an unlimited precision - <code>BigLong</code> - has been included into the Transd type system. The code below calculates the value of <code>5^4^3^2</code> expression.</p>
+<p>In addition to the fixed-width numeric types such as <code>Double</code>, <code>Int</code>, <code>Long</code>, <code>ULong</code>, the largest of which have 64-bit width, a numeric integer type having an unlimited precision - <code>BigLong</code> - has been included into the Transd type system. The code below calculates the value of <code>5^4^3^2</code> expression, and tests a number for primality.</p>
 
 <div class="codehilite"><pre><span></span><code><span class="o">#</span><span class="nv">lang</span> <span class="nv">transd</span>
 <span class="nv">MainModule</span><span class="o">:</span> <span class="p">{</span>
@@ -292,6 +292,10 @@ second character in 和平5 is: 平
             <span class="p">(</span><span class="nf">lout</span> <span class="s">&quot;The number of digits in the number: &quot;</span> <span class="nv">len</span><span class="p">)</span>
             <span class="p">(</span><span class="nf">lout</span> <span class="s">&quot;The first 20 and last 20 digits are: &quot;</span><span class="p">)</span>
             <span class="p">(</span><span class="nf">lout</span> <span class="p">(</span><span class="nf">sub</span> <span class="nv">s</span> <span class="mi">0</span> <span class="mi">20</span><span class="p">)</span> <span class="s">&quot;...&quot;</span> <span class="p">(</span><span class="nf">sub</span> <span class="nv">s</span> <span class="p">(</span><span class="nb">- </span><span class="nv">len</span> <span class="mi">20</span><span class="p">))))</span>
+        <span class="p">(</span><span class="k">with </span><span class="nv">wingNum</span> <span class="nv">BigLong</span><span class="p">(</span>
+<span class="s">&quot;7777777777777777777777777777777777774777777777777777777777777777777777777&quot;</span>
+                <span class="p">)</span> <span class="nv">iterations</span> <span class="mi">15</span>
+        <span class="p">(</span><span class="nf">lout</span> <span class="o">:</span><span class="nv">boolalpha</span> <span class="s">&quot;wingNum is prime: &quot;</span> <span class="p">(</span><span class="nf">is-probable-prime</span> <span class="nv">wingNum</span> <span class="nv">iterations</span><span class="p">))</span>
     <span class="p">)</span>
 <span class="p">}</span>
 </code></pre></div>
@@ -300,6 +304,7 @@ second character in 和平5 is: 平
 The number of digits in the number: 183231
 The first 20 and last 20 digits are:
 62060698786608744707...892256259918212890625
+wingNum is prime: true
 </code></pre>
 
 <h3 id="security">Security</h3>
