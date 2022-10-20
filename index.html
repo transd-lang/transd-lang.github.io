@@ -30,7 +30,7 @@
     <div id="image"></div>
     <div class="box">
       <p style="font: 2.0em serif; color: #dddddd; margin: 0 0 15px;">
-      Modern programming language<br> in one file</p>
+      Programming language for <br>working with data</p>
       <p style="font: 1.2em sans-serif; color: #15CCCC;">Compact and dependency-free</p>
     </div>
   </div>
@@ -48,6 +48,30 @@ compilation - which facilitates reductions in implementation size and gains in p
 </p>
 <p style=" font: 1.0em sans-serif; color: #777; margin: 0px 0 5px 0; line-height: 1.5em;">
 Albert Berger<br>author of Transd.</p>
+<div class="col1" style="margin-top: 10px;">  
+  <hr style="width: 50%;  margin-left: 230px; color: #ccc; margin-bottom: 20px;  
+bottom-border: solid 1px ;height: 0px; text-align: center;">
+</div>
+<div class="col1" style="margin: 15px 0 0px 0;">
+<div class="col2_ll">
+</div>
+<div class="col2_l">
+<h4><a href="highlights.html#classes">Classes</a></h4>
+<h4><a href="highlights.html#functions-as-data">Lambdas and closures</a></h4>
+<h4><a href="highlights.html#type-safety">Static typing</a></h4>
+<h4><a href="highlights.html#generic-collections">Generics</a></h4>
+<h4><a href="highlights.html#arbitrary-precision-numbers">Arbitrary precision numbers</a></h4>
+<h4><a href="highlights.html#exceptions">Exceptions</a></h4>
+</div>
+<div class="col2_l">
+<h4><a href="highlights.html#modules">Modules</a></h4>
+<h4><a href="highlights.html#regular-expressions">Regular expressions</a></h4>
+<h4><a href="highlights.html#data-processing">Data queries</a></h4>
+<h4><a href="highlights.html#data-importing">Data importing</a></h4>
+<h4><a href="highlights.html#full-unicode-support">Unicode</a></h4>
+<h4><a href="highlights.html#type-inference">Type inference</a></h4>
+</div>
+</div>
 <div class="col1" style="margin-top: 10px;">  
   <hr style="width: 50%;  margin-left: 230px; color: #ccc; margin-bottom: 20px;  
 bottom-border: solid 1px ;height: 0px; text-align: center;">
@@ -133,147 +157,6 @@ PS clang++ -std=c++14 -O3 -DWIN32 -DNDEBUG transd.cpp main.cpp -o tree3.exe
   <hr style="width: 50%;  margin-left: 230px; color: #ccc; margin-bottom: 20px;  
 bottom-border: solid 1px ;height: 0px; text-align: center;">
 </div>
-
-<div style="width: 900px; height: 300px;display: table-cell; position: relative; vertical-align: middle;">
-<div style="float: left;">
-<h2 style="margin-top: 35px;">Examples of use cases for Transd</h2>
-
-<p>
-<ul style="padding-left: 25px; line-height: 2.0em">
-<li><a href="#simple">Text data processing</a></li>
-<li><a href="#compact">Cross-platform scripting language</a></li>
-<li><a href="#powerful">Handling an advanced configuration</a></li>
-<li><a href="#extending">Extending the program's functionality by the user</a></li>
-<li><a href="#simpleConf">Processing a simple configuration file</a></li>
-</ul>
-</p>
-</div>
-<div style="margin-top: 35px;text-align:center;">
-<img src="img/transductor_gear.jpg" alt="" /></div>
-</div>
-<div class="col1" style="margin-top: 15px"><a id="simple"> </a><h3 style="color: #077">
-Text data processing</h3>
-<p>Transd out of the box can work with structured or semi-structured text data (CSV tables, 
-JSON-like objects, etc.).</p>
-<p>Moderately large data sets can be processed with Transd using a very small amount of code. 
-A program consisting of several lines can read a 'CSV' file, or other data, into memory and 
-perform data queries on it, similar to SQL queries.</p>
-<p>An example fully working program:</p>
-
-<pre><code>#lang transd
-
-MainModule: {
-    tabfile: "/mnt/data/employees.csv",
-    tabstr: "",
-
-    _start: (λ 
-<font color="#027D00">//-- Read a CSV file into a string --</font>
-        (with fs FileStream()
-            (open fs tabfile) (textin tabstr fs))
-
-        (with tabl Table()
-<font color="#027D00">//-- Load table and build indexes --</font>
-            (load-table tabl tabstr)
-            (build-index tabl "Age in Company (Years)")
-            (build-index tabl "Salary")
-
-<font color="#027D00">//-- Do a SELECT query</font>
-            (with rows (tsd-query tabl 
-                    select: ["Name Prefix", "First Name", "Last Name",
-                             "Age in Company (Years)", "Salary"]
-                    as: [[String(),String(),String(),Double(),Int()]]
-                    where: "\"Age in Company (Years)\" > 35.0 AND 
-                        Salary < 43000"
-                    sortby: "Salary")
-<font color="#027D00">//-- Print result</font>
-                (for row in rows do (lout row)))
-    ))
-}
-
-OUTPUT:
-
-[Drs., Cameron, Diggs, 36.35, 40119]
-[Mr., Cory, Coyle, 37.62, 41078]
-[Mr., Carol, Vangundy, 36.59, 41724]
-[Mrs., Kristi, Beliveau, 38.39, 41796]
-[Ms., Particia, Blair, 35.06, 41819]
-[Mr., Wilber, Ransome, 37.67, 41994]
-[Ms., Cathern, Pettit, 36.36, 42453]
-[Mr., Lamar, Parson, 35.41, 42458]
-
-Run-time:
- table loading: 20.41 sec;
- running query: 0.006 sec.
-</code></pre>
-<p>This program reads a 37 column table with 100,000 rows of
-<a href="https://eforexcel.com/wp/downloads-16-sample-csv-files-data-sets-for-testing/">
-sample data</a> and makes a SELECT query on it.</p>
-<p>You can run this example by following instructions <a href="perftest.html">here</a>.
-</p>
-	<div class="col1" style="margin-top: 15px"><a id="compact"> </a><h3 style="color: #077">Cross-platform scripting language</h3>
-	<p>Transd can be used as a bundled/embedded cross-platform general-purpose programming 
-	language for performing	various programming tasks in cases when other solutions are too big, 
-	or not	cross-platform, etc.
-	</p>
-	<p>An example of using Transd as a cross-platform general purpose language is 
-	a Transd interpreter: <a href="https://github.com/transd-lang/TREE3">TREE3</a>. The size of
-	its executable on Windows is less than 3 Mb, on Linux - less than 5 Mb (statically linked).
-	</p>
-	
-	</div>
-	<div class="col1" style="margin-top: 15px"><a id="powerful"> </a><h3 style="color: #077">Handling an advanced configuration</h3>
-	<p>Cases of complex configuration may include definition of custom user classes, using 
-	types, variables and expressions in config files, and definition of custom user functions
-	that can be executed by Transd.</p>
-	<p>Complex configuration is handled by associating with configuration files a custom handler,
-	written in Transd. The amount of code in such handler usually is considerably less, than in
-	one written on the program's native language, thanks to the built-in support of the	format in
-	which config files are written ("Transd Structured Data" (TSD) format).
-	</p> 
-	<p align=center>
-<img src="img/Diagram1.png" style="margin-top: 35px" alt="" />
-</p>
-<p>An example of handling a moderately complex configuration can be seen in a <a href="AFC_review.html">demonstration
-program</a>.</p>
-
-	</div>
-	<div class="col1" style="margin-top: 15px"><a id="extending"> </a><h3 style="color: #077">Extending the program's functionality</h3>
-	<p>Transd can be used for creating a library of user-defined functions, extensions, add-ons,
-	plugins.</p>
-	<p>With Transd as an extension language, the user is able to write their own functions from
-	scratch or download a third party's add-on and run it either via interpreter, or internally,
-	in case if Transd is included	in the program as a C++	library.</p>
-	<p>An example of extending a graphics program with a rendering function written in 
-	Transd can be found <a href="https://github.com/transd-lang/graph">here</a>. 	
-	</p> 
-	</div>	
-
-
-	<div class="col1" style="margin-top: 15px"><a id="simpleConf"> </a><h3 style="color: #077">Handling a simple configuration file</h3>
-	<p> Programs requiring simple configuration can use Transd for processing config
-	files with minimum of coding. The configuration file(s) for such program can be organized
-	in the form of named sections with lists of name/value items:</p>
-	<div class="codehilite"><pre><span></span><code><span class="nv">network</span> <span class="o">:</span> <span class="p">{</span>
-    <span class="nv">siteName</span><span class="o">:</span> <span class="s">&quot;localhost&quot;</span><span class="o">,</span>
-    <span class="nv">requestPassword</span><span class="o">:</span> <span class="nv">true</span>
-<span class="p">}</span>
-
-<span class="nv">users</span> <span class="o">:</span> <span class="p">{</span>
-    <span class="nv">usernames</span><span class="o">:</span> <span class="p">[</span><span class="s">&quot;alice&quot;</span><span class="o">,</span> <span class="s">&quot;bob&quot;</span><span class="o">,</span> <span class="s">&quot;tom&quot;</span><span class="p">]</span><span class="o">,</span>
-    <span class="nv">userquotas</span><span class="o">:</span> <span class="p">[</span><span class="mi">35</span><span class="o">,</span> <span class="mi">35</span><span class="o">,</span> <span class="mi">30</span><span class="p">]</span>
-<span class="p">}</span>
-</code></pre></div>
-<p>
-	Such format has built-in support in Transd and can be processed with almost no customization.
-	Values in name/value pairs can be strings, integers, floats, booleans, and lists of these.
-	Transd reads and validates configuration files and returns the processed results via C++ API
-	or standard output.</p> 
-
-
-	<hr width="100%" style="margin:100px 0 0 0;">
-	</div>	
-
-	</div>
 <div id="footer">
   <p>&copy; Copyright 2020-2022 <a href='&#109;ail&#116;o&#58;alb%65rger&#64;g%6Dai&#108;&#46;&#37;63o&#109;'>Albert Berger</a> &middot; All Rights Reserved</p>
 </div>

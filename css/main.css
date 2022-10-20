@@ -36,8 +36,10 @@ body { margin: 30px 0 0; background: #fff url(../img/bg.jpg) repeat-x; font: 1em
 	.last { float: right; margin: 0; }
 	.info { border: 1px solid #e0e0e0; background: #f4f4f4; padding: 7px; }
 	
-.col2_l { float: left; width: 550px; margin: 0 30px 16px 0; }
-.col2_sm_r { float: right; width: 230px; margin: 0 30px 16px 0; }
+.col2_ll { float: left; width: 100px; margin: 0 30px 16px 0; }
+.col2_l { float: left; width: 290px; margin: 0 30px 16px 0; }
+	.col2_l a { text-decoration: none; color: #191970;}
+.col2_sm_r { float: right; width: 180px; margin: 0 30px 16px 0; }
 
 .col1 { float: left; width: 900px; }
 
