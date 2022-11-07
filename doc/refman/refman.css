@@ -1,0 +1,19 @@
+hr {
+  border-top: 1px solid #eee;
+  width: 50%;
+  margin: 40px auto 20px auto;
+  color: #bbb;
+}
+body { font: 1em "Trebuchet MS", Arial, Sans-Serif; color: #444; }
+	h1 { font: bold 2.2em serif; color: #707070;}
+	h1 a { text-decoration: none; }
+	h2 { font: normal 1.8em sans-serif; color: #505050; margin: 1.5em 1em 1em auto; }
+	h3 { font: bold 1.6em serif; color: #4040a0; margin: 1.5em 0 .5em; }
+	h4 { font: 1.3em sans-serif; color: #444; margin: 1.2em 0 1.3em; }
+	h5 { font: normal 1.2em sans-serif; color: #404040; margin: 1.2em 0.5em 1.3em; }
+	h6 { font: bold 1.2em sans-serif; color: #4040a0; background: #ccc;margin: 0 0 0.5em 0; 
+	padding: 3px;}	
+	p  { margin: 0 0 1em 0; line-height: 1.5em; }
+code { text-align: left; font: 1.0em Consolata, Monospace, "Courier New"; padding: 0px;
+		background-color: #e8e8e8; line-height: 1.5em; }
+pre { font-size: 1.0em; color: #555; padding: 10px; margin: -5px auto 15px auto;background-color: #e8e8e8; line-height: 1.5em;}

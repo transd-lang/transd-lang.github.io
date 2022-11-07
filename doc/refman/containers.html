@@ -1,0 +1,567 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8">
+<title>TransD Programming Language Reference Manual</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta http-equiv="content-language" content="en-US">
+<meta name="language" content="English">
+<meta name="description" content="Reference manual for Transd programming language">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<link href="../css/codehighlight.css" rel="stylesheet" type="text/css" />
+<link href="../css/tsd.css" rel="stylesheet" type="text/css" />
+<link href="refman.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div class="wrap">
+<hr width="100%" style="margin:5px 0 35px 0;">
+
+<h2 id="containers">Containers</h2>
+
+<p>Containers are data types whose instances are collections of other objects. In Transd all containers are typed: a container instance can contain objects of only one type, which type is specified at container's creation. Transd provides the following types of containers: <code>Vector, Index, HashIndex, Set, HashSet, String, ByteArray</code>.</p>
+
+<p>There are two categories of containers: <em>sequence</em> containers, and <em>associative</em> containers, each of which is designed to support a different set of operations.</p>
+
+<p>Sequence containers are: <code>Vector, String, ByteArray</code>. Associative containers are: <code>Index, HashIndex, Set, HashSet</code>.</p>
+
+<h3 id="vector">Vector</h3>
+
+<p>Vector is a container in which elements are stored as a linear sequence. Unlike ByteArray and String containers, which are specialized to store only a single type of elements - bytes and chars respectively, - Vector containers can store various types: integers, strings, objects of custom types, etc., which is why Vector in Transd is termed as a <em>generic</em> container.</p>
+
+<p>Vectors in Transd are strongly typed: all elements in a vector must be of the same type. The type of elements which are to be stored in the vector is specified in the vector declaration statement within angle brackets:</p>
+
+<div class="codehilite"><pre><span></span><code><span class="nv">vec1</span><span class="o">:</span> <span class="nb">Vector&lt;Int&gt;</span><span class="p">()</span> <span class="c1">// Vector of Int&#39;s</span>
+<span class="nv">vec2</span><span class="o">:</span> <span class="nb">Vector&lt;</span><span class="nv">Record</span><span class="o">&gt;</span><span class="p">()</span> <span class="c1">// Vector of objects a custom &#39;Record&#39; class</span>
+<span class="nv">vec3</span><span class="o">:</span> <span class="nb">Vector&lt;Tuple&lt;String Int&gt;</span><span class="o">&gt;</span><span class="p">()</span> <span class="c1">// Vector of &#39;Tuple&lt;String Int&gt;&#39; tuples</span>
+</code></pre></div>
+
+<h4 id="vector-constructors">Vector constructors</h4>
+
+<p><code>1. Vector&lt;TYPE&gt;()</code><br>
+<code>2. Vector&lt;TYPE&gt;( size )</code><br>
+<code>3. Vector&lt;TYPE&gt;( &lt;value_initializer&gt; )</code><br>
+Parameters:<br>
+<code>TYPE</code> - the type of elements which will be stored in the vector;<br>
+<em>size</em>:<code>Int</code> - the initial size of the vector;<br>
+<em>value_initializer</em> - a list of values to put into the array.</p>
+
+<p>1 - creates an empty vector;<br>
+2 - creates a vector of the specified size, filled with default valued elements;<br>
+3 - creates a vector filled with the specified elements. <code>&lt;value_initializer&gt;</code> parameter is a comma separated, square bracket enclosed list of value initializers of vector elements (if their type permits the value initialization).</p>
+
+<p>Examples:</p>
+
+<div class="codehilite"><pre><span></span><code><span class="nv">vec1</span><span class="o">:</span> <span class="nb">Vector&lt;Double&gt;</span><span class="p">()</span><span class="o">,</span>
+<span class="nv">vec2</span><span class="o">:</span> <span class="nb">Vector&lt;Byte&gt;</span><span class="p">(</span> <span class="mi">100</span> <span class="p">)</span><span class="o">,</span>
+<span class="nv">vec3</span><span class="o">:</span> <span class="nb">Vector&lt;Int&gt;</span><span class="p">([</span><span class="mi">-2</span><span class="o">,</span> <span class="mi">4</span><span class="o">,</span> <span class="mi">-15</span><span class="o">,</span> <span class="mi">26</span><span class="p">])</span><span class="o">,</span>
+<span class="nv">vec4</span><span class="o">:</span> <span class="nb">Vector&lt;String&gt;</span><span class="p">([</span><span class="s">&quot;one&quot;</span><span class="o">,</span> <span class="s">&quot;two&quot;</span><span class="o">,</span> <span class="s">&quot;three&quot;</span><span class="p">])</span><span class="o">,</span>
+<span class="nv">vec5</span><span class="o">:</span> <span class="nb">Vector&lt;Tuple&lt;String Int&gt;</span><span class="o">&gt;</span><span class="p">([[[</span><span class="s">&quot;one&quot;</span><span class="o">,</span> <span class="mi">1</span><span class="p">]]</span><span class="o">,</span> <span class="p">[[</span><span class="s">&quot;two&quot;</span><span class="o">,</span> <span class="mi">2</span><span class="p">]]</span><span class="o">,</span> <span class="p">[[</span><span class="s">&quot;three&quot;</span><span class="o">,</span> <span class="mi">3</span><span class="p">]]])</span>
+</code></pre></div>
+
+<h4 id="value-initializer">Value initializer</h4>
+
+<p>A Vector object can be created using a value initializer, inferring the element type automatically.</p>
+
+<p>Example:</p>
+
+<div class="codehilite"><pre><span></span><code><span class="nv">fruits</span><span class="o">:</span> <span class="p">[</span><span class="s">&quot;pear&quot;</span><span class="o">,</span> <span class="s">&quot;water melon&quot;</span><span class="o">,</span> <span class="s">&quot;apple&quot;</span><span class="p">]</span> <span class="c1">// creates Vector&lt;String&gt;</span>
+</code></pre></div>
+
+<h4 id="vector-methods">Vector methods</h4>
+
+<p><a href="#begin"><code>(begin)</code></a><code>    </code>- Returns the Position object for the first character of the vector.<br></p>
+
+<hr />
+
+<h3 id="index">Index</h3>
+
+<p><code>Index</code> is an associative array container: each element in the <code>Index</code> is a pair of two objects: a <em>value</em> and associated with it a unique <em>key</em>, which is used as an index for accessing the value. Elements are stored in the sorted by key order.</p>
+
+<hr />
+
+<h3 id="set">Set</h3>
+
+<p><code>Set</code> is a collection of unique elements, stored in sorted order.</p>
+
+<hr />
+
+<h3 id="hashindex">HashIndex</h3>
+
+<p><code>HashIndex</code> is an associative array container: each element in the <code>Index</code> is a pair of two objects: a <em>value</em> and associated with it a unique <em>key</em>, which is used as an index for accessing the value. Elements are stored in the sorted by key order.</p>
+
+<hr />
+
+<h3 id="hashset">HashSet</h3>
+
+<p><code>HashSet</code> is a collection of unique elements, stored in sorted order.</p>
+
+<hr />
+
+<h3 id="string">String</h3>
+
+<p><code>String</code> - is a container type that represents text string: it stores a sequence of Unicode characters (code points). This type is optimized for manipulating text-like data. Apart from supporting generic container operations, <code>String</code> supports a set of methods specific to manipulating text strings.</p>
+
+<h4 id="string-constructor">String constructor</h4>
+
+<p><code>String( [str]* )</code><br>
+Parameters:<br>
+<em>str</em> - any object evaluating to <code>String</code>.</p>
+
+<p><code>str</code> can be a string variable, string literal or an expression returning a String. Any number of space separated objects can be passed to the constructor. The new string is the concatenation of all arguments. If no arguments is given, the new string is empty string.</p>
+
+<p>Examples:</p>
+
+<div class="codehilite"><pre><span></span><code><span class="nv">str1</span> <span class="o">:</span> <span class="nv">String</span><span class="p">()</span><span class="o">,</span>
+<span class="nv">str2</span> <span class="o">:</span> <span class="nv">String</span><span class="p">(</span><span class="s">&quot;Hello!&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<h4 id="value-initializer-2">Value initializer</h4>
+
+<p>A String variable can be initialized with a string literal.</p>
+
+<p>Example:</p>
+
+<div class="codehilite"><pre><span></span><code><span class="nv">str3</span> <span class="o">:</span> <span class="s">&quot;Hello!&quot;</span>
+</code></pre></div>
+
+<h4 id="string-methods">String methods</h4>
+
+<p><a href="#begin"><code>(begin)</code></a><code>    </code>- Returns the Position object for the first character of the string.<br>
+<a href="#back"><code>(back)</code></a><code>     </code>- Returns the last character.<br>
+<a href="#charn"><code>(charn)</code></a><code>    </code>- Returns the character with the specified index.<br>
+<a href="#clear"><code>(clear)</code></a><code>    </code>- Discards string's content and makes the string empty.<br>
+<a href="#coincide"><code>(coincide)</code></a><code> </code>- Returns the number of characters from the beginning that are identical in both strings.<br>
+<a href="#contains"><code>(contains)</code></a><code> </code>- Checks whether a character or substring is contained in the string.<br>
+<a href="#end"><code>(end)</code></a><code>      </code>- Returns the <code>Position</code> denoting the end of string's character sequence.<br>
+<a href="#ends-with"><code>(ends-with)</code></a><code> </code>- Checks if the string contains a substring at the end.<br>
+<a href="#comparison-operators"><code>(eq)</code></a><code>       </code>- Compares two strings.<br>
+<a href="#find"><code>(find)</code></a><code>     </code>- Finds a substring and returns the <code>Position</code> of its beginning.<br>
+<a href="#find-first-not-of"><code>(find-first-not-of)</code></a><code> </code>- Finds the first character in the string which is not also in other string.<br>
+<a href="#front"><code>(front)</code></a><code>    </code>- Returns the first character of the string.<br>
+<a href="#comparison-operators"><code>(geq)</code></a><code>      </code>- Returns <code>true</code> if this string is greater or equal than another.<br>
+<a href="#getline"><code>(getline)</code></a><code>  </code>- Reads a text line from StdIn.<br>
+<a href="#comparison-operators"><code>(greater)</code></a><code>  </code>- Returns <code>true</code> if this string is greater than another.<br>
+<a href="#index-of"><code>(index-of)</code></a><code> </code>- Searches for a substring and returns the index of its beginning.<br>
+<a href="#islower"><code>(islower)</code></a><code>  </code>- Returns <code>true</code> if all characters in the string are lower-case.<br>
+<a href="#isupper"><code>(isupper)</code></a><code>  </code>- Returns <code>true</code> if all characters in the string are upper-case.<br>
+<a href="#comparison-operators"><code>(less)</code></a><code>     </code>- Returns <code>true</code> if this string is less than another.<br>
+<a href="#comparison-operators"><code>(leq)</code></a><code>      </code>- Returns <code>true</code> if this string is less or equal than another.<br>
+<a href="#match"><code>(match)</code></a><code>    </code>- Matches the string to a regular expression.<br>
+<a href="#max"><code>(max)</code></a><code>      </code>- Compares a list of strings and returns the greatest one.<br>
+<a href="#min"><code>(min)</code></a><code>      </code>- Compares a list of strings and returns the least one.<br>
+<a href="#comparison-operators"><code>(neq)</code></a><code>      </code>- Returns <code>true</code> if this string is not equal to another.<br>
+<a href="#not"><code>(not)</code></a><code>      </code>- Returns <code>true</code> if the string is empty.<br>
+<a href="#read"><code>(read)</code></a><code>     </code>- Reads the string from StdIn stream.<br>
+<a href="#reverse"><code>(reverse)</code></a><code>  </code>- Reverses the order of characters in the string.<br>
+<a href="#replace"><code>(replace)</code></a><code>  </code>- Replaces a substring with another substring.<br>
+<a href="#shuffle"><code>(shuffle)</code></a><code>  </code>- Randomly permutes the characters in the string.<br>
+<a href="#set"><code>(set)</code></a><code>      </code>- Replaces all elements with a content of another string.<br>
+<a href="#set-el"><code>(set-el)</code></a><code>   </code>- Replaces a single code-point with another one.<br>
+<a href="#size"><code>(size)</code></a><code>     </code>- Returns the numbers of code points in the string.<br>
+<a href="#sort"><code>(sort)</code></a><code>     </code>- Sorts the string.<br>
+<a href="#starts-with"><code>(starts-with)</code></a><code> </code>- Checks if the string contains a substring at the beginning.<br>
+<a href="#strip"><code>(strip)</code></a><code>    </code>- Removes the specified characters from the beginning and end of the string.<br>
+<a href="#sub"><code>(sub)</code></a><code>      </code>- Returns a specified substring of the string.<br>
+<a href="#subn"><code>(subn)</code></a><code>     </code>- Another method of returning a specified substring.<br>
+<a href="#sum"><code>(sum)</code></a><code>      </code>- Concatenates two or more strings.<br>
+<a href="#sumeq"><code>(sumeq)</code></a><code>    </code>- Appends a string to the end of this string.<br>
+<a href="#swapcase"><code>(swapcase)</code></a><code> </code>- Replaces all characters in the string with their reversed case versions.<br>
+<a href="#tolower"><code>(tolower)</code></a><code>  </code>- Replaces all upper-case characters in the string with their lower-case versions.<br>
+<a href="#toupper"><code>(toupper)</code></a><code>  </code>- Replaces all lower-case characters in the string with their upper-case versions.<br></p>
+
+<hr />
+
+<h3 id="bytearray">ByteArray</h3>
+
+<p>ByteArray is a sequence container type specialized for storing 8-bit unsigned integers. This container operates on the same underlying values as <code>Vector&lt;Byte&gt;</code>, but ByteArray uses raw memory bytes as its elements, and is considerably faster and uses less memory than <code>Vector&lt;Byte&gt;</code>. Such operations as reading and writing from/to files use ByteArray as the container for file contents' bytes.</p>
+
+<h4 id="bytearray-constructors">ByteArray constructors</h4>
+
+<p><code>1. ByteArray()</code><br>
+<code>2. ByteArray( size )</code><br>
+<code>3. ByteArray( &lt;value_initializer&gt; )</code><br>
+Parameters:<br>
+<em>size</em> : <code>Int</code> - the initial size of the array;<br>
+<em>value_initializer</em> - a list of values to put into the array.</p>
+
+<p>1 - creates an empty array;<br>
+2 - creates an array of the specified size, filled with elements whose value is <code>0</code>;<br>
+3 - creates an array filled with the specified elements. <code>&lt;value_initializer&gt;</code> parameter is a comma separated, square bracket enclosed list of integers with values from 0 to 255 inclusively:</p>
+
+<div class="codehilite"><pre><span></span><code>value_initializer <span class="o">::=</span> &quot;[&quot; [n,]* n &quot;]&quot;
+</code></pre></div>
+
+<p>Examples:</p>
+
+<div class="codehilite"><pre><span></span><code><span class="nv">arr1</span> <span class="o">:</span> <span class="nv">ByteArray</span><span class="p">()</span><span class="o">,</span>
+<span class="nv">arr2</span> <span class="o">:</span> <span class="nv">ByteArray</span><span class="p">(</span> <span class="mi">5</span> <span class="p">)</span><span class="o">,</span>
+<span class="nv">arr3</span> <span class="o">:</span> <span class="nv">ByteArray</span><span class="p">(</span> <span class="p">[</span><span class="mi">1</span><span class="o">,</span><span class="mi">2</span><span class="o">,</span><span class="mi">3</span><span class="o">,</span><span class="mi">4</span><span class="o">,</span><span class="mi">5</span><span class="p">]</span> <span class="p">)</span> 
+</code></pre></div>
+
+<h4 id="bytearray-methods">ByteArray methods</h4>
+
+<p><a href="#append"><code>(append)</code></a><code>   </code>- Appends an element to the end of the container.<br>
+<a href="#clear"><code>(clear)</code></a><code>    </code>- Discards all elements in the container and makes it empty.<br>
+<a href="#eq"><code>(eq)</code></a><code>      </code>- Compares two ByteArrays.<br>
+<a href="#get"><code>(get)</code></a><code>       </code>- Returns the element at a given index.<br>
+<a href="#resize"><code>(resize)</code></a><code>   </code>- Changes the container's size.<br>
+<a href="#set"><code>(set)</code></a><code>      </code>- Replaces all elements with a content of another ByteArray.<br>
+<a href="#set-el"><code>(set-el)</code></a><code>   </code>- Replaces a single byte with another one.<br></p>
+
+<hr />
+
+<h3 id="method-detail">Method detail</h3>
+
+<p>In the descriptions of container methods the following conventions are used:</p>
+
+<ul>
+<li><em>subj</em> parameter means the container object to which this method is bound. </li>
+<li><p>C, E, T - components of container type definition. <code>C</code> - the class of container; <code>E</code> - the type of container's elements; <code>T</code> - the compound container type - <code>C + E</code>. In <code>Vector&lt;Int&gt;</code> container type - <code>C</code> denotes <code>Vector</code>, <code>E</code> denotes <code>Int</code>, <code>T</code> - refers to the full <code>Vector&lt;Int&gt;</code> type.</p>
+
+<p>The syntax specifications such as <code>(set subj:T cont2:T)</code> mean that <code>subj</code> and <code>cont2</code> must be of exactly the same type. That is, both the container class and element type must be the same.</p></li>
+<li>In the descriptions of methods related to the <code>String</code> class, the term "elements" always refers to code points.</li>
+</ul>
+
+<h4 id="methods-common-for-all-containers">Methods common for all containers</h4>
+
+<h6 id="clear">clear</h6>
+
+<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="nf">clear</span> <span class="nv">subj</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>Return type:</strong> <code>Null</code></p>
+
+<p>Discards the container's contents and makes it empty.</p>
+
+<h6 id="eq">eq</h6>
+
+<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="nf">eq</span> <span class="nv">subj</span><span class="o">:</span><span class="nv">T</span> <span class="nv">cont2</span><span class="o">:</span><span class="nv">T</span> <span class="p">)</span>
+<span class="p">(</span><span class="nb">== </span><span class="nv">subj</span><span class="o">:</span><span class="nv">T</span> <span class="nv">cont2</span><span class="o">:</span><span class="nv">T</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>Parameters:</strong><br>
+<em>cont2</em> : <code>T</code> - a container to be compared with.<br>
+<strong>Return type:</strong> <code>Bool</code></p>
+
+<p>Compares two containers: <em>subj</em> and <em>cont2</em>. Returns <code>true</code> if two containers have exactly same elements. Otherwise, returns <code>false</code>.</p>
+
+<h6 id="find">find</h6>
+
+<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="nf">find</span> <span class="nv">subj</span><span class="o">:</span><span class="nv">C</span><span class="o">&lt;</span><span class="nv">E</span><span class="o">&gt;</span> <span class="nv">item</span><span class="o">:</span><span class="nv">E</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">find</span> <span class="nv">subj</span><span class="o">:</span><span class="nb">Range&lt;</span><span class="nv">C</span> <span class="nv">E</span><span class="o">&gt;</span> <span class="nv">item</span><span class="o">:</span><span class="nv">E</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>Parameters:</strong><br>
+<em>item</em> : <code>E</code> - the item to be searched.<br>
+<strong>Return type:</strong> <code>Position&lt;E&gt;</code></p>
+
+<p>Searches for <code>item</code> in the <code>subj</code>. Returns a <code>Position</code> object, referring to the first found item, or to <code>subj::end</code> if the item is not found.</p>
+
+<p>File with examples in Transd Reference Suite: <code>find.td</code>.</p>
+
+<h6 id="set-2">set</h6>
+
+<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="nf">set</span> <span class="nv">subj</span><span class="o">:</span><span class="nv">T</span> <span class="nv">cont2</span><span class="o">:</span><span class="nv">T</span><span class="p">)</span>
+ <span class="nv">or</span>
+<span class="p">(</span><span class="nb">= </span><span class="nv">subj</span><span class="o">:</span><span class="nv">T</span> <span class="nv">cont2</span><span class="o">:</span><span class="nv">T</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>Parameters:</strong><br>
+<em>cont2</em> : <code>T</code> - a container with elementѕ to copy.<br>
+<strong>Return type:</strong> <code>Null</code></p>
+
+<p>Discards the current elements of <em>subj</em> and copies all the elements of <em>cont2</em> to it.</p>
+
+<h6 id="size">size</h6>
+
+<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="nf">size</span> <span class="nv">subj</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>Return type:</strong> <code>Int</code></p>
+
+<p>Returns the number of elements in the <em>subj</em>.<br>
+<strong>Note:</strong> For <code>String</code> this method returns the number of code-points.</p>
+
+<h5 id="methods-common-to-all-sequence-containers">Methods common to all sequence containers</h5>
+
+<h6 id="back">back</h6>
+
+<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="nf">back</span> <span class="nv">subj</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>Return type:</strong> <code>E</code></p>
+
+<p>Returns the copy of the last element of the non-empty <em>subj</em>. If <em>subj</em> is empty, the <code>outOfRange</code> exception will be thrown.</p>
+
+<h6 id="begin">begin</h6>
+
+<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="nf">begin</span> <span class="nv">subj</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>Return type:</strong> <code>Position</code></p>
+
+<p>Returns a <code>Position</code> object for the first element of <em>subj</em>. If <em>subj</em> is empty, the method returns the <code>end</code> position.</p>
+
+<h6 id="coincide">coincide</h6>
+
+<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="nf">coincide</span> <span class="nv">subj</span><span class="o">:</span><span class="nv">T</span> <span class="nv">cont2</span><span class="o">:</span><span class="nv">T</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>Parameters:</strong><br>
+<em>cont2</em> : <code>T</code> - container to match with.<br>
+<strong>Return type:</strong> <code>Int</code></p>
+
+<p>Returns the number of elements from the begining that are identical in both containers. That is, the length of the prefix, if any, common to both containers. A backward Range as one or both of the parameters causes the function to compare elements starting from the end:</p>
+
+<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="nf">coincide</span> <span class="s">&quot;abcpqrs&quot;</span> <span class="nv">Range</span><span class="p">(</span><span class="nf">in</span><span class="o">:</span> <span class="s">&quot;wxyzcba&quot;</span> <span class="mi">-0</span> <span class="mi">0</span><span class="p">))</span> <span class="c1">// returns: 3</span>
+</code></pre></div>
+
+<h6 id="end">end</h6>
+
+<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="nf">end</span> <span class="nv">subj</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>Return type:</strong> <code>Position</code></p>
+
+<p>Returns a <code>Position</code> object denoting the end of <em>subj</em>'s element sequence. The <code>end</code> position is the position just after the last element. In an empty container the <code>begin</code> position is equal to the <code>end</code> position.</p>
+
+<h6 id="front">front</h6>
+
+<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="nf">front</span> <span class="nv">subj</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>Return type:</strong> <code>E</code></p>
+
+<p>Returns the first element of non-empty <em>subj</em>. If <em>subj</em> is empty, the <code>outOfRange</code> exception will be thrown.</p>
+
+<h6 id="get">get</h6>
+
+<p>++</p>
+
+<h6 id="reverse">reverse</h6>
+
+<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="nf">reverse</span> <span class="nv">subj</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>Return type:</strong> <code>T</code></p>
+
+<p>Reverses the element order in <em>subj</em> and returns the reference to the transformed <em>subj</em>.</p>
+
+<h6 id="set-el">set-el</h6>
+
+<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="nf">set-el</span> <span class="nv">subj</span><span class="o">:</span><span class="nv">C</span><span class="o">&lt;</span><span class="nv">E</span><span class="o">&gt;</span> <span class="nv">idx</span> <span class="nv">newEl</span><span class="o">:</span><span class="nv">E</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>Parameters:</strong><br>
+<em>idx</em> : <code>Int</code> - the index of the element to replace.<br>
+<em>newEl</em> : <code>E</code> - new element.<br>
+<strong>Return type:</strong> <code>Null</code></p>
+
+<p>Replaces an element in the container's sequence with a new element. <code>idx</code> should denote an existing position in the <code>subj</code>, otherwise the method will throw <code>outOfRange</code> exception.</p>
+
+<h6 id="shuffle">shuffle</h6>
+
+<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="nf">shuffle</span> <span class="nv">subj</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>Return type:</strong> <code>T</code></p>
+
+<p>Randomly permutes the elements in <em>subj</em> and returns the reference to the transformed <em>subj</em>.</p>
+
+<h6 id="sort">sort</h6>
+
+<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="nf">sort</span> <span class="nv">subj</span><span class="o">:</span><span class="nv">C</span><span class="o">&lt;</span><span class="nv">E</span><span class="o">&gt;</span> <span class="p">[</span><span class="nv">cmpFunc</span><span class="o">:</span><span class="nv">Lambda</span><span class="o">&lt;</span><span class="nv">E</span> <span class="nv">E</span> <span class="nb">Bool&gt;</span><span class="p">])</span>
+</code></pre></div>
+
+<p><strong>Parameters:</strong><br>
+<em>cmpFunc</em> : <code>Lambda&lt;E E Bool&gt;</code> - (optional) comparison predicate function.<br>
+<strong>Return type:</strong> <code>T</code></p>
+
+<p>Sorts the element sequence using either the default comparison function, or the lambda, provided as the optional parameter. The reversed sorting order is achieved by using a reversed Range as the function's subject:</p>
+
+<div class="codehilite"><pre><span></span><code><span class="nv">s</span><span class="o">:</span> <span class="s">&quot;bcaed&quot;</span><span class="o">,</span>
+<span class="nv">f</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> <span class="p">(</span><span class="nf">lout</span> <span class="p">(</span><span class="nf">sort</span> <span class="nv">Range</span><span class="p">(</span><span class="nf">in</span><span class="o">:</span> <span class="nv">s</span> <span class="mi">-0</span> <span class="mi">0</span><span class="p">))))</span> <span class="c1">// &quot;edcba&quot;</span>
+</code></pre></div>
+
+<h5 id="string-specific-methods">String specific methods</h5>
+
+<h6 id="comparison-operators">comparison operators</h6>
+
+<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="nf">eq</span> <span class="nv">subj</span> <span class="nv">str</span><span class="p">)</span><span class="o">,</span> <span class="p">(</span><span class="nb">== </span><span class="nv">subj</span> <span class="nv">str</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">less</span> <span class="nv">subj</span> <span class="nv">str</span><span class="p">)</span><span class="o">,</span> <span class="p">(</span><span class="o">&lt;</span> <span class="nv">subj</span> <span class="nv">str</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">leq</span> <span class="nv">subj</span> <span class="nv">str</span><span class="p">)</span><span class="o">,</span> <span class="p">(</span><span class="o">&lt;</span><span class="err">=</span> <span class="nv">subj</span> <span class="nv">str</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">greater</span> <span class="nv">subj</span> <span class="nv">str</span><span class="p">)</span><span class="o">,</span> <span class="p">(</span><span class="o">&gt;</span> <span class="nv">subj</span> <span class="nv">str</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">geq</span> <span class="nv">subj</span> <span class="nv">str</span><span class="p">)</span><span class="o">,</span> <span class="p">(</span><span class="o">&gt;</span><span class="err">=</span> <span class="nv">subj</span> <span class="nv">str</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">neq</span> <span class="nv">subj</span> <span class="nv">str</span><span class="p">)</span><span class="o">,</span> <span class="p">(</span><span class="err">!=</span> <span class="nv">subj</span> <span class="nv">str</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>Parameters:</strong><br>
+<em>str</em> : <code>String</code> - the string to compare with<br>
+<strong>Return type:</strong> <code>Bool</code></p>
+
+<p>Comparison operators lexicographically compare <code>subj</code> with <code>str</code>. They
+return <code>true</code> if the relation of <code>subj</code> to <code>str</code> coincides with the operator.</p>
+
+<p>Example:</p>
+
+<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="nf">lout</span> <span class="p">(</span><span class="nf">less</span> <span class="s">&quot;aaa&quot;</span> <span class="s">&quot;bbb&quot;</span> <span class="p">))</span> <span class="c1">// &lt;= true</span>
+<span class="p">(</span><span class="nf">lout</span> <span class="p">(</span><span class="o">&gt;</span><span class="err">=</span> <span class="s">&quot;ABC&quot;</span> <span class="s">&quot;abc&quot;</span> <span class="p">))</span> <span class="c1">// &lt;= false</span>
+</code></pre></div>
+
+<h6 id="charn">charn</h6>
+
+<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="nf">charn</span> <span class="nv">subj</span> <span class="nv">index</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>Parameters:</strong><br>
+<em>index</em> : <code>Int</code> - the character index<br>
+<strong>Return type:</strong> <code>Char</code></p>
+
+<p>Retuns a copy of the character at the specified index.</p>
+
+<h6 id="ends-with">ends-with</h6>
+
+<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="nf">ends-with</span> <span class="nv">subj</span> <span class="nv">str</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>Parameters:</strong><br>
+<em>str</em> : <code>String</code> - substring.<br>
+<strong>Return type:</strong> <code>Bool</code></p>
+
+<p>Returns <code>true</code> if <em>subj</em> ends with the <em>str</em> substring. Otherwise, returns <code>false</code>.</p>
+
+<h6 id="find-first-not-of">find-first-not-of</h6>
+
+<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="nf">find-first-not-of</span> <span class="nv">subj</span> <span class="nv">str</span> <span class="p">[</span><span class="nv">pos</span><span class="p">])</span>
+</code></pre></div>
+
+<p><strong>Parameters:</strong><br>
+<em>str</em> : <code>String</code> - a list of characters.<br>
+<em>pos</em> : <code>Int</code> - (default: 0) character index in <em>subj</em> to start search from.<br>
+Return type: <code>Int</code></p>
+
+<p>Returns the index of the first character in <em>subj</em>, not contained in <em>str</em>. If no such character was found, the returned value is -1.</p>
+
+<h6 id="getline">getline</h6>
+
+<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="nf">getline</span> <span class="nv">subj</span> <span class="p">[</span><span class="nv">stream</span><span class="p">])</span>
+</code></pre></div>
+
+<p><strong>Parameters:</strong><br>
+<em>stream</em> : <code>Stream</code> - stream object to read from.<br>
+<strong>Return type:</strong> <code>String</code></p>
+
+<p>Reads a line from <code>stream</code> and stores it in <code>subj</code>. Line is a sequence of characters, that ends with the newline character - <code>\n</code>. If no newline character is encountered, the characters from stream are read until the end.</p>
+
+<p><code>stream</code> is an optional parameter: if it's omitted, then characters are read from the standard input stream - <code>StdIn</code>.</p>
+
+<p>Examples:</p>
+
+<div class="codehilite"><pre><span></span><code><span class="nv">_start</span><span class="o">:</span> <span class="p">(</span><span class="nf">λ</span> <span class="nv">locals</span><span class="o">:</span> <span class="nv">ss</span> <span class="nv">StringStream</span><span class="p">()</span> <span class="nv">s</span> <span class="s">&quot;&quot;</span>
+    <span class="p">(</span><span class="nf">textout</span> <span class="nv">to</span><span class="o">:</span> <span class="nv">ss</span> <span class="s">&quot;aaa\nbbb\nccc\nddd&quot;</span><span class="p">)</span>
+    <span class="p">(</span><span class="nf">getline</span> <span class="nv">s</span> <span class="nv">ss</span><span class="p">)</span> <span class="p">(</span><span class="nf">lout</span> <span class="nv">s</span><span class="p">)</span> <span class="c1">// &lt;= aaa</span>
+    <span class="p">(</span><span class="nf">getline</span> <span class="nv">s</span> <span class="nv">ss</span><span class="p">)</span> <span class="p">(</span><span class="nf">lout</span> <span class="nv">s</span><span class="p">)</span> <span class="c1">// &lt;= bbb</span>
+<span class="p">)</span><span class="o">,</span>
+</code></pre></div>
+
+<h6 id="match">match</h6>
+
+<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="nf">match</span> <span class="nv">subj</span> <span class="nv">patt</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>Parameters:</strong><br>
+<em>patt</em> : <code>String</code> - a regular expression to match.<br></p>
+
+<p>Matches the <em>subj</em> to the regular expression pattern <em>patt</em>. Returns <code>true</code> if <em>subj</em>
+matches the pattern, otherwise, returns <code>false</code>. The regular expression should be in
+<a href="https://262.ecma-international.org/5.1/#sec-15.10">ECMAScript</a> grammar.</p>
+
+<h6 id="read">read</h6>
+
+<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="nf">read</span> <span class="nv">subj</span><span class="p">)</span>
+</code></pre></div>
+
+<p>Reads a string from <code>StdIn</code> to <em>subj</em>.</p>
+
+<h6 id="replace">replace</h6>
+
+<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="nf">replace</span> <span class="nv">subj</span> <span class="nv">strOld</span> <span class="nv">strNew</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>Parameters:</strong><br>
+<em>strOld</em> : <code>String</code> - the substring or regex pattern to replace.
+<em>strNew</em> : <code>String</code> - the string to substitute in place of <code>strOld</code>.</p>
+
+<p>Replaces in <code>subj</code> all occurences of <code>strOld</code> with <code>strNew</code>. <code>strOld</code> can be a substring or regex pattern.</p>
+
+<p>Examples:</p>
+
+<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="k">with </span><span class="nv">s</span> <span class="s">&quot;abcdefi&quot;</span>
+    <span class="p">(</span><span class="nf">lout</span> <span class="p">(</span><span class="nf">replace</span> <span class="nv">s</span> <span class="s">&quot;(a|e|i)&quot;</span> <span class="s">&quot;&quot;</span><span class="p">)))</span> <span class="c1">// &lt;= bcdf</span>
+<span class="p">(</span><span class="k">with </span><span class="nv">s</span> <span class="s">&quot;1 apple, 20 pears, 123 plumes&quot;</span>
+    <span class="p">(</span><span class="nf">lout</span> <span class="p">(</span><span class="nf">replace</span> <span class="nv">s</span> <span class="s">&quot;[[:digit:]]+&quot;</span> <span class="s">&quot;N&quot;</span><span class="p">)))</span> <span class="c1">// &lt;= N apple, N pears, N plumes</span>
+</code></pre></div>
+
+<h6 id="starts-with">starts-with</h6>
+
+<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="nf">starts-with</span> <span class="nv">subj</span> <span class="nv">str</span><span class="p">)</span>
+</code></pre></div>
+
+<p><strong>Parameters:</strong><br>
+<em>str</em> : <code>String</code> - string.<br>
+Return type: <code>Bool</code></p>
+
+<p>Returns <code>true</code> if <em>subj</em> contains <em>str</em> as a substring starting from the first character. Otherwise, returns <code>false</code>.</p>
+
+<h6 id="strip">strip</h6>
+
+<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="nf">strip</span> <span class="nv">subj</span> <span class="nv">str</span><span class="p">)</span>
+ <span class="nv">or</span>
+<span class="p">(</span><span class="nf">strip</span> <span class="nv">subj</span> <span class="nv">str1</span> <span class="nv">str2</span><span class="p">)</span>
+</code></pre></div>
+
+<p>Parameters:<br>
+<em>str, str1, str2</em> : <code>String</code><br>
+Return type: <code>String</code></p>
+
+<p>Removes from the ends of <em>subj</em> the characters specified in <em>str</em> and returns the
+reference to <em>subj</em>. The first form removes from the both ends the characters in <em>str</em>.
+The second form removes from the left end the characters in <em>str1</em>, from the right
+end - the characters in <em>str2</em>. If no <em>str</em> is passed, the default behaviour is to
+remove from the both ends whitespace characters: <space>, '\r', '\n', '\t'. </p>
+
+<h6 id="subn">subn</h6>
+
+<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="nf">subn</span> <span class="nv">subj</span> <span class="nv">start</span> <span class="p">[</span><span class="nv">count</span><span class="p">])</span>
+</code></pre></div>
+
+<p>Parameters:<br>
+<em>start</em> : <code>Int</code> - start position of substring;<br>
+<em>count</em> : <code>Int</code> - (default: 1) count of characters to include to substring.
+Return type: <code>String</code></p>
+
+<p>Retuns a copy of substring of <em>subj</em> starting from <em>start</em> position and having <em>count</em> length.</p>
+
+<h6 id="tolower">tolower</h6>
+
+<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="nf">tolower</span> <span class="nv">subj</span><span class="p">)</span>
+</code></pre></div>
+
+<p>Converts all letters in the string to lower case.</p>
+
+<h6 id="toupper">toupper</h6>
+
+<div class="codehilite"><pre><span></span><code><span class="p">(</span><span class="nf">toupper</span> <span class="nv">subj</span><span class="p">)</span>
+</code></pre></div>
+
+<p>Converts all letters in the string to upper case.</p>
+
+
+<hr width="100%" style="margin:30px 0 0 0;">
+</div>
+<div id="footer">
+  <p>&copy; Copyright 2021-2022 <a href='&#109;ail&#116;o&#58;alb%65rger&#64;g%6Dai&#108;&#46;&#37;63o&#109;'>Albert Berger</a> &middot; All Rights Reserved</p>
+</div>
+</body>
+</html>
